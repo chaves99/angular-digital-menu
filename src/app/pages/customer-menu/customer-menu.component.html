@@ -1,0 +1,5 @@
+<p>customer-menu works!</p>
+<qrcode elementType="canvas" #qrCodeElement [qrdata]="localName" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+<a color="primary" [href]="localName" (click)="saveAsImage()">
+  Download QR Code Image
+</a>
