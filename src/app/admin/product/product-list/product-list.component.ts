@@ -1,115 +1,131 @@
-import { DatePipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ProductService } from '../../../services';
-import { ProductResponse } from '../../../services/payload';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ModalDialogService } from '../../../core';
+import { CategoryService, ProductService } from '../../../services';
+import { CategoryResponse, Pagination, ProductResponse } from '../../../services/payload';
 
 @Component({
   selector: 'app-product-list',
   imports: [
-    DatePipe,
     NgClass,
     RouterLink,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule
   ],
   templateUrl: './product-list.component.html'
 })
 export class ProductListComponent implements OnInit {
 
+  private readonly categoryService = inject(CategoryService);
   private readonly productService = inject(ProductService);
+  private readonly modalService = inject(ModalDialogService);
 
-  baseProducts: ProductResponse[] = [];
+  private readonly SIZE_SELECT_OPTION_STORAGE_KEY = "size.select.option.storage.key";
+
+  page = 0;
+  sizeSelectOption = 25;
+
+  paginationResponse: Pagination<ProductResponse> | null = null;
   displayProducts: ProductResponse[] = [];
-  categories: { id: number, name: string }[] = [];
-
-  ;
+  categories: CategoryResponse[] = []
 
   formGroup = new FormGroup({
     name: new FormControl(''),
-    categoryId: new FormControl(0),
-    status: new FormControl<'both' | 'active' | 'inactive'>('both'),
+    categoryId: new FormControl<number | null>(0),
+    active: new FormControl<null | boolean>(null),
   });
 
   ngOnInit(): void {
-    this.productService.getAll().subscribe(p => this.setProducts(p));
-  }
-
-  setProducts(products: ProductResponse[]): void {
-    this.baseProducts = products;
-    this.displayProducts = products;
-    products.forEach(p => {
-      if (!this.categories.find(c => c.id === p.categoryId)) {
-        this.categories.push({ id: p.categoryId, name: p.categoryName });
-      }
-    })
-  }
-
-  cleanFilter(): void {
-    this.formGroup.reset();
-    this.formGroup.controls.status.patchValue('both');
-    this.onSubmit();
-  }
-
-  onSubmit(): void {
-    this.displayProducts = [];
-    this.baseProducts.forEach(prod => {
-      if (this.validFilterCategory(prod)
-        && this.validFilterName(prod)
-        && this.validFilterStatus(prod)) {
-        console.log(`add product: ${prod}`);
-        this.displayProducts.push(prod);
-      }
+    const storagedSizeSelectOption = localStorage.getItem(this.SIZE_SELECT_OPTION_STORAGE_KEY);
+    if (storagedSizeSelectOption !== null) {
+      this.sizeSelectOption = Number(storagedSizeSelectOption);
+    }
+    this.fetchProductList();
+    this.categoryService.getAll().subscribe({
+      next: res => this.categories = res
     });
-    console.log(this.displayProducts);
   }
 
-  private validFilterStatus(product: ProductResponse): boolean {
-    const status = this.formGroup.value.status;
-    if (status !== 'both') {
-      if (product.active) {
-        return status === 'active';
-      } else {
-        return status === 'inactive';
+  selectChange() {
+    localStorage.setItem(this.SIZE_SELECT_OPTION_STORAGE_KEY, this.sizeSelectOption.toString());
+    this.page = 0;
+    this.fetchProductList();
+  }
+
+  public fetchProductList() {
+    const { name, categoryId, active } = this.formGroup.value;
+    this.productService.getAll({
+      page: this.page,
+      size: this.sizeSelectOption,
+      name: name,
+      categoryId: (categoryId == 0) ? null : categoryId,
+      active: active
+    }).subscribe(p => this.setProducts(p));
+  }
+
+  setProducts(response: Pagination<ProductResponse>): void {
+    this.paginationResponse = response;
+    this.displayProducts = response.content;
+  }
+
+  updatePage(forword: boolean): void {
+    if (forword) {
+      if (this.page >= (this.paginationResponse!.totalPages - 1)) {
+        return;
       }
-    }
-    return true;
-  }
-
-  private validFilterCategory(product: ProductResponse): boolean {
-    const categoryId: number = Number(this.formGroup.value.categoryId);
-    if (categoryId > 0) {
-      return (product.categoryId === categoryId);
-    }
-    return true;
-  }
-
-  private validFilterName(product: ProductResponse): boolean {
-    const name = this.formGroup.value.name;
-    if (name && name.length > 0) {
-      if (!product.name.toLocaleLowerCase().includes(name.toLocaleLowerCase())) {
-        return false
+      this.page++;
+      this.fetchProductList();
+    } else {
+      if (this.page == 0) {
+        return;
       }
+      this.page--;
+      this.fetchProductList();
     }
-    return true;
+  }
+
+  lastPage(): void {
+    this.page = (this.paginationResponse!.totalPages - 1);
+    this.fetchProductList();
+  }
+  firstPage(): void {
+    this.page = 0;
+    this.fetchProductList();
+  }
+
+  cleanFilter(callService: boolean): void {
+    this.formGroup.reset();
+    this.formGroup.controls.active.patchValue(null);
+    if (callService) this.fetchProductList();
   }
 
   delete(product: ProductResponse) {
-    this.productService.delete(product.id).subscribe({
-      next: p => this.setProducts(p),
-      error: res => {
-        console.log(res);
-      }
-    });
+    this.modalService.open(
+      {
+        message: "Deseja deleta o produto: " + product.name + "?",
+        title: "Confirmar",
+        afterClose: confirm => {
+          if (!confirm) return;
+          this.productService.delete(product.id).subscribe({
+            next: p => this.fetchProductList(),
+            error: res => {
+              console.log(res);
+            }
+          });
+        }
+      });
   }
 
   toggleActive(product: ProductResponse) {
     this.productService.toggleActive(product.id).subscribe({
-      next: p => this.setProducts(p),
+      next: p => {
+        product.active = !product.active;
+      },
       error: res => {
         console.log(res);
       }
     });
   }
-
 }

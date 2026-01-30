@@ -18,4 +18,8 @@ export class UserService {
   public login(body: LoginRequest): Observable<CreateUserResponse> {
     return this.http.post<CreateUserResponse>(this.url + "/login", body);
   }
+
+  public check(): Observable<CreateUserResponse> {
+    return this.http.get<CreateUserResponse>(this.url);
+  }
 }

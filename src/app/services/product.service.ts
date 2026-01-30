@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { CreateProductRequest, ProductResponse } from "./payload";
+import { CreateProductRequest, Pagination, ProductResponse } from "./payload";
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -11,28 +11,49 @@ export class ProductService {
 
   private readonly url = environment.backend_url + '/product';
 
-  public getAll(): Observable<any> {
-    return this.http.get(this.url);
+  public getAll(requestParam?: {
+    page: number,
+    size: number,
+    name?: string | null,
+    active?: boolean | null,
+    categoryId?: number | null
+  }): Observable<Pagination<ProductResponse>> {
+    let params = undefined;
+    if (requestParam) {
+      const { name, active, categoryId } = requestParam;
+      params = {
+        page: requestParam.page,
+        size: requestParam.size,
+      };
+
+      if (name && name !== null)
+        params = { ...params, name: name };
+      if (active !== undefined && active !== null)
+        params = { ...params, active: active };
+      if (categoryId && categoryId !== null)
+        params = { ...params, categoryId: categoryId };
+    }
+    return this.http.get<Pagination<ProductResponse>>(this.url, { params: params });
   }
 
-  public create(body: CreateProductRequest): Observable<ProductResponse[]> {
-    return this.http.post<ProductResponse[]>(this.url, body);
+  public create(body: CreateProductRequest): Observable<Pagination<ProductResponse>> {
+    return this.http.post<Pagination<ProductResponse>>(this.url, body);
   }
 
   public getById(id: number): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(`${this.url}/${id}`);
   }
 
-  public update(id: number, body: CreateProductRequest): Observable<ProductResponse[]> {
-    return this.http.patch<ProductResponse[]>(`${this.url}/${id}`, body);
+  public update(id: number, body: CreateProductRequest): Observable<Pagination<ProductResponse>> {
+    return this.http.patch<Pagination<ProductResponse>>(`${this.url}/${id}`, body);
   }
 
-  public toggleActive(id: number): Observable<ProductResponse[]> {
-    return this.http.put<ProductResponse[]>(`${this.url}/${id}`, null);
+  public toggleActive(id: number): Observable<any> {
+    return this.http.put(`${this.url}/${id}`, null);
   }
 
-  public delete(id: number): Observable<ProductResponse[]> {
-    return this.http.delete<ProductResponse[]>(`${this.url}/${id}`);
+  public delete(id: number): Observable<any> {
+    return this.http.delete(`${this.url}/${id}`);
   }
 
 }

@@ -18,20 +18,22 @@ export interface CreateProductRequest {
   categoryId: number;
 }
 
-export interface PriceLayerRequest {
-  name: string;
-  active: boolean;
-}
-
 export interface PricesRequest {
   id: number | null;
   value: number;
   unit: string;
-  layerId: number;
 }
 
 export interface AddressRequest {
-  code: string;
-  city: string;
-  line: string;
+  code?: string;
+  city?: string;
+  line?: string;
+}
+
+export interface ScheduleRequest {
+  days: string;
+  openHour: string;
+  closeHour: string;
+  startLaunch: string | null;
+  endLaunch: string | null;
 }

@@ -1,7 +1,14 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="row">
+    <div class="d-flex justify-content-center my-5">
+      @if(isDark()) {
+        <img src="logo/logo_white_2.png" class=" " width="120" height="96" alt="...">
+      } @else {
+        <img src="logo/logo_black_2.png" class=" " width="120" height="96" alt="...">
+      }
+    </div>
     <div class="col-lg-6 offset-lg-3">
-      <div class="mt-5 p-3 border rounded">
+      <div class="mt-2 p-3 border rounded">
         <h3 class="mb-3 text-center fs-3">Acessar</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email:</label>

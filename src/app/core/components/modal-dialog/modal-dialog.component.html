@@ -1,0 +1,25 @@
+<div class="" [ngClass]="isDark() ? 'bg-body-tertiary' : 'bg-white'">
+  @if(data.title !== null) {
+    <h3 class="mx-5 mt-3 text-center fs-2">{{ data.title }}</h3>
+  }
+  <div class="p-3 px-4 mt-2">
+    <p class="fs-5" >
+      {{ data.message }}
+    </p>
+  </div>
+  <!-- </mat-dialog-content> -->
+  <mat-dialog-actions class="gap-0 column-gap-2">
+    @if(data.isConfirmation) {
+    <button (click)="close()" class="btn btn-secondary">
+      Cancelar
+    </button>
+    <button (click)="confirm()" class="btn btn-primary">
+      Confirmar
+    </button>
+    } @else {
+      <button (click)="close()" class="btn btn-secondary">
+        Fechar
+      </button>
+    }
+  </mat-dialog-actions>
+</div>

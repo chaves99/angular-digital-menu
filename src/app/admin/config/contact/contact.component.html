@@ -1,0 +1,36 @@
+<form class="card" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <h4 class="card-header">
+    Contatos
+  </h4>
+  <div class="card-body">
+    <div class="row mb-3 pb-3 gy-2">
+      <div class="col-12">
+        <label for="whatsapp" class="form-label">Whatsapp:</label>
+        <input class="form-control" id="whatsapp" placeholder="" formControlName="whatsapp" required>
+      </div>
+      <div class="col-12">
+        <label for="phone" class="form-label">Telefone:</label>
+        <input class="form-control" id="phone" placeholder="" formControlName="phone" required>
+      </div>
+      <div class="col-12">
+        <label for="facebook" class="form-label">Facebook:</label>
+        <input class="form-control" id="facebook" placeholder="" formControlName="facebook" required>
+      </div>
+      <div class="col-12">
+        <label for="instagram" class="form-label">Instagram:</label>
+        <input class="form-control" id="instagram" placeholder="" formControlName="instagram">
+      </div>
+      <div class="col-12">
+        <label for="website" class="form-label">Website:</label>
+        <input class="form-control" id="website" placeholder="" formControlName="website">
+      </div>
+    </div>
+    <div class="mt-5 d-flex justify-content-end">
+      <button type="submit"
+        class="btn btn-primary">
+        Salvar
+      </button>
+    </div>
+  </div>
+</form>
+

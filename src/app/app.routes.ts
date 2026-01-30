@@ -1,16 +1,23 @@
 import { Routes } from '@angular/router';
 import {
-    AddressComponent,
-    AdminComponent,
-    CategoryComponent,
-    EstablishmentComponent,
-    PriceLayerComponent,
-    ProductComponent,
-    ProductListComponent,
-    ProductRegisterComponent
+  AddressComponent,
+  AdminComponent,
+  CategoryComponent,
+  ConfigComponent,
+  ContactComponent,
+  EstablishmentComponent,
+  ProductComponent,
+  ProductListComponent,
+  ProductRegisterComponent,
+  ScheduleComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
-import { LoginComponent, PageComponent, RegisterComponent } from './pages';
+import { LandingComponent, LoginComponent, PageComponent, RegisterComponent } from './pages';
+import {
+  CustomerMenuDetailComponent,
+  MenuComponent,
+  MenuCustomerProductsComponent
+} from './pages/customer';
 
 export const routes: Routes = [
   {
@@ -18,6 +25,10 @@ export const routes: Routes = [
     component: PageComponent,
     canActivate: [loggedUserGuard],
     children: [
+      {
+        path: '',
+        component: LandingComponent
+      },
       {
         path: 'login',
         component: LoginComponent,
@@ -30,8 +41,17 @@ export const routes: Routes = [
   },
   {
     path: 'customer-menu/:localName',
-    loadComponent: () => import('./pages/customer-menu/customer-menu.component')
-      .then(c => c.CustomerMenuComponent)
+    component: MenuComponent,
+    children: [
+      {
+        path: '',
+        component: MenuCustomerProductsComponent
+      },
+      {
+        path: ':productId',
+        component: CustomerMenuDetailComponent
+      }
+    ]
   },
   {
     path: 'admin',
@@ -47,8 +67,27 @@ export const routes: Routes = [
         component: CategoryComponent
       },
       {
-        path: 'config/address',
-        component: AddressComponent
+        path: 'config',
+        component: ConfigComponent,
+        children: [
+          {
+            path: '',
+            redirectTo: 'address',
+            pathMatch: 'full'
+          },
+          {
+            path: 'address',
+            component: AddressComponent
+          },
+          {
+            path: 'schedule',
+            component: ScheduleComponent
+          },
+          {
+            path: 'contact',
+            component: ContactComponent
+          }
+        ]
       },
       {
         path: 'products',
@@ -73,10 +112,6 @@ export const routes: Routes = [
           }
         ]
       },
-      {
-        path: 'price-layer',
-        component: PriceLayerComponent
-      }
     ]
   }
 ];

@@ -1,23 +1,24 @@
+import { DatePipe, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { CategoryService, PriceLayerService, ProductService } from '../../../services';
+import { SnackBarService } from '../../../core';
+import { CategoryService, ProductService } from '../../../services';
 import {
   CategoryResponse,
   CreateProductRequest,
-  PriceLayerResponse,
   PricesRequest,
   ProductResponse
 } from '../../../services/payload';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-product-register',
   imports: [
     ReactiveFormsModule,
     CurrencyMaskModule,
-    RouterLink
+    RouterLink,
+    DatePipe
   ],
   templateUrl: './product-register.component.html'
 })
@@ -25,17 +26,16 @@ export class ProductRegisterComponent implements OnInit {
 
   private readonly productService = inject(ProductService);
   private readonly categoryService = inject(CategoryService);
-  private readonly priceLayerService = inject(PriceLayerService);
 
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly router = inject(Router);
   private readonly location = inject(Location);
 
-  priceLayers: PriceLayerResponse[] = [];
+  private readonly snackBarService = inject(SnackBarService);
 
   categories: CategoryResponse[] = [];
 
   productId: number | null = null;
+  productResponse: ProductResponse | null = null;
 
   private readonly fb = new FormBuilder();
 
@@ -49,7 +49,6 @@ export class ProductRegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.categoryService.getAll().subscribe(c => this.categories = c);
-    this.priceLayerService.getAll().subscribe(p => this.priceLayers = p);
     this.activatedRoute.params.subscribe(params => {
       const stringProductId: string | null = params['id'];
       if (stringProductId !== null) {
@@ -57,7 +56,8 @@ export class ProductRegisterComponent implements OnInit {
         if (this.productId) {
           this.productService.getById(this.productId).subscribe({
             next: res => this.setFormValues(res),
-            error: res => {
+            error: () => {
+              this.productId = null;
             }
           })
         }
@@ -88,11 +88,11 @@ export class ProductRegisterComponent implements OnInit {
           this.location.back();
         },
         error: res => {
-          console.log("Error creating product");
-          console.log(res);
+            this.snackBarService.openError("Erro ao cadastrar produto!"); // TODO message error
         }
       });
-
+    } else {
+        this.snackBarService.openError("Preencha todos os campos obrigatorios(*)");
     }
   }
 
@@ -112,6 +112,10 @@ export class ProductRegisterComponent implements OnInit {
     return this.prices.controls;
   }
 
+  public getBack(): void {
+    this.location.back();
+  }
+
   public addPrice(): void {
     let priceFormGroup = this.fb.group({
       id: [],
@@ -127,9 +131,10 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   public setFormValues(product: ProductResponse): void {
+    this.productResponse = product;
     const prices = product.prices.map(price => {
       this.addPrice();
-      return { id: price.id, unit: price.unit, value: price.value, layerId: price.priceLayerId }
+      return { id: price.id, unit: price.unit, value: price.value }
     });
     this.formGroup.patchValue({
       name: product.name,

@@ -1,45 +1,21 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { AddressService } from '../../services';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-config',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './config.component.html',
 })
 export class ConfigComponent implements OnInit {
 
-  addressFormGroup = new FormGroup({ list: new FormArray([]) });
-
-  private readonly addressService = inject(AddressService);
-
   ngOnInit(): void {
-    this.addAddress();
   }
 
-  onSubmitAddress() {
-  }
 
-  public addAddress(): void {
-    let addressFormGroup = new FormGroup({
-      code: new FormControl(),
-      line: new FormControl(),
-      city: new FormControl
-    });
-    this.addressForm.push(addressFormGroup);
-  }
-
-  public get addressControls(): AbstractControl[] {
-    return this.addressForm.controls;
-  }
-
-  getFormGroupAtIndex(index: number) {
-    return (this.addressControls[index] as FormGroup);
-  }
-
-  public get addressForm(): FormArray {
-    return (this.addressFormGroup.get("list") as FormArray);
-  }
 }

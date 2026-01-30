@@ -1,4 +1,20 @@
 
+export interface Pagination<T> {
+  content: T[];
+  totalPages: number;
+  last: boolean;
+  size: number;
+  number: number; // actual page number
+  pageable: Pageable;
+  numberOfElements: number; // elements on actual page
+  totalElements: number; // total number of elements
+  first: boolean;
+}
+
+export interface Pageable {
+  offset: number;
+}
+
 export interface CreateUserResponse {
   token: string;
   email: string;
@@ -31,26 +47,66 @@ export interface PriceResponse {
   id: number | null;
   value: number;
   unit: string;
-  priceLayerId: number;
 }
 
 export interface ErrorDetailResponse {
   message: string;
 }
 
-export interface PriceLayerResponse {
-  id: number;
-  name: string;
-  active: boolean;
-  updatedAt: Date;
-  createdAt: Date;
-}
-
 export interface AddressResponse {
-  id: number;
   code: string;
   line: string;
   city: string;
+}
+
+export interface ContactResponse {
+  whatsapp: string | null;
+  phone: string | null;
+  facebook: string | null;
+  instagram: string | null;
+  website: string | null;
+}
+
+export interface MenuResponse {
+  info: EstablishmentInfoResponse & ContactResponse;
+  schedules: ScheduleResponse[];
+  categories: MenuCategoryResponse[];
+}
+
+export interface MenuCategoryResponse {
+  id: number;
+  name: string;
+  products: MenuProductResponse[];
+}
+
+export interface MenuProductResponse {
+  id: number;
+  name: string;
+  description: string;
+  prices: MenuPriceResponse[];
+}
+
+export interface MenuPriceResponse {
+  id: number;
+  value: number;
+  unit: string;
+}
+
+export interface EstablishmentInfoResponse {
+  id: number;
+  establishmentName: string;
+  addressLine: string | null;
+  addressCode: string | null;
+  city: string | null;
+}
+
+export interface ScheduleResponse {
+  id: number;
+  days: string;
+  openHour: string;
+  closeHour: string;
+  startLaunch: string | null;
+  endLaunch: string | null;
 }
 
 interface ErrorMessages {
@@ -62,4 +118,5 @@ export const ERROR_MESSAGES: ErrorMessages = {
   "ESTABLISHMENT_EXISTS": "Estabelecimento já existe!",
   "INTERNAL_ERROR": "Erro interno!",
   "NO_RESOURCE_FOUND": "Recurso não encontrado!",
+  "ESTABLISHMENT_NOT_EXISTS": "Estabelecimento não encontrado",
 }

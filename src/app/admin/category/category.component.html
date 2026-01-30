@@ -31,8 +31,8 @@
           <tr>
             <td>{{ cat.name }}</td>
             <td>
-              <i class="bi bi-check-circle-fill"
-                [ngClass]="cat.enabled ? 'text-success' : 'text-danger'">
+              <i class="bi"
+                [ngClass]="cat.enabled ? ['text-success', 'bi-check-circle-fill'] : ['text-danger',  'bi-x-circle-fill']">
               </i>
             </td>
             <td>{{ cat.createdAt | date: 'd/M/yy, H:mm'}}</td>

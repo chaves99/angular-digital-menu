@@ -1,0 +1,57 @@
+<form class="card" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <h4 class="card-header">
+    Horário
+  </h4>
+
+  <div class="card-body">
+    @if(listControl.length === 0) {
+      <div class="">
+        <p class="text-center fs-5">Nenhum horário cadastrado!</p>
+      </div>
+    }
+    @for(schedule of listControl; track $index) {
+      <div class="row mb-3 pb-3 gy-2" [formGroup]="getFormGroupAtIndex($index)">
+        <div class="col">
+          <label for="days-{{$index}}" class="form-label">Dias:</label>
+          <input class="form-control" id="days-{{$index}}" placeholder="Segunda a Sexta" formControlName="days" required>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <label for="oh-{{$index}}" class="form-label">Horário de abertura:</label>
+          <input class="form-control" id="oh-{{$index}}" placeholder="" formControlName="openHour" required>
+        </div>
+        <div class="col">
+          <label for="ch-{{$index}}" class="form-label">Horário de fechamento:</label>
+          <input class="form-control" id="ch-{{$index}}" placeholder="" formControlName="closeHour" required>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <label for="sl-{{$index}}" class="form-label">Horário de almoço(Início):</label>
+          <input class="form-control" id="sl-{{$index}}" placeholder="" formControlName="startLaunch">
+        </div>
+        <div class="col">
+          <label for="el-{{$index}}" class="form-label">Horário de almoço(Fim):</label>
+          <input class="form-control" id="el-{{$index}}" placeholder="" formControlName="endLaunch">
+        </div>
+        <div class="w-100"></div>
+        <div class="col d-flex justify-content-end">
+          <button type="button" class="btn btn-danger end-0" (click)="removeSchedule($index)">
+            Remover
+            <i class="bi bi-dash-circle"></i>
+          </button>
+        </div>
+      </div>
+    }
+    <div class="mt-5 d-flex justify-content-between">
+      <button type="button" class="btn btn-primary" (click)="addScheduleToList()">
+        Adicionar Horários
+        <i class="bi bi-plus-circle"></i>
+      </button>
+      <button type="submit"
+        class="btn btn-primary">
+        Salvar
+      </button>
+    </div>
+  </div>
+</form>
+

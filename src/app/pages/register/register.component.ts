@@ -44,7 +44,7 @@ export class RegisterComponent {
           error: response => {
             if (response instanceof HttpErrorResponse) {
               const errorDetail: ErrorDetailResponse = response.error;
-              console.log(ERROR_MESSAGES[errorDetail.message]);
+              // console.log(ERROR_MESSAGES[errorDetail.message]);
               this.errorMessage = ERROR_MESSAGES[errorDetail.message];
             }
           }

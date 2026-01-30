@@ -1,0 +1,178 @@
+<!-- <p>customer-menu works!</p> -->
+<!-- <qrcode elementType="canvas" #qrCodeElement [qrdata]="localName" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
+<!-- <a color="primary" [href]="localName" (click)="saveAsImage()"> -->
+<!--   Download QR Code Image -->
+<!-- </a> -->
+
+@if (errorMessage === null) {
+  @if (menu === undefined) {
+    Carregando...
+  } @else {
+    <div class="bg-body-secondary">
+      <div class="bg-white mx-auto" style="max-width: 700px" data-bs-spy="scroll" data-bs-target="sticky-top" >
+        <!-- <div class="py-4 px-4"> -->
+        <!--   <h2 class="text-center display-1 fw-bold"> -->
+        <!--     {{menu.info.establishmentName}} -->
+        <!--   </h2> -->
+        <!-- </div> -->
+        <nav class="navbar bg-secondary">
+          <div class="container">
+            <span class="navbar-brand text-white fw-bold">{{ menu.info.establishmentName }}</span>
+          </div>
+        </nav>
+
+        <!-- ################ CATEGORIES ################ -->
+        <div class="d-flex justify-content-between sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
+          @for(cat of menu.categories; track $index) {
+            <button (click)="scrollTo(cat.name)"
+              class="btn fw-semibold btn-secondary mx-2 text-nowrap">
+              {{ cat.name }}
+            </button>
+          }
+        </div>
+
+        <!-- ################ SEARCH ################ -->
+        <form (ngSubmit)="search()" class="d-block p-2">
+          <div class="input-group input-group-lg mb-3">
+            <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Procurar..." name="searchTerm">
+            <button type="submit" class="btn btn-outline-secondary" >
+              <i class="bi bi-search"></i>
+            </button>
+            @if(isSearching) {
+              <button type="button" (click)="cleanSearch()" class="btn btn-outline-secondary" >
+                <i class="bi bi-x-lg"></i>
+              </button>
+            }
+          </div>
+        </form>
+
+        <div class="container">
+          <hr>
+        </div>
+
+        <!-- ################ ITEMS SECTION ################ -->
+        <div data-bs-smooth-scroll="false" class="container mt-3 pb-5" data-bs-theme="light">
+          @for(cat of menuCategories; track cat.id) {
+            <h3 id="{{cat.name}}" class="fs-6 mt-4 fw-semibold text-capitalize">{{ cat.name }}</h3>
+            @for(product of cat.products; track product.id) {
+              <a
+                [id]="product.id"
+                [routerLink]="[product.id]"
+                [state]="{product: product, categoryName: cat.name}"
+                class="text-decoration-none text-reset d-flex mb-1 w-100 p-1"
+              >
+                <!-- style="height: 110px" -->
+                <img src="pizza.png" style="height: 80px; width: 80px;" class="img-thumbnail me-2 rounded-3" alt="...">
+
+                <!-- ################ ITEM INFO SECTION ################ -->
+                <div class="w-100 d-block  text-break" style="overflow: hidden;">
+
+                  <!-- ################ ITEM TITLE ################ -->
+                  <h5 class="fs-5" style="overflow: hidden">
+                    {{product.name}}
+                  </h5>
+
+                  <!-- ################ ITEM DESCRIPTION ################ -->
+                  <div
+                    class="text-truncate h-50 w-100"
+                    style="font-size: 14px; white-space: pre; overflow: hidden; text-overflow: ellipsis;">
+                    {{product.description}}
+                  </div>
+
+                  <!-- ################ ITEM PRICE ################ -->
+                  <div class="w-100 d-flex z-n1 sticky-bottom flex-row-reverse">
+                    {{product.prices[0].value | currency: 'BRL'}}
+                  </div>
+                </div>
+              </a>
+              <div class="w-100 border-bottom border-1 mb-2">
+              </div>
+            }
+          }
+        </div>
+
+        <!-- ################ FOOTER ################ -->
+        <div class="container-fluid text-bg-secondary py-3 px-4 text-center" >
+
+          <!-- ################ ADDRESS ################ -->
+          @if(existAddress()) {
+            <div class="p-6 fw-bold">
+              <i class="bi bi-geo-alt-fill"></i>
+              Endereço:
+            </div>
+            <p class="">
+              {{ menu.info.addressLine }}
+              {{ menu.info.city }}
+              @if (menu.info.addressCode) {
+              - {{ menu.info.addressCode }}
+              }
+            </p>
+            <hr>
+          }
+          <!-- ################ SCHEDULE ################ -->
+          <div class="p-6 fw-bold">
+            <i class="bi bi-calendar2-day"></i>
+            Horários
+          </div>
+          <p class="">
+            @for(schedule of menu.schedules; track schedule.id) {
+              <!-- <i class="bi bi-geo-alt-fill"></i> -->
+              {{schedule.days}}
+              <br>
+              {{schedule.openHour}}
+              @if (schedule.startLaunch && schedule.endLaunch) {
+                - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
+              } @else {
+                -
+              }
+              {{schedule.closeHour}}
+              <br>
+            }
+          </p>
+          <hr class="">
+          <!-- ################ CONTACTS ################ -->
+          @if(existContacts()) {
+              <div class="p-6 fw-bold mb-1">
+                <i class="bi bi-person-lines-fill"></i>
+                Contatos:
+              </div>
+            <div class="">
+              @if(menu.info.whatsapp !== null) {
+                <p class="fs-6" style="cursor: pointer">
+                  <i class="bi bi-whatsapp"></i>
+                  {{ menu.info.whatsapp }}
+                </p>
+              }
+              @if(menu.info.phone !== null) {
+                <p class="fs-6" style="cursor: pointer">
+                  <i class="bi bi-telephone"></i>
+                  {{ menu.info.phone }}
+                </p>
+              }
+              @if(menu.info.instagram !== null) {
+                <p class="fs-6" style="cursor: pointer">
+                  <i class="bi bi-instagram"></i>
+                  {{ menu.info.instagram }}
+                </p>
+              }
+              @if(menu.info.facebook !== null) {
+                <p class="fs-6" style="cursor: pointer">
+                  <i class="bi bi-facebook"></i>
+                  {{ menu.info.facebook }}
+                </p>
+              }
+              @if(menu.info.website !== null) {
+                <p class="fs-6 pe-auto" style="cursor: pointer">
+                  <i class="bi bi-browser-chrome"></i>
+                  {{ menu.info.website }}
+                </p>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  }
+} @else {
+  {{ errorMessage }}
+}

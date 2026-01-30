@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
-import { AddressResponse } from "./payload";
+import { AddressRequest, AddressResponse } from "./payload";
 
 @Injectable({ providedIn: 'root' })
 export class AddressService {
@@ -11,11 +11,11 @@ export class AddressService {
 
   private readonly url = environment.backend_url + "/address";
 
-  public getAll(): Observable<AddressResponse[]> {
-    return this.http.get<AddressResponse[]>(this.url);
+  public getAll(): Observable<AddressResponse> {
+    return this.http.get<AddressResponse>(this.url);
   }
 
-  public create(body: AddressResponse[]) {
+  public create(body: AddressRequest) {
     return this.http.post(this.url, body);
   }
 }

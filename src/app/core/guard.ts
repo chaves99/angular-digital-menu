@@ -17,5 +17,7 @@ export const loggedUserGuard: CanActivateFn = (route, state) => {
   const user: CreateUserResponse | null = storageService.getUser();
   if (user === null)
     return true;
+  console.log('user not null');
+  console.log(user);
   return router.createUrlTree(['admin']);
 }
