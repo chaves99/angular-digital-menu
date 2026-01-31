@@ -2,7 +2,7 @@ FROM node:lts-alpine
 
 WORKDIR /app
 RUN npm install -g @angular/cli
-# RUN npm install --global http-server
+RUN npm install --global http-server
 COPY package*.json ./
 RUN npm ci
 COPY . ./
