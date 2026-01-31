@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
 import { CreateProductRequest, Pagination, ProductResponse } from "./payload";
 
 @Injectable({ providedIn: 'root' })
@@ -9,7 +8,7 @@ export class ProductService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly url = environment.backend_url + '/product';
+  private readonly url = API_URL + '/product';
 
   public getAll(requestParam?: {
     page: number,

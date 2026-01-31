@@ -2,7 +2,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { environment } from "../../environments/environment";
 import { CategoryResponse } from "./payload";
 
 @Injectable({ providedIn: 'root' })
@@ -10,7 +9,7 @@ export class CategoryService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly url = environment.backend_url + '/category';
+  private readonly url = API_URL + '/category';
 
   public create(body: {name: string}[]): Observable<CategoryResponse[]> {
     return this.http.post<CategoryResponse[]>(this.url, body);
