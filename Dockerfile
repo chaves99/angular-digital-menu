@@ -6,4 +6,4 @@ COPY package*.json ./
 RUN npm ci
 COPY . ./
 RUN ng build --define "API_URL='spring-menu-online-service-production.up.railway.app'"
-CMD ["npm", "run", "start"]
+CMD ["ng", "serve", "--host", "0.0.0.0"]
