@@ -21,7 +21,7 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "define": {
-              "API_URL": "'http://localhost:8080'"
+              "API_URL": "'http://localhost:8888'"
             },
             "polyfills": [
               "zone.js"
@@ -83,7 +83,7 @@
               "buildTarget": "angular-digital-menu:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
