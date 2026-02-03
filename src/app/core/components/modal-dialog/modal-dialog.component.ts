@@ -40,6 +40,7 @@ export class ModalDialogComponent implements OnInit {
 
 export interface ModalDialogData {
   message: string;
+  subMessage?: string;
   title?: string;
   isConfirmation: boolean;
 }

@@ -21,12 +21,6 @@ export class CategoryComponent implements OnInit {
 
   public categories: CategoryResponse[] = [];
 
-  disableModalDisplay = 'none';
-  disableCategorySelected: CategoryResponse | null = null;
-
-  deleteModalDisplay = 'none';
-  deleteCategorySelected: CategoryResponse | null = null;
-
   formGroup = new FormGroup({
     name: new FormControl('', [Validators.required])
   });
@@ -51,7 +45,8 @@ export class CategoryComponent implements OnInit {
   public delete(category: CategoryResponse): void {
     this.modalDialogService.open({
       title: "Excluir Categoria",
-      message: `Deletar categoria ${category.name}`,
+      message: `Deletar categoria "${category.name}"`,
+      subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
       afterClose: confirm => {
         if (confirm) {
           this.categoryService.delete(category.id)
@@ -64,7 +59,7 @@ export class CategoryComponent implements OnInit {
   public disable(category: CategoryResponse): void {
     this.modalDialogService.open({
       title: "Desabilitar Categoria",
-      message: `Desabilitar categoria ${category.name}`,
+      message: `Desabilitar categoria "${category.name}"`,
       afterClose: confirm => {
         if (confirm) {
           this.categoryService.disable(category.id)

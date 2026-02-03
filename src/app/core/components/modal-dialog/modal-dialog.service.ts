@@ -7,10 +7,15 @@ export class ModalDialogService {
 
   private readonly matDialog = inject(MatDialog);
 
-  open(config: {message: string, title?: string, afterClose?: (v?: boolean) => void}) {
+  open(config: {
+    message: string,
+    subMessage?: string,
+    title?: string,
+    afterClose?: (v?: boolean) => void
+  }) {
     const data: ModalDialogData = { ...config, isConfirmation: (config.afterClose !== undefined) };
     const ref = this.matDialog.open(ModalDialogComponent, {
-      data: data
+      data: data,
     });
     ref.afterClosed().subscribe(value => {
       if (config.afterClose !== undefined) {
