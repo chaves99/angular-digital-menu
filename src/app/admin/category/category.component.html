@@ -41,7 +41,7 @@
               <button
                 type="button"
                 class="btn btn-sm btn-outline-danger"
-                (click)="openDeleteModal(cat)">
+                (click)="delete(cat)">
                   Excluir
               </button>
             </td>
@@ -49,7 +49,7 @@
               <button
                 type="button"
                 class="btn btn-sm"
-                (click)="openDisableModal(cat)"
+                (click)="disable(cat)"
                 [ngClass]="cat.enabled ? 'btn-outline-warning' : 'btn-outline-primary'">
                 @if (cat.enabled) {
                   Inativar
@@ -62,60 +62,5 @@
         }
       </tbody>
     </table>
-  </div>
-
-  <!--############ DISABLE MODAL ############ -->
-  <div #disableModal [ngStyle]="{'display': disableModalDisplay}" class="modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">
-          @if(disableCategorySelected) {
-            @if(disableCategorySelected.enabled) {
-              Inativar Categoria
-            } @else {
-              Ativar Categoria
-            }
-          }
-          </h1>
-          <button type="button" (click)="closeDisableModal()" class="btn-close"></button>
-        </div>
-        <div class="modal-body">
-          @if(disableCategorySelected) {
-            @if(disableCategorySelected.enabled) {
-              Inativar categoria <b>{{disableCategorySelected.name}}</b>?
-            } @else {
-              Ativar categoria <b>{{disableCategorySelected.name}}</b>?
-            }
-          }
-        </div>
-        <div class="modal-footer">
-          <button type="button" (click)="closeDisableModal()" class="btn btn-secondary">Fechar</button>
-          <button type="button" (click)="disable()" class="btn btn-primary">Sim</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-  <!--############ DELETE MODAL ############ -->
-  <div #deleteModal [ngStyle]="{'display': deleteModalDisplay}" class="modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5">Inativar Categoria</h1>
-          <button type="button" (click)="closeDeleteModal()" class="btn-close"></button>
-        </div>
-        <div class="modal-body">
-          @if(deleteCategorySelected) {
-            Deletar categoria <b>{{deleteCategorySelected!.name}}</b>?
-          }
-        </div>
-        <div class="modal-footer">
-          <button type="button" (click)="closeDeleteModal()" class="btn btn-secondary">Fechar</button>
-          <button type="button" (click)="delete()" class="btn btn-primary">Sim</button>
-        </div>
-      </div>
-    </div>
   </div>
 }

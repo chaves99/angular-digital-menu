@@ -7,7 +7,7 @@
         <img src="logo/logo_black_2.png" class=" " width="120" height="96" alt="logo">
       }
     </div>
-    <div class="col-xxl-4 offset-xxl-4 col-lg-6 offset-lg-3">
+    <div class="col-lg-6 offset-lg-3">
       <div class="mt-2 p-3 border rounded">
         <h3 class="mb-3 text-center fs-3">Acessar</h3>
         <div class="mb-3">
@@ -26,7 +26,13 @@
         }
       </div>
       <div class="d-flex mt-2 row p-3">
-        <button class="col-md-2 offset-md-10 btn btn-primary" type="submit">Entrar</button>
+      <button class="col-md-2 offset-md-10 btn btn-primary" [ngClass]="isLoading ? 'disabled' : ''" type="submit">
+          @if (isLoading) {
+            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+          } @else {
+            Entrar
+          }
+        </button>
       </div>
     </div>
   </div>

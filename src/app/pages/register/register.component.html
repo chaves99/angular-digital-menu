@@ -24,7 +24,14 @@
         </div>
         }
         <div class="d-flex justify-content-end mt-4">
-          <button class="btn btn-primary" type="submit">Enviar</button>
+        <button class="btn btn-primary" [ngClass]="isLoading ? 'disabled' : ''" type="submit">
+          @if (isLoading) {
+            <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+            <span role="status"> Carregando</span>
+          } @else {
+            Enviar
+          }
+          </button>
         </div>
       </div>
     </div>

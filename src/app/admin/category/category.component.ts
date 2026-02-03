@@ -1,6 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ModalDialogService } from '../../core';
 import { CategoryService } from '../../services';
 import { CategoryResponse } from '../../services/payload';
 
@@ -16,6 +17,7 @@ import { CategoryResponse } from '../../services/payload';
 export class CategoryComponent implements OnInit {
 
   private readonly categoryService = inject(CategoryService);
+  private readonly modalDialogService = inject(ModalDialogService);
 
   public categories: CategoryResponse[] = [];
 
@@ -46,44 +48,30 @@ export class CategoryComponent implements OnInit {
     }
   }
 
-  public delete(): void {
-    if (this.deleteCategorySelected) {
-      this.categoryService.delete(this.deleteCategorySelected.id)
-        .subscribe(c => {
-          this.categories = c;
-          this.closeDeleteModal();
-        });
-    }
+  public delete(category: CategoryResponse): void {
+    this.modalDialogService.open({
+      title: "Excluir Categoria",
+      message: `Deletar categoria ${category.name}`,
+      afterClose: confirm => {
+        if (confirm) {
+          this.categoryService.delete(category.id)
+            .subscribe(c => this.categories = c);
+        }
+      }
+    });
   }
 
-  public disable(): void {
-    if (this.disableCategorySelected) {
-      this.categoryService.disable(this.disableCategorySelected.id)
-        .subscribe(c => {
-          this.categories = c;
-          this.closeDisableModal();
-        });
-    }
-  }
-
-  public openDisableModal(category: CategoryResponse): void {
-    this.disableModalDisplay = 'block';
-    this.disableCategorySelected = category;
-  }
-
-  public closeDisableModal(): void {
-    this.disableModalDisplay = 'none';
-    this.disableCategorySelected = null;
-  }
-
-  public openDeleteModal(category: CategoryResponse): void {
-    this.deleteModalDisplay = 'block';
-    this.deleteCategorySelected = category;
-  }
-
-  public closeDeleteModal(): void {
-    this.deleteModalDisplay = 'none';
-    this.deleteCategorySelected = null;
+  public disable(category: CategoryResponse): void {
+    this.modalDialogService.open({
+      title: "Desabilitar Categoria",
+      message: `Desabilitar categoria ${category.name}`,
+      afterClose: confirm => {
+        if (confirm) {
+          this.categoryService.disable(category.id)
+            .subscribe(c => this.categories = c);
+        }
+      }
+    });
   }
 }
 

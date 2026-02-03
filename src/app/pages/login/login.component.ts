@@ -3,11 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { StorageService, UserService } from '../../services';
 import { ThemeService } from '../../core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
+    NgClass
   ],
   templateUrl: './login.component.html',
 })
@@ -17,6 +19,8 @@ export class LoginComponent {
   private storageService = inject(StorageService);
   private router = inject(Router);
   private themeService = inject(ThemeService);
+
+  isLoading = false;
 
   public isDark = computed<boolean>(() => {
     return this.themeService.themeSignal() === 'dark';
@@ -32,23 +36,26 @@ export class LoginComponent {
   });
 
   constructor() {
-    console.log(this.isDark());
   }
 
   public onSubmit(): void {
-    // this.isDark = this.themeService.getTheme() === "dark";
     this.showError = false;
     if (this.formGroup.valid) {
       const { email, password } = this.formGroup.value;
       if (email && password) {
+        this.isLoading = true;
         this.userService
           .login({ email: email, password: password })
           .subscribe({
             next: response => {
               this.storageService.storeUser(response);
               this.router.navigate(['/admin']);
+              this.isLoading = false;
             },
-            error: () => this.showError = true,
+            error: () => {
+              this.showError = true;
+              this.isLoading = false;
+            }
           });
       }
     }

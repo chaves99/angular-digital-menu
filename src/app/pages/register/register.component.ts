@@ -5,11 +5,13 @@ import { Router } from '@angular/router';
 import { ERROR_MESSAGES, ErrorDetailResponse } from '../../services/payload';
 import { StorageService } from '../../services/storage.service';
 import { UserService } from '../../services';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgClass
   ],
   templateUrl: './register.component.html',
 })
@@ -19,6 +21,8 @@ export class RegisterComponent {
   private storageService = inject(StorageService);
   private router = inject(Router);
   public errorMessage: string | null = null;
+
+  public isLoading = false;
 
   formGroup = new FormGroup({
     email: new FormControl('', Validators.email),
