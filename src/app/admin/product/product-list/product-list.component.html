@@ -83,6 +83,7 @@
 
 <!-- ######### TABLE #########  -->
 <div class="">
+  @if(!isLoading) {
   @if (displayProducts.length == 0) {
   <div class="">
     <p class="">Nenhum produto encontrado!</p>
@@ -162,6 +163,13 @@
     </button>
     <!--   </div> -->
     <!-- </div> -->
+  </div>
+  }
+  } @else {
+  <div class="text-center mt-5">
+    <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
   }
 </div>

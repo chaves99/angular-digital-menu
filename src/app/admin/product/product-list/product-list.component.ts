@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
   private readonly productService = inject(ProductService);
   private readonly modalService = inject(ModalDialogService);
 
+  isLoading = false;
+
   private readonly SIZE_SELECT_OPTION_STORAGE_KEY = "size.select.option.storage.key";
 
   page = 0;
@@ -56,6 +58,7 @@ export class ProductListComponent implements OnInit {
 
   public fetchProductList() {
     const { name, categoryId, active } = this.formGroup.value;
+    this.isLoading = true;
     this.productService.getAll({
       page: this.page,
       size: this.sizeSelectOption,
@@ -68,6 +71,7 @@ export class ProductListComponent implements OnInit {
   setProducts(response: Pagination<ProductResponse>): void {
     this.paginationResponse = response;
     this.displayProducts = response.content;
+    this.isLoading = false;
   }
 
   updatePage(forword: boolean): void {
