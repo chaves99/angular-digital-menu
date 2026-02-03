@@ -34,7 +34,7 @@
         </div>
         <div class="mb-3 col-5">
           <label for="price-{{$index}}" class="form-label">Preço:</label>
-          <input  pattern="[0-9]+" currencyMask [options]="{align: 'left', prefix: 'R$ ', thousands: '.', decimal: ','}"
+          <input inputmode="numeric" pattern="[0-9]+" currencyMask [options]="{align: 'left', prefix: 'R$ ', thousands: '.', decimal: ','}"
             class="form-control" id="price-{{$index}}" formControlName="value" required>
         </div>
         <div class="mb-3 col position-relative">
