@@ -62,10 +62,10 @@
                 class="text-decoration-none text-reset d-flex mb-1 w-100 p-1"
               >
                 <!-- style="height: 110px" -->
-                <img src="pizza.png" style="height: 80px; width: 80px;" class="img-thumbnail me-2 rounded-3" alt="...">
+                <img src="pizza.png" style="height: 90px; width: 90px;" class="img-thumbnail me-2 rounded-3" alt="...">
 
                 <!-- ################ ITEM INFO SECTION ################ -->
-                <div class="w-100 d-block  text-break" style="overflow: hidden;">
+                <div class="w-100 d-block text-break" style="overflow: hidden;">
 
                   <!-- ################ ITEM TITLE ################ -->
                   <h5 class="fs-5" style="overflow: hidden">
@@ -75,12 +75,12 @@
                   <!-- ################ ITEM DESCRIPTION ################ -->
                   <div
                     class="text-truncate h-50 w-100"
-                    style="font-size: 14px; white-space: pre; overflow: hidden; text-overflow: ellipsis;">
+                    style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     {{product.description}}
                   </div>
 
                   <!-- ################ ITEM PRICE ################ -->
-                  <div class="w-100 d-flex z-n1 sticky-bottom flex-row-reverse">
+                  <div class="w-100 d-flex sticky-bottom align-items-end justify-content-end">
                     {{product.prices[0].value | currency: 'BRL'}}
                   </div>
                 </div>
