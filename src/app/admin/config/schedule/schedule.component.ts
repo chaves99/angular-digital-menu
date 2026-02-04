@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SnackBarService } from '../../../core';
+import { SnackBarService, SpinnerComponent } from '../../../core';
 import { ScheduleService } from '../../../services';
 import { ScheduleRequest, ScheduleResponse } from '../../../services/payload';
 
 @Component({
   selector: 'app-schedule',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpinnerComponent
   ],
   templateUrl: './schedule.component.html'
 })
@@ -21,12 +22,22 @@ export class ScheduleComponent implements OnInit {
     list: new FormArray([])
   });
 
+  isLoading = false;
+
   ngOnInit(): void {
-    this.scheduleService.getAll().subscribe(schedules => {
-      if (schedules.length == 0) {
-        this.addScheduleToList();
-      } else {
-        this.fillForm(schedules);
+    this.isLoading = true;
+    this.scheduleService.getAll().subscribe({
+      next: schedules => {
+        if (schedules.length == 0) {
+          this.addScheduleToList();
+        } else {
+          this.fillForm(schedules);
+        }
+        this.isLoading = false;
+      },
+      error: () => {
+        this.snackBarService.openError("Erro ao carregar dados!");
+        this.isLoading = false;
       }
     });
   }
@@ -51,9 +62,17 @@ export class ScheduleComponent implements OnInit {
           endLaunch: s.endLaunch
         });
       });
-      this.scheduleService.post(req).subscribe(s => {
-        this.snackBarService.openSuccess("Dados atualizados com sucesso!", 2000);
-        this.fillForm(s);
+      this.isLoading = true;
+      this.scheduleService.post(req).subscribe({
+        next: s => {
+          this.snackBarService.openSuccess("Dados atualizados com sucesso!", 2000);
+          this.fillForm(s);
+          this.isLoading = false;
+        },
+        error: () => {
+          this.snackBarService.openError("Erro ao atualizar dados!");
+          this.isLoading = false;
+        }
       });
     }
 

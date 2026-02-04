@@ -3,7 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
-import { SnackBarService } from '../../../core';
+import { SnackBarService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
 import {
   CategoryResponse,
@@ -17,8 +17,8 @@ import {
   imports: [
     ReactiveFormsModule,
     CurrencyMaskModule,
-    RouterLink,
-    DatePipe
+    DatePipe,
+    SpinnerComponent
   ],
   templateUrl: './product-register.component.html'
 })
@@ -31,6 +31,8 @@ export class ProductRegisterComponent implements OnInit {
   private readonly location = inject(Location);
 
   private readonly snackBarService = inject(SnackBarService);
+
+  public isLoading = false;
 
   categories: CategoryResponse[] = [];
 
@@ -48,16 +50,30 @@ export class ProductRegisterComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    this.categoryService.getAll().subscribe(c => this.categories = c);
     this.activatedRoute.params.subscribe(params => {
       const stringProductId: string | null = params['id'];
       if (stringProductId !== null) {
         this.productId = Number(stringProductId);
         if (this.productId) {
+          this.isLoading = true;
           this.productService.getById(this.productId).subscribe({
-            next: res => this.setFormValues(res),
+            next: res => {
+              this.setFormValues(res);
+
+              this.categoryService.getAll()
+                .subscribe({
+                  next: c => {
+                    this.categories = c;
+                    this.isLoading = false;
+                  },
+                  error: () => {
+                    this.isLoading = false;
+                  }
+                });
+            },
             error: () => {
               this.productId = null;
+              this.isLoading = false;
             }
           })
         }
@@ -88,11 +104,11 @@ export class ProductRegisterComponent implements OnInit {
           this.location.back();
         },
         error: res => {
-            this.snackBarService.openError("Erro ao cadastrar produto!"); // TODO message error
+          this.snackBarService.openError("Erro ao cadastrar produto!"); // TODO message error
         }
       });
     } else {
-        this.snackBarService.openError("Preencha todos os campos obrigatorios(*)");
+      this.snackBarService.openError("Preencha todos os campos obrigatorios(*)");
     }
   }
 

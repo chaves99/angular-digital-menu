@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { AddressRequest, AddressResponse } from "./payload";
+import { AddressRequest, AddressResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class AddressService {

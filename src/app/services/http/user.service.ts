@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { CreateUserRequest, CreateUserResponse, LoginRequest } from "./payload";
+import { CreateUserRequest, CreateUserResponse, LoginRequest } from "../payload";
 
 @Injectable({providedIn: 'root'})
 export class UserService {

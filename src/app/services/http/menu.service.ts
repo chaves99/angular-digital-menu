@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { MenuResponse } from "./payload";
+import { MenuResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {

@@ -6,6 +6,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QRCodeComponent } from 'angularx-qrcode';
 import { MenuService } from '../../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../../services/payload';
+import { SpinnerComponent } from '../../../core';
 
 @Component({
   selector: 'app-customer-product-list',
@@ -13,7 +14,8 @@ import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceRes
     QRCodeComponent,
     CurrencyPipe,
     FormsModule,
-    RouterLink
+    RouterLink,
+    SpinnerComponent
   ],
   templateUrl: './menu-customer-products.component.html',
 })
@@ -28,6 +30,9 @@ export class MenuCustomerProductsComponent implements OnInit {
 
   public menuCategories: MenuCategoryResponse[] = [];
 
+  public isLoading = false;
+
+  // Variable to control clear filter button
   public isSearching: boolean = false;
 
   searchTerm?: string;
@@ -59,17 +64,20 @@ export class MenuCustomerProductsComponent implements OnInit {
       .subscribe(param => {
         const localName = param['localName'];
         this.localName += localName;
+        this.isLoading = true;
         this.menuService.get(localName)
           .subscribe({
             next: menu => {
               this.menu = menu;
               this.menuCategories = menu.categories;
+              this.isLoading = false;
             },
             error: res => {
               if (res && res instanceof HttpErrorResponse) {
                 const errorDetail: ErrorDetailResponse = res.error;
                 this.errorMessage = ERROR_MESSAGES[errorDetail.message];
                 console.log(this.errorMessage);
+                this.isLoading = false;
               }
             }
           });

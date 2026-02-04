@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ModalDialogService } from '../../../core';
+import { ModalDialogService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
 import { CategoryResponse, Pagination, ProductResponse } from '../../../services/payload';
 
@@ -12,7 +12,8 @@ import { CategoryResponse, Pagination, ProductResponse } from '../../../services
     NgClass,
     RouterLink,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    SpinnerComponent
   ],
   templateUrl: './product-list.component.html'
 })

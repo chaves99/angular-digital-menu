@@ -1,3 +1,6 @@
+@if (isLoading) {
+  <app-spinner></app-spinner>
+} @else {
 <form class="card" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <h4 class="card-header">
     Horário
@@ -54,4 +57,5 @@
     </div>
   </div>
 </form>
+}
 

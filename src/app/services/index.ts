@@ -1,7 +1,11 @@
+
 export * from './storage.service';
-export * from './user.service';
-export * from './category.service';
-export * from './product.service';
-export * from './address.service';
-export * from './schedule.service';
-export * from './menu.service';
+
+// HTTP SERVICES
+export * from './http/contact.service';
+export * from './http/user.service';
+export * from './http/category.service';
+export * from './http/product.service';
+export * from './http/address.service';
+export * from './http/schedule.service';
+export * from './http/menu.service';

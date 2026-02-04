@@ -1,13 +1,14 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { ContactService } from '../../../services/contact.service';
 import { ContactResponse } from '../../../services/payload';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SnackBarService } from '../../../core';
+import { SnackBarService, SpinnerComponent } from '../../../core';
+import { ContactService } from '../../../services';
 
 @Component({
   selector: 'app-contact',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SpinnerComponent
   ],
   templateUrl: './contact.component.html'
 })
@@ -18,6 +19,8 @@ export class ContactComponent implements OnInit {
 
   contact: ContactResponse | null = null;
 
+  isLoading = false;
+
   form = new FormGroup({
     whatsapp: new FormControl(''),
     phone: new FormControl(''),
@@ -27,6 +30,7 @@ export class ContactComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.contactService.get().subscribe({
       next: res => {
         this.form.patchValue({
@@ -36,10 +40,11 @@ export class ContactComponent implements OnInit {
           instagram: res.instagram,
           website: res.website
         });
+        this.isLoading = false;
       },
       error: res => {
-        console.log("Handling error locally");
-        console.log(res);
+        this.isLoading = false;
+        this.snackBarService.openError("Erro ao carregar dados!");
       }
     });
   }
@@ -49,6 +54,7 @@ export class ContactComponent implements OnInit {
 
     if (whatsapp !== undefined && phone !== undefined && facebook !== undefined
       && instagram !== undefined && website !== undefined) {
+      this.isLoading = true;
       this.contactService.post({
         whatsapp: whatsapp,
         phone: phone,
@@ -58,9 +64,11 @@ export class ContactComponent implements OnInit {
       }).subscribe({
         next: res => {
           this.snackBarService.openSuccess("Atualizado com sucesso!");
+          this.isLoading = false;
         },
         error: res => {
           this.snackBarService.openError("Erro ao atualizar contatos!");
+          this.isLoading = false;
         }
       });
     }

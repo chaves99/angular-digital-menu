@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ContactResponse } from "./payload";
+import { ContactResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class ContactService {
