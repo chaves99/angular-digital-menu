@@ -56,10 +56,16 @@
         <textarea rows="6" class="form-control" id="description" formControlName="description" required></textarea>
       </div>
       <div class="mb-3">
-        <label for="categoryId" class="form-label">Categoria:</label>
+        <label for="categoryId" class="form-label">
+        Categoria:
+        </label>
         <select class="form-select" formControlName="categoryId">
+          @if(isCategoryOptionLoading) {
+          <option selected>Carregando...</option>
+          } @else {
           @for(cat of categories; track cat.id) {
             <option value="{{cat.id}}">{{ cat.name }}</option>
+          }
           }
         </select>
       </div>

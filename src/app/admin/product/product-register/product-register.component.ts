@@ -33,6 +33,7 @@ export class ProductRegisterComponent implements OnInit {
   private readonly snackBarService = inject(SnackBarService);
 
   public isLoading = false;
+  public isCategoryOptionLoading = false;
 
   categories: CategoryResponse[] = [];
 
@@ -50,6 +51,17 @@ export class ProductRegisterComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.isCategoryOptionLoading = true;
+    this.categoryService.getAll()
+      .subscribe({
+        next: c => {
+          this.categories = c;
+          this.isCategoryOptionLoading = false;
+        },
+        error: () => {
+          this.isCategoryOptionLoading = false;
+        }
+      });
     this.activatedRoute.params.subscribe(params => {
       const stringProductId: string | null = params['id'];
       if (stringProductId !== null) {
@@ -59,17 +71,7 @@ export class ProductRegisterComponent implements OnInit {
           this.productService.getById(this.productId).subscribe({
             next: res => {
               this.setFormValues(res);
-
-              this.categoryService.getAll()
-                .subscribe({
-                  next: c => {
-                    this.categories = c;
-                    this.isLoading = false;
-                  },
-                  error: () => {
-                    this.isLoading = false;
-                  }
-                });
+              this.isLoading = false;
             },
             error: () => {
               this.productId = null;
