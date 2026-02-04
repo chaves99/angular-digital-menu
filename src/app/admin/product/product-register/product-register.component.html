@@ -5,7 +5,7 @@
         <h2 class="">Editar Produto</h2>
         <p>
           Criado em: {{productResponse.createdAt| date: 'd/M/yy, H:mm'}},
-          atualizado em: {{productResponse.updatedAt | date: 'd/M/yy, H:mm'}}
+          atualizado em: {{productResponse.updatedAt | date: 'd/M/yy, H:mm'}}.
         </p>
       } @else {
         <h2 class="">Criar Produto</h2>
@@ -62,7 +62,7 @@
     </div>
   </div>
 
-  <div class="d-flex flex-wrap-reverse mt-2 row p-2 justify-content-end gap-4">
+  <div class="d-flex flex-wrap-reverse pb-5 mt-2 row p-2 justify-content-end gap-4">
   <!-- [routerLink]="getBackRouterLink()" -->
     <button (click)="getBack()" type="button" class="col-md-2 btn btn-outline-primary">
       Voltar

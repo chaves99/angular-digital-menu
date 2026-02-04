@@ -130,11 +130,12 @@ export class MenuCustomerProductsComponent implements OnInit {
   }
 
   public existContacts(): boolean {
-    return this.menu !== undefined && this.menu.info.facebook !== null
-      && this.menu.info.instagram !== null
-      && this.menu.info.whatsapp !== null
-      && this.menu.info.website !== null
-      && this.menu.info.phone !== null;
+    return this.menu !== undefined
+      && (this.menu.info.facebook !== null
+      || this.menu.info.instagram !== null
+      || this.menu.info.whatsapp !== null
+      || this.menu.info.website !== null
+      || this.menu.info.phone !== null);
   }
 
   public openContactLink(link: string): void {
