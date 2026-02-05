@@ -87,7 +87,7 @@ export class MenuCustomerProductsComponent implements OnInit {
   public scrollTo(ref: string): void {
     const element = document.getElementById(ref);
     if (element) {
-      element.scrollIntoView();
+      element.scrollIntoView({block: 'center'});
     }
   }
 

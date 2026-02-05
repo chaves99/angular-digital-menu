@@ -76,7 +76,13 @@
       <button (click)="getBack()" type="button" class="col-md-2 btn btn-outline-primary">
         Voltar
       </button>
-      <button class="col-md-2 btn btn-primary" type="submit">Salvar</button>
+      <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
+        @if(isSavingLoading) {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        } @else {
+          Salvar
+        }
+      </button>
     </div>
   </form>
 }

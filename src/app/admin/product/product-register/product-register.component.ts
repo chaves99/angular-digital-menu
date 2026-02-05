@@ -1,7 +1,7 @@
-import { DatePipe, Location } from '@angular/common';
+import { DatePipe, Location, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { SnackBarService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
@@ -18,6 +18,7 @@ import {
     ReactiveFormsModule,
     CurrencyMaskModule,
     DatePipe,
+    NgClass,
     SpinnerComponent
   ],
   templateUrl: './product-register.component.html'
@@ -34,6 +35,7 @@ export class ProductRegisterComponent implements OnInit {
 
   public isLoading = false;
   public isCategoryOptionLoading = false;
+  public isSavingLoading = false;
 
   categories: CategoryResponse[] = [];
 
@@ -101,11 +103,14 @@ export class ProductRegisterComponent implements OnInit {
         categoryId: categoryId
       };
 
+      this.isSavingLoading = true;
       this.executeRequest(body).subscribe({
         next: res => {
+          this.isSavingLoading = false;
           this.location.back();
         },
         error: res => {
+          this.isSavingLoading = false;
           this.snackBarService.openError("Erro ao cadastrar produto!"); // TODO message error
         }
       });
