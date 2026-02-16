@@ -1,26 +1,43 @@
 @if (isLoading) {
   <app-spinner></app-spinner>
 } @else {
-  <form class="mt-3" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <form class="container mt-3" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
     <div class="mt-5 row justify-content-between">
       <!-- <div class="col-md-5"> -->
         @if(productResponse) {
-          <h2 class="">Editar Produto</h2>
-          <p>
-            Criado em: {{productResponse.createdAt| date: 'd/M/yy, H:mm'}},
-            atualizado em: {{productResponse.updatedAt | date: 'd/M/yy, H:mm'}}.
-          </p>
+          <div class="d-flex">
+            @if(imageSafeUrl !== null) {
+              <img [src]="imageSafeUrl" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
+            }
+            <div>
+              <h2 class="">Editar Produto</h2>
+              <p>
+                Criado em: {{productResponse.createdAt| date: 'd/M/yy, H:mm'}},
+                atualizado em: {{productResponse.updatedAt | date: 'd/M/yy, H:mm'}}.
+              </p>
+            </div>
+          </div>
         } @else {
           <h2 class="">Criar Produto</h2>
         }
       <!-- </div> -->
     </div>
     <div class="mt-3">
+      <!-- ####### NAME INPUT ####### -->
       <div class="mb-3">
         <label for="name" class="form-label">Nome:</label>
         <input type="text" class="form-control" id="name" formControlName="name" required>
       </div>
-      <div class="d-flex  mb-3">
+
+      <!-- ####### IMAGE INPUT ####### -->
+      <div class="row mb-4">
+        <div class="col-auto">
+          <label for="formFile" class="form-label">Imagem do produto</label>
+          <input class="form-control" type="file" id="formFile" (change)="onImageChange($event)">
+        </div>
+      </div>
+
+      <div class="d-flex mb-3">
         <button class="btn btn-primary" (click)="addPrice()" type="button">
           Adicionar Preço
           <i class="bi bi-plus-lg"></i>

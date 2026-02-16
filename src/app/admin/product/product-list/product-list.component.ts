@@ -66,7 +66,12 @@ export class ProductListComponent implements OnInit {
       name: name,
       categoryId: (categoryId == 0) ? null : categoryId,
       active: active
-    }).subscribe(p => this.setProducts(p));
+    }).subscribe({
+      next: p => this.setProducts(p),
+      error: res => {
+        this.isLoading = false;
+      }
+    });
   }
 
   setProducts(response: Pagination<ProductResponse>): void {
@@ -75,26 +80,31 @@ export class ProductListComponent implements OnInit {
     this.isLoading = false;
   }
 
-  updatePage(forword: boolean): void {
-    if (forword) {
-      if (this.page >= (this.paginationResponse!.totalPages - 1)) {
-        return;
-      }
-      this.page++;
-      this.fetchProductList();
-    } else {
-      if (this.page == 0) {
-        return;
-      }
-      this.page--;
-      this.fetchProductList();
+  forwardPage(): void {
+    if (this.page >= this.getLastPage()) {
+      return;
     }
+    this.page++;
+    this.fetchProductList();
+  }
+
+  previousPage(): void {
+    if (this.page == 0) {
+      return;
+    }
+    this.page--;
+    this.fetchProductList();
   }
 
   lastPage(): void {
-    this.page = (this.paginationResponse!.totalPages - 1);
+    this.page = this.getLastPage();
     this.fetchProductList();
   }
+
+  getLastPage(): number {
+    return (this.paginationResponse!.totalPages - 1);
+  }
+
   firstPage(): void {
     this.page = 0;
     this.fetchProductList();

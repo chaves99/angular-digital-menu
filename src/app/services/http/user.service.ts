@@ -3,7 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { CreateUserRequest, CreateUserResponse, LoginRequest } from "../payload";
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserService {
 
   private http = inject(HttpClient);
@@ -22,4 +22,12 @@ export class UserService {
   public check(): Observable<CreateUserResponse> {
     return this.http.get<CreateUserResponse>(this.url);
   }
+
+  public updatePassword(currentPassword: string, newPassword: string): Observable<any> {
+    return this.http.post(`${this.url}/update-password`, {
+      currentPassword: currentPassword,
+      newPassword: newPassword
+    });
+  }
+
 }

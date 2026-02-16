@@ -39,20 +39,30 @@
     <div class="offcanvas-body d-flex align-items-start flex-column">
       <div class="w-100">
         <div class="list-group list-group-flush mb-4 border-bottom w-100">
-          <h5 class="fs-6">Configurações</h5>
-          <a [routerLink]="['config', 'address']"
+          <h5 class="fs-6">Conta</h5>
+          <a [routerLink]="['update-password']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            Atualizar senha
+          </a>
+        </div>
+        <div class="list-group list-group-flush mb-4 border-bottom w-100">
+          <!-- <h5 class="fs-6">Configurações</h5> -->
+          <h5 class="fs-6">Estabelecimento</h5>
+          <a [routerLink]="['establishment', 'address']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             class="border-0 rounded list-group-item p-2 list-group-item-action">
             Endereço
           </a>
-          <a [routerLink]="['config', 'schedule']"
+          <a [routerLink]="['establishment', 'schedule']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             class="border-0 rounded list-group-item p-2 list-group-item-action">
             Horários
           </a>
-          <a [routerLink]="['config', 'contact']"
+          <a [routerLink]="['establishment', 'contact']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             class="border-0 rounded list-group-item p-2 list-group-item-action">

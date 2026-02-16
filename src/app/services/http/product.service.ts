@@ -35,16 +35,24 @@ export class ProductService {
     return this.http.get<Pagination<ProductResponse>>(this.url, { params: params });
   }
 
-  public create(body: CreateProductRequest): Observable<Pagination<ProductResponse>> {
-    return this.http.post<Pagination<ProductResponse>>(this.url, body);
+  public uploadImage(productId: number, image: any): Observable<any> {
+    return this.http.post(`${this.url}/${productId}/image`, image);
+  }
+
+  public getImage(productId: number): Observable<Blob> {
+    return this.http.get(`${this.url}/${productId}/image`, { responseType: 'blob' });
+  }
+
+  public create(body: CreateProductRequest): Observable<ProductResponse> {
+    return this.http.post<ProductResponse>(this.url, body);
   }
 
   public getById(id: number): Observable<ProductResponse> {
     return this.http.get<ProductResponse>(`${this.url}/${id}`);
   }
 
-  public update(id: number, body: CreateProductRequest): Observable<Pagination<ProductResponse>> {
-    return this.http.patch<Pagination<ProductResponse>>(`${this.url}/${id}`, body);
+  public update(id: number, body: CreateProductRequest): Observable<ProductResponse> {
+    return this.http.patch<ProductResponse>(`${this.url}/${id}`, body);
   }
 
   public toggleActive(id: number): Observable<any> {

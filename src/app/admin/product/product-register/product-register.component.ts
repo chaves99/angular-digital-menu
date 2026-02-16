@@ -11,6 +11,8 @@ import {
   PricesRequest,
   ProductResponse
 } from '../../../services/payload';
+import { Observable } from 'rxjs';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-register',
@@ -27,20 +29,25 @@ export class ProductRegisterComponent implements OnInit {
 
   private readonly productService = inject(ProductService);
   private readonly categoryService = inject(CategoryService);
+  private readonly snackBarService = inject(SnackBarService);
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly location = inject(Location);
+  private readonly domSanitizer = inject(DomSanitizer);
 
-  private readonly snackBarService = inject(SnackBarService);
 
   public isLoading = false;
   public isCategoryOptionLoading = false;
   public isSavingLoading = false;
 
+  public selectedImage: File | null = null;
+
   categories: CategoryResponse[] = [];
 
   productId: number | null = null;
   productResponse: ProductResponse | null = null;
+
+  imageSafeUrl: SafeUrl | null = null;
 
   private readonly fb = new FormBuilder();
 
@@ -73,7 +80,17 @@ export class ProductRegisterComponent implements OnInit {
           this.productService.getById(this.productId).subscribe({
             next: res => {
               this.setFormValues(res);
-              this.isLoading = false;
+              this.productService.getImage(res.id).subscribe({
+                next: image => {
+                  const objectUrl = URL.createObjectURL(image);
+                  this.imageSafeUrl = this.domSanitizer.bypassSecurityTrustUrl(objectUrl);
+                  this.isLoading = false;
+                },
+                error: res => {
+                  this.isLoading = false;
+                }
+              });
+
             },
             error: () => {
               this.productId = null;
@@ -83,6 +100,10 @@ export class ProductRegisterComponent implements OnInit {
         }
       }
     });
+  }
+
+  public onImageChange(event: any): void {
+    this.selectedImage = event.target.files[0];
   }
 
   public onSubmit(): void {
@@ -106,8 +127,21 @@ export class ProductRegisterComponent implements OnInit {
       this.isSavingLoading = true;
       this.executeRequest(body).subscribe({
         next: res => {
-          this.isSavingLoading = false;
-          this.location.back();
+          if (this.selectedImage !== null) {
+            const formData = new FormData();
+            if (this.selectedImage !== null && this.productId) {
+              formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
+              this.productService.uploadImage(this.productId, formData).subscribe({
+                next: res => {
+                  this.isSavingLoading = false;
+                  this.location.back();
+                },
+                error: res => {
+                  this.isSavingLoading = false;
+                }
+              });
+            }
+          }
         },
         error: res => {
           this.isSavingLoading = false;
@@ -119,7 +153,7 @@ export class ProductRegisterComponent implements OnInit {
     }
   }
 
-  private executeRequest(body: CreateProductRequest) {
+  private executeRequest(body: CreateProductRequest): Observable<ProductResponse> {
     if (this.productId) {
       return this.productService.update(this.productId, body);
     } else {

@@ -1,10 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-establishment',
-  imports: [],
-  templateUrl: './establishment.component.html'
+  imports: [
+    ReactiveFormsModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive
+  ],
+  templateUrl: './establishment.component.html',
 })
-export class EstablishmentComponent {
+export class EstablishmentComponent implements OnInit {
+
+  ngOnInit(): void {
+  }
+
 
 }

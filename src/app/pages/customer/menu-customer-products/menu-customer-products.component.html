@@ -22,7 +22,7 @@
         </nav>
 
         <!-- ################ CATEGORIES ################ -->
-        <div class="d-flex justify-content-between sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
+        <div class="d-flex justify-content-around sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
           @for(cat of menu.categories; track $index) {
             <button (click)="scrollTo(cat.name)"
               class="btn fw-semibold btn-secondary mx-2 text-nowrap">
@@ -109,27 +109,31 @@
             </p>
             <hr>
           }
+
           <!-- ################ SCHEDULE ################ -->
-          <div class="p-6 fw-bold">
-            <i class="bi bi-calendar2-day"></i>
-            Horários
-          </div>
-          <p class="">
-            @for(schedule of menu.schedules; track schedule.id) {
-              <!-- <i class="bi bi-geo-alt-fill"></i> -->
-              {{schedule.days}}
-              <br>
-              {{schedule.openHour}}
-              @if (schedule.startLaunch && schedule.endLaunch) {
-                - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
-              } @else {
-                -
+          @if(existSchedule()) {
+            <div class="p-6 fw-bold">
+              <i class="bi bi-calendar2-day"></i>
+              Horários
+            </div>
+            <p class="">
+              @for(schedule of menu.schedules; track schedule.id) {
+                <!-- <i class="bi bi-geo-alt-fill"></i> -->
+                {{schedule.days}}
+                <br>
+                {{schedule.openHour}}
+                @if (schedule.startLaunch && schedule.endLaunch) {
+                  - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
+                } @else {
+                  -
+                }
+                {{schedule.closeHour}}
+                <br>
               }
-              {{schedule.closeHour}}
-              <br>
-            }
-          </p>
-          <hr class="">
+            </p>
+            <hr class="">
+          }
+
           <!-- ################ CONTACTS ################ -->
           @if(existContacts()) {
               <div class="p-6 fw-bold mb-1">

@@ -1,22 +1,22 @@
 import { Routes } from '@angular/router';
 import {
-  AddressComponent,
-  AdminComponent,
-  CategoryComponent,
-  ConfigComponent,
-  ContactComponent,
-  EstablishmentComponent,
-  ProductComponent,
-  ProductListComponent,
-  ProductRegisterComponent,
-  ScheduleComponent
+    AddressComponent,
+    AdminComponent,
+    CategoryComponent,
+    ContactComponent,
+    EstablishmentComponent,
+    ProductComponent,
+    ProductListComponent,
+    ProductRegisterComponent,
+    ScheduleComponent,
+    UpdatePasswordComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
 import { LandingComponent, LoginComponent, PageComponent, RegisterComponent } from './pages';
 import {
-  CustomerMenuDetailComponent,
-  MenuComponent,
-  MenuCustomerProductsComponent
+    CustomerMenuDetailComponent,
+    MenuComponent,
+    MenuCustomerProductsComponent
 } from './pages/customer';
 
 export const routes: Routes = [
@@ -59,16 +59,16 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'establishment',
-        component: EstablishmentComponent
+        path: 'update-password',
+        component: UpdatePasswordComponent
       },
       {
         path: 'categories',
         component: CategoryComponent
       },
       {
-        path: 'config',
-        component: ConfigComponent,
+        path: 'establishment',
+        component: EstablishmentComponent,
         children: [
           {
             path: '',

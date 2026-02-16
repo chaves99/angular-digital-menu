@@ -1,15 +1,16 @@
+import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { StorageService, UserService } from '../../services';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../core';
-import { NgClass } from '@angular/common';
+import { StorageService, UserService } from '../../services';
 
 @Component({
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './login.component.html',
 })

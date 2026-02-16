@@ -20,7 +20,6 @@ import { SpinnerComponent } from '../../../core';
   templateUrl: './menu-customer-products.component.html',
 })
 export class MenuCustomerProductsComponent implements OnInit {
-
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly location = inject(Location);
 
@@ -87,7 +86,7 @@ export class MenuCustomerProductsComponent implements OnInit {
   public scrollTo(ref: string): void {
     const element = document.getElementById(ref);
     if (element) {
-      element.scrollIntoView({block: 'center'});
+      element.scrollIntoView({ block: 'center' });
     }
   }
 
@@ -122,6 +121,10 @@ export class MenuCustomerProductsComponent implements OnInit {
     }
   }
 
+  existSchedule(): boolean {
+    return this.menu !== undefined && this.menu.schedules.length > 0;
+  }
+
   public cleanSearch() {
     if (this.menu) {
       this.menuCategories = this.menu.categories;
@@ -140,10 +143,10 @@ export class MenuCustomerProductsComponent implements OnInit {
   public existContacts(): boolean {
     return this.menu !== undefined
       && (this.menu.info.facebook !== null
-      || this.menu.info.instagram !== null
-      || this.menu.info.whatsapp !== null
-      || this.menu.info.website !== null
-      || this.menu.info.phone !== null);
+        || this.menu.info.instagram !== null
+        || this.menu.info.whatsapp !== null
+        || this.menu.info.website !== null
+        || this.menu.info.phone !== null);
   }
 
   public openContactLink(link: string): void {

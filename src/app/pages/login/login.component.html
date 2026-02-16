@@ -24,15 +24,15 @@
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         }
-      </div>
-      <div class="d-flex mt-2 row p-3">
-      <button class="col-md-2 offset-md-10 btn btn-primary" [ngClass]="isLoading ? 'disabled' : ''" type="submit">
-          @if (isLoading) {
-            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-          } @else {
-            Entrar
-          }
-        </button>
+        <div class="d-flex mt-2 row p-3">
+          <button class="col-md-2 offset-md-10 mt-3 btn btn-primary" [ngClass]="isLoading ? 'disabled' : ''" type="submit">
+            @if (isLoading) {
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            } @else {
+              Entrar
+            }
+          </button>
+        </div>
       </div>
     </div>
   </div>
