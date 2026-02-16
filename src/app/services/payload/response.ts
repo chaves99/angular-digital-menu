@@ -35,6 +35,7 @@ export interface ProductResponse {
   id: number;
   name: string;
   description: string;
+  image: string | null;
   active: boolean;
   prices: PriceResponse[];
   updatedAt: Date;
@@ -83,6 +84,7 @@ export interface MenuProductResponse {
   id: number;
   name: string;
   description: string;
+  image: string;
   prices: MenuPriceResponse[];
 }
 

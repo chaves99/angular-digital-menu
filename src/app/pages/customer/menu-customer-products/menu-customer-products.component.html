@@ -62,7 +62,11 @@
                 class="text-decoration-none text-reset d-flex mb-1 w-100 p-1"
               >
                 <!-- style="height: 110px" -->
-                <img src="pizza.png" style="height: 90px; width: 90px;" class="img-thumbnail me-2 rounded-3" alt="...">
+                @if(product.image === null) {
+                  <img src="pizza.png" style="height: 90px; width: 90px;" class="img-thumbnail me-2 rounded-3" alt="...">
+                } @else {
+                  <img [src]="product.image" style="height: 90px; width: 90px;" class="img-thumbnail me-2 rounded-3" alt="...">
+                }
 
                 <!-- ################ ITEM INFO SECTION ################ -->
                 <div class="w-100 d-block text-break" style="overflow: hidden;">

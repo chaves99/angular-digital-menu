@@ -6,8 +6,8 @@
       <!-- <div class="col-md-5"> -->
         @if(productResponse) {
           <div class="d-flex">
-            @if(imageSafeUrl !== null) {
-              <img [src]="imageSafeUrl" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
+            @if(productResponse.image !== null) {
+              <img [src]="productResponse.image" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
             }
             <div>
               <h2 class="">Editar Produto</h2>

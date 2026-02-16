@@ -1,8 +1,10 @@
 import { DatePipe, Location, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { Observable } from 'rxjs';
 import { SnackBarService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
 import {
@@ -11,8 +13,6 @@ import {
   PricesRequest,
   ProductResponse
 } from '../../../services/payload';
-import { Observable } from 'rxjs';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-product-register',
@@ -33,8 +33,6 @@ export class ProductRegisterComponent implements OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly location = inject(Location);
-  private readonly domSanitizer = inject(DomSanitizer);
-
 
   public isLoading = false;
   public isCategoryOptionLoading = false;
@@ -47,7 +45,7 @@ export class ProductRegisterComponent implements OnInit {
   productId: number | null = null;
   productResponse: ProductResponse | null = null;
 
-  imageSafeUrl: SafeUrl | null = null;
+  imageSafeUrl: SafeUrl | null = "https://itimenu-product-images.fly.storage.tigris.dev/user_11/product_16";
 
   private readonly fb = new FormBuilder();
 
@@ -80,17 +78,7 @@ export class ProductRegisterComponent implements OnInit {
           this.productService.getById(this.productId).subscribe({
             next: res => {
               this.setFormValues(res);
-              this.productService.getImage(res.id).subscribe({
-                next: image => {
-                  const objectUrl = URL.createObjectURL(image);
-                  this.imageSafeUrl = this.domSanitizer.bypassSecurityTrustUrl(objectUrl);
-                  this.isLoading = false;
-                },
-                error: res => {
-                  this.isLoading = false;
-                }
-              });
-
+              this.isLoading = false;
             },
             error: () => {
               this.productId = null;
