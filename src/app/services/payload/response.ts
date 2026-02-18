@@ -19,6 +19,7 @@ export interface CreateUserResponse {
   token: string;
   email: string;
   establishmentName: string;
+  image: string | null;
   cratedAt: Date;
   updatedAt: Date;
 }
@@ -116,6 +117,7 @@ interface ErrorMessages {
 }
 
 export const ERROR_MESSAGES: ErrorMessages = {
+  "PASSWORD_INVALID": "Senha inválida",
   "EMAIL_EXISTS": "Email já existe!",
   "ESTABLISHMENT_EXISTS": "Estabelecimento já existe!",
   "INTERNAL_ERROR": "Erro interno!",

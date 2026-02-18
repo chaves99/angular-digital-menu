@@ -8,3 +8,4 @@ export * from './establishment/establishment.component';
 export * from './establishment/address/address.component';
 export * from './establishment/schedule/schedule.component';
 export * from './establishment/contact/contact.component';
+export * from './establishment/banner/banner.component';

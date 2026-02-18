@@ -23,6 +23,8 @@ export class LoginComponent {
 
   isLoading = false;
 
+  invalidEmail = false;
+
   public isDark = computed<boolean>(() => {
     return this.themeService.themeSignal() === 'dark';
   });
@@ -40,6 +42,7 @@ export class LoginComponent {
   }
 
   public onSubmit(): void {
+    this.invalidEmail = this.formGroup.controls.email.errors !== null;
     this.showError = false;
     if (this.formGroup.valid) {
       const { email, password } = this.formGroup.value;

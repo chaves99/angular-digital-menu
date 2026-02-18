@@ -2,12 +2,16 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SnackBarService, SpinnerComponent } from '../../core';
 import { UserService } from '../../services';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ERROR_MESSAGES, ErrorDetailResponse } from '../../services/payload';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-update-password',
   imports: [
     ReactiveFormsModule,
-    SpinnerComponent
+    SpinnerComponent,
+    NgClass
   ],
   templateUrl: './update-password.component.html'
 })
@@ -22,15 +26,15 @@ export class UpdatePasswordComponent {
     confirmNewPassword: new FormControl('')
   });
 
+  isInvalidPassword = false;
+
   isLoading = false;
 
-  // add loading
   public onSubmit() {
+    this.isInvalidPassword = false;
     const { currentPassword, newPassword, confirmNewPassword } = this.formGroup.value;
-
     if (currentPassword && newPassword && confirmNewPassword) {
-
-      if (newPassword === confirmNewPassword) {
+      if (newPassword !== confirmNewPassword) {
         return;
       }
 
@@ -42,7 +46,14 @@ export class UpdatePasswordComponent {
           this.formGroup.reset();
         },
         error: res => {
-          this.snackBarService.openError("Error ao atualizar senha!");
+          console.log(res);
+          if (res instanceof HttpErrorResponse) {
+            const errorDetail: ErrorDetailResponse = res.error;
+            this.snackBarService.openError(ERROR_MESSAGES[errorDetail.message]);
+            this.isInvalidPassword = true;
+          } else {
+            this.snackBarService.openError("Error ao atualizar senha!");
+          }
           this.isLoading = false;
         }
       });

@@ -115,21 +115,23 @@ export class ProductRegisterComponent implements OnInit {
       this.isSavingLoading = true;
       this.executeRequest(body).subscribe({
         next: res => {
-          if (this.selectedImage !== null) {
+          if (this.selectedImage !== null && this.productId) {
             const formData = new FormData();
-            if (this.selectedImage !== null && this.productId) {
-              formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
-              this.productService.uploadImage(this.productId, formData).subscribe({
-                next: res => {
-                  this.isSavingLoading = false;
-                  this.location.back();
-                },
-                error: res => {
-                  this.isSavingLoading = false;
-                }
-              });
-            }
+            formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
+            this.productService.uploadImage(this.productId, formData).subscribe({
+              next: res => {
+                this.isSavingLoading = false;
+                this.location.back();
+              },
+              error: res => {
+                this.isSavingLoading = false;
+              }
+            });
+          } else {
+            this.isSavingLoading = false;
+            this.location.back();
           }
+
         },
         error: res => {
           this.isSavingLoading = false;

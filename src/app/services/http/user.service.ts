@@ -23,6 +23,10 @@ export class UserService {
     return this.http.get<CreateUserResponse>(this.url);
   }
 
+  public uploadImage(data: any): Observable<CreateUserResponse> {
+    return this.http.post<CreateUserResponse>(`${this.url}/image`, data);
+  }
+
   public updatePassword(currentPassword: string, newPassword: string): Observable<any> {
     return this.http.post(`${this.url}/update-password`, {
       currentPassword: currentPassword,

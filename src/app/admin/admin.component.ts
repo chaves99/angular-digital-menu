@@ -34,7 +34,6 @@ export class AdminComponent implements OnInit {
 
     this.userService.check().subscribe({
       next: res => {
-        this.themeService.setup();
         this.user = this.storageService.getUser();
       },
       error: res => {

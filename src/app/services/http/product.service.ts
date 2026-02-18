@@ -39,10 +39,6 @@ export class ProductService {
     return this.http.post(`${this.url}/${productId}/image`, image);
   }
 
-  public getImage(productId: number): Observable<Blob> {
-    return this.http.get(`${this.url}/${productId}/image`, { responseType: 'blob' });
-  }
-
   public create(body: CreateProductRequest): Observable<ProductResponse> {
     return this.http.post<ProductResponse>(this.url, body);
   }

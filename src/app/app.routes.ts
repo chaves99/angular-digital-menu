@@ -1,22 +1,23 @@
 import { Routes } from '@angular/router';
 import {
-    AddressComponent,
-    AdminComponent,
-    CategoryComponent,
-    ContactComponent,
-    EstablishmentComponent,
-    ProductComponent,
-    ProductListComponent,
-    ProductRegisterComponent,
-    ScheduleComponent,
-    UpdatePasswordComponent
+  AddressComponent,
+  AdminComponent,
+  BannerComponent,
+  CategoryComponent,
+  ContactComponent,
+  EstablishmentComponent,
+  ProductComponent,
+  ProductListComponent,
+  ProductRegisterComponent,
+  ScheduleComponent,
+  UpdatePasswordComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
 import { LandingComponent, LoginComponent, PageComponent, RegisterComponent } from './pages';
 import {
-    CustomerMenuDetailComponent,
-    MenuComponent,
-    MenuCustomerProductsComponent
+  CustomerMenuDetailComponent,
+  MenuComponent,
+  MenuCustomerProductsComponent
 } from './pages/customer';
 
 export const routes: Routes = [
@@ -86,6 +87,10 @@ export const routes: Routes = [
           {
             path: 'contact',
             component: ContactComponent
+          },
+          {
+            path: 'banner',
+            component: BannerComponent
           }
         ]
       },

@@ -33,7 +33,11 @@
 
   <div class="offcanvas offcanvas-fixed offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">{{ user!.establishmentName }}</h5>
+      <a class="link-secondary text-decoration-none" data-bs-dismiss="offcanvas" routerLink="/">
+        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+          {{ user!.establishmentName }}
+        </h5>
+      </a>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex align-items-start flex-column">

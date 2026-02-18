@@ -12,7 +12,8 @@
         <h3 class="mb-3 text-center fs-3">Acessar</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email:</label>
-          <input type="email" class="form-control" id="email" formControlName="email" required>
+          <input [ngClass]="invalidEmail ? 'is-invalid' : ''"
+            type="email" class="form-control" id="email" formControlName="email" required>
         </div>
         <div class="mb-3">
           <label for="password" class="form-label">Senha:</label>
