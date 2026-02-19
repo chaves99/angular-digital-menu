@@ -98,6 +98,7 @@ export interface MenuPriceResponse {
 export interface EstablishmentInfoResponse {
   id: number;
   establishmentName: string;
+  image: string;
   addressLine: string | null;
   addressCode: string | null;
   city: string | null;
