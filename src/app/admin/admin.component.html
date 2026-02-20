@@ -47,30 +47,44 @@
           <a [routerLink]="['update-password']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [class]="menuItemClass">
             Atualizar senha
           </a>
         </div>
         <div class="list-group list-group-flush mb-4 border-bottom w-100">
-          <!-- <h5 class="fs-6">Configurações</h5> -->
+          <h5 class="fs-6">Configurações</h5>
+          <a [routerLink]="['qr-code']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [class]="menuItemClass">
+            QR Code
+          </a>
+        </div>
+        <div class="list-group list-group-flush mb-4 border-bottom w-100">
           <h5 class="fs-6">Estabelecimento</h5>
           <a [routerLink]="['establishment', 'address']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [ngClass]="menuItemClass">
             Endereço
           </a>
           <a [routerLink]="['establishment', 'schedule']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [class]="menuItemClass">
             Horários
           </a>
           <a [routerLink]="['establishment', 'contact']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [class]="menuItemClass">
             Contatos
+          </a>
+          <a [routerLink]="['establishment', 'banner']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [class]="menuItemClass">
+            Banner
           </a>
         </div>
         <div class="list-group list-group-flush mb-4 border-bottom">
@@ -78,13 +92,13 @@
           <a [routerLink]="['products']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [class]="menuItemClass">
             Produtos
           </a>
           <a [routerLink]="['categories']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
-            class="border-0 rounded list-group-item p-2 list-group-item-action">
+            [class]="menuItemClass">
             Categorias
           </a>
         </div>

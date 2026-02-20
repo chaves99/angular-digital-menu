@@ -7,7 +7,7 @@
       <br>
       <h4 class="fs-4 mb-5">Atualize preços e produtos em segundos, sem imprimir cardápios novos.</h4>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" class="btn btn-primary btn-lg px-4 gap-3">
+        <button [routerLink]="['register']" type="button" class="btn btn-primary btn-lg px-4 gap-3">
           Criar cardápio grátis
           <i class="bi bi-fast-forward-fill"></i>
         </button>
@@ -105,7 +105,7 @@
     </div>
   </div>
   <div class="d-grid gap-2 mb-5 justify-content-center d-md-flex">
-    <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">
+    <button [routerLink]="['register']" type="button" class="btn btn-primary btn-lg px-4 me-md-2">
       Testar grátis
     </button>
   </div>
@@ -166,8 +166,8 @@
           <li><i class="bi bi-dot"></i>Visual profissional para seu negócio</li>
           <li><i class="bi bi-dot"></i>Teste 1 mês grátis</li>
         </ul>
-        <button type="button" class="btn btn-lg btn-primary">
-          Testar
+        <button [routerLink]="['register']" type="button" class="btn btn-lg btn-primary">
+          Testar primeiro mês grátis
         </button>
       </div>
     </div>
@@ -182,22 +182,17 @@
     <ul class="nav justify-content-center pb-3 mb-3">
       <li class="nav-item"><a routerLink="/" class="nav-link px-2 text-body-secondary">Início</a></li>
       <li class="nav-item"><a routerLink="/" fragment="prices" class="nav-link px-2 text-body-secondary">Preço</a></li>
-      <li class="nav-item"><a routerLink="/" fragment="faq" class="nav-link px-2 text-body-secondary">FAQs</a></li>
+      <li class="nav-item"><a routerLink="/" fragment="faq" class="nav-link px-2 text-body-secondary">Dúvidas</a></li>
       <li class="nav-item"><a routerLink="/register" class="nav-link px-2 text-body-secondary">Criar conta</a></li>
       <li class="nav-item"><a routerLink="/login" class="nav-link px-2 text-body-secondary">Entrar</a></li>
     </ul>
     <div class="d-flex flex-column flex-sm-row justify-content-between py-4 my-4 border-top">
       <p>© 2026 ItiMenu. Todos os direitos reservados.</p>
-      <ul class="list-unstyled d-flex">
-        <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Instagram"><svg class="bi" width="24"
-              height="24">
-              <use xlink:href="#instagram"></use>
-            </svg></a></li>
-        <li class="ms-3"><a class="link-body-emphasis" href="#" aria-label="Facebook"><svg class="bi" width="24"
-              height="24" aria-hidden="true">
-              <use xlink:href="#facebook"></use>
-            </svg></a></li>
-      </ul>
+      <p>
+        <img src="brazil_round_icon_64.png" width="30"/>
+        Uma empresa brasileira.
+        <!-- <span class="fi fi-br"></span> -->
+      </p>
     </div>
   </footer>
 </div>

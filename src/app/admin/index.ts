@@ -1,9 +1,15 @@
 export * from './admin.component';
+
 export * from './category/category.component';
+
+export * from './qrcode/qrcode-page.component';
+
 export * from './update-password/update-password.component';
+
 export * from './product/product.component';
 export * from './product/product-list/product-list.component';
 export * from './product/product-register/product-register.component';
+
 export * from './establishment/establishment.component';
 export * from './establishment/address/address.component';
 export * from './establishment/schedule/schedule.component';

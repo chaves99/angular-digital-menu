@@ -9,6 +9,7 @@ import {
   ProductComponent,
   ProductListComponent,
   ProductRegisterComponent,
+  QrcodePageComponent,
   ScheduleComponent,
   UpdatePasswordComponent
 } from './admin';
@@ -66,6 +67,10 @@ export const routes: Routes = [
       {
         path: 'categories',
         component: CategoryComponent
+      },
+      {
+        path: 'qr-code',
+        component: QrcodePageComponent
       },
       {
         path: 'establishment',

@@ -6,14 +6,18 @@ import { ThemeService } from '../core';
 import { UserService } from '../services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-admin',
   imports: [
+    QRCodeComponent,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
-    FormsModule
+    FormsModule,
+    NgClass
   ],
   templateUrl: './admin.component.html',
 })
@@ -25,6 +29,8 @@ export class AdminComponent implements OnInit {
   private themeService = inject(ThemeService);
 
   isDarkTheme = false;
+
+  menuItemClass = "border-0 rounded list-group-item p-2 list-group-item-action";
 
   public user: CreateUserResponse | null = null;
 
@@ -64,7 +70,4 @@ export class AdminComponent implements OnInit {
     this.themeService.toggleTheme();
     this.isDarkTheme = this.themeService.getTheme() === 'dark';
   }
-  // public isDarkTheme(): boolean {
-  //   return this.themeService.getTheme() === "dark";
-  // }
 }
