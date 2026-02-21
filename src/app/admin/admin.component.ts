@@ -1,18 +1,16 @@
+import { NgClass } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { CreateUserResponse } from '../services/payload';
-import { StorageService } from '../services/storage.service';
 import { ThemeService } from '../core';
 import { UserService } from '../services';
-import { HttpErrorResponse } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
-import { QRCodeComponent } from 'angularx-qrcode';
-import { NgClass } from '@angular/common';
+import { CreateUserResponse } from '../services/payload';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-admin',
   imports: [
-    QRCodeComponent,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,

@@ -17,6 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": ["lodash"],
             "outputPath": "dist/angular-digital-menu",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -48,8 +49,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "1kB",
+                  "maximumError": "2MB"
                 },
                 {
                   "type": "anyComponentStyle",

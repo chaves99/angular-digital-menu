@@ -3,15 +3,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { afterEveryRender, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { QRCodeComponent } from 'angularx-qrcode';
+import { SpinnerComponent } from '../../../core';
 import { MenuService } from '../../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../../services/payload';
-import { SpinnerComponent } from '../../../core';
 
 @Component({
   selector: 'app-customer-product-list',
   imports: [
-    QRCodeComponent,
     CurrencyPipe,
     FormsModule,
     RouterLink,
