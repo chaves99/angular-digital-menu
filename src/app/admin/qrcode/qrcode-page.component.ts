@@ -17,10 +17,11 @@ export class QrcodePageComponent implements OnInit {
 
   localName: string | null = null;
 
+  console = console;
+
   // QRCODE PROPERTIES
   backgroundColor = "#ffffff";
   foregroundColor = "#000000";
-  qrcodeImage: File | undefined;
   qrcodeMargin: number = 1;
 
   user: CreateUserResponse | null = null;
@@ -34,10 +35,6 @@ export class QrcodePageComponent implements OnInit {
       this.user.establishmentName
 
     }
-  }
-
-  onImageChange(event: any) {
-    this.qrcodeImage = event.target.files[0];
   }
 
   saveAsImage() {
