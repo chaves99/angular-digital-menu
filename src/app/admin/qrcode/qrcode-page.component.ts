@@ -13,11 +13,10 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './qrcode-page.component.html',
 })
 export class QrcodePageComponent implements OnInit {
+
   private readonly storageService = inject(StorageService);
 
   localName: string | null = null;
-
-  console = console;
 
   // QRCODE PROPERTIES
   backgroundColor = "#ffffff";
@@ -48,6 +47,12 @@ export class QrcodePageComponent implements OnInit {
       link.download = 'angularx-qrcode' // naming file
       link.click()
     }
+  }
+
+  reset(): void {
+    this.backgroundColor = "#ffffff";
+    this.foregroundColor = "#000000";
+    this.qrcodeMargin = 1;
   }
 
   private convertBase64ToBlob(Base64Image: string) {

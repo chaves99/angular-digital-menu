@@ -1,9 +1,17 @@
 FROM node:lts-alpine AS build
+
+ARG API_URL
+
 WORKDIR /usr/local/app
+
 RUN npm install -g @angular/cli
+
 COPY ./ /usr/local/app/
+
+ENV API_URL=$API_URL
+
 RUN npm install
-RUN ng build --configuration production --define "API_URL='https://spring-menu-online-service-production.up.railway.app'"
+RUN ng build --configuration production --define "API_URL=$API_URL"
 
 
 FROM nginx:latest

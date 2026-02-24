@@ -1,51 +1,62 @@
 <div class="container py-5 px-sm-5">
   @if(user !== null) {
 
-  <div class="row gap-2 mb-5 justify-content-between align-items-center ">
-    <div class="col-auto">
-      <label for="exampleColorInput" class="form-label">Cor principal</label>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput"
-        title="Cor principal" [(ngModel)]="foregroundColor">
-    </div>
-    <div class="col-auto">
-      <label for="exampleColorInput" class="form-label">Cor de fundo</label>
-      <input type="color" class="form-control form-control-color" id="exampleColorInput"
-        title="Cor de fundo" [(ngModel)]="backgroundColor">
-    </div>
-    <div class="col-auto d-flex">
-      <p class="me-1">Margem:</p>
-      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-        <label class="btn btn-outline-primary" for="btnradio1" (click)="qrcodeMargin = 1">1</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio2" (click)="qrcodeMargin = 2">2</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio4" (click)="qrcodeMargin = 4">4</label>
-
-        <input type="radio" class="btn-check" name="btnradio" id="btnradio8" autocomplete="off">
-        <label class="btn btn-outline-primary" for="btnradio8" (click)="qrcodeMargin = 8">8</label>
+  <div class="row justify-content-between ">
+    <div class="col-sm-4">
+      <div class="mb-3 d-flex align-items-center">
+        <label for="exampleColorInput" class="form-label me-2">Cor principal: </label>
+        <input type="color" class="form-control form-control-color" id="exampleColorInput"
+          title="Cor principal" [(ngModel)]="foregroundColor">
       </div>
-    </div>
-  </div>
-  <div class="row justify-content-center align-items-center ">
-    <qrcode class="col-auto"
-      elementType="canvas"
-      #qrCodeElement
-      [qrdata]="user.establishmentName"
-      [width]="256"
-      [colorDark]="foregroundColor"
-      [colorLight]="backgroundColor"
-      [margin]="qrcodeMargin"
-      [errorCorrectionLevel]="'M'"></qrcode>
+      <div class="mb-3 d-flex align-items-center">
+        <label for="exampleColorInput" class="form-label me-2">Cor de fundo: </label>
+        <input type="color" class="form-control form-control-color" id="exampleColorInput"
+          title="Cor de fundo" [(ngModel)]="backgroundColor">
+      </div>
+      <div class="mb-3 d-flex align-items-center">
+        <p class="me-2">Margem:</p>
+        <div class="btn-group" role="group">
+          <input type="radio" class="btn-check" name="btnradio" value="1" id="btnradio1" [(ngModel)]="qrcodeMargin">
+          <label class="btn btn-outline-primary" for="btnradio1">1</label>
 
-    <div>
-      <button class="btn btn-lg btn-primary col-auto" (click)="saveAsImage()">
-        Download QR Code Image
+          <input type="radio" class="btn-check" name="btnradio"  value="2" id="btnradio2" [(ngModel)]="qrcodeMargin">
+          <label class="btn btn-outline-primary" for="btnradio2">2</label>
+
+          <input type="radio" class="btn-check" name="btnradio" value="4" id="btnradio4" [(ngModel)]="qrcodeMargin">
+          <label class="btn btn-outline-primary" for="btnradio4" >4</label>
+
+          <input type="radio" class="btn-check" name="btnradio" value="8" id="btnradio8" [(ngModel)]="qrcodeMargin">
+          <label class="btn btn-outline-primary" for="btnradio8" >8</label>
+        </div>
+      </div>
+      <button (click)="reset()" class="btn btn-primary">
+        Reiniciar
+      </button>
+    </div>
+    <div class="col-sm-8 mt-5 m-sm-0 vstack justify-content-center gap-3">
+      <qrcode class="align-self-center mx-auto"
+        elementType="canvas"
+        #qrCodeElement
+        [qrdata]="user.establishmentName"
+        [width]="256"
+        [colorDark]="foregroundColor"
+        [colorLight]="backgroundColor"
+        [margin]="qrcodeMargin"
+        [errorCorrectionLevel]="'M'">
+      </qrcode>
+
+      <button class="btn btn-lg btn-primary mx-auto" (click)="saveAsImage()">
+        Baixar QR Code
+        <i class="bi bi-file-earmark-arrow-down"></i>
+      </button>
+      <button class="btn btn-lg btn-outline-primary mx-auto" (click)="saveAsImage()">
+        Enviar por email
+        <i class="bi bi-envelope-paper"></i>
       </button>
     </div>
   </div>
+  <!-- <div class="d-flex justify-content-center mt-3"> -->
+  <!-- </div> -->
   } @else {
   <p>Erro ao carregar página!</p>
   }
