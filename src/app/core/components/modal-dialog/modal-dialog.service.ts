@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
-import { ModalDialogComponent, ModalDialogData } from "./modal-dialog.component";
+import { ModalDialogComponent } from "./modal-dialog.component";
 
 @Injectable({ providedIn: 'root' })
 export class ModalDialogService {
@@ -23,5 +23,12 @@ export class ModalDialogService {
       }
     });
   }
+
 }
 
+export interface ModalDialogData {
+  message: string;
+  subMessage?: string;
+  title?: string;
+  isConfirmation: boolean;
+}

@@ -72,8 +72,8 @@ export class MenuCustomerProductsComponent implements OnInit {
             error: res => {
               if (res && res instanceof HttpErrorResponse) {
                 const errorDetail: ErrorDetailResponse = res.error;
-                this.errorMessage = ERROR_MESSAGES[errorDetail.message];
-                console.log(this.errorMessage);
+                if (errorDetail.message !== null)
+                  this.errorMessage = ERROR_MESSAGES[errorDetail.message];
                 this.isLoading = false;
               }
             }

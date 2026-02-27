@@ -1,24 +1,26 @@
 import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ThemeService } from '../../core';
+import { Router, RouterLink } from '@angular/router';
+import { ModalDialogService, ThemeService } from '../../core';
 import { StorageService, UserService } from '../../services';
 
 @Component({
   selector: 'app-login',
   imports: [
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
 
-  private userService = inject(UserService);
-  private storageService = inject(StorageService);
-  private router = inject(Router);
-  private themeService = inject(ThemeService);
+  private readonly userService = inject(UserService);
+  private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
+  private readonly themeService = inject(ThemeService);
+  private readonly modalService = inject(ModalDialogService);
 
   isLoading = false;
 

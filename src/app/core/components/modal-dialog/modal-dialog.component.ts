@@ -6,6 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { ThemeService } from '../../theme.service';
 import { NgClass } from '@angular/common';
+import { ModalDialogData } from './modal-dialog.service';
 
 @Component({
   selector: 'app-modal-dialog',
@@ -38,9 +39,3 @@ export class ModalDialogComponent implements OnInit {
   }
 }
 
-export interface ModalDialogData {
-  message: string;
-  subMessage?: string;
-  title?: string;
-  isConfirmation: boolean;
-}

@@ -49,7 +49,8 @@ export class UpdatePasswordComponent {
           console.log(res);
           if (res instanceof HttpErrorResponse) {
             const errorDetail: ErrorDetailResponse = res.error;
-            this.snackBarService.openError(ERROR_MESSAGES[errorDetail.message]);
+            if (errorDetail.message !== null)
+              this.snackBarService.openError(ERROR_MESSAGES[errorDetail.message]);
             this.isInvalidPassword = true;
           } else {
             this.snackBarService.openError("Error ao atualizar senha!");

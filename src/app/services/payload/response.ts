@@ -51,10 +51,6 @@ export interface PriceResponse {
   unit: string;
 }
 
-export interface ErrorDetailResponse {
-  message: string;
-}
-
 export interface AddressResponse {
   code: string;
   line: string;
@@ -111,6 +107,10 @@ export interface ScheduleResponse {
   closeHour: string;
   startLaunch: string | null;
   endLaunch: string | null;
+}
+
+export interface ErrorDetailResponse {
+  message: string | null;
 }
 
 interface ErrorMessages {

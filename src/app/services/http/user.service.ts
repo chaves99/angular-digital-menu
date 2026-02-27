@@ -27,6 +27,18 @@ export class UserService {
     return this.http.post<CreateUserResponse>(`${this.url}/image`, data);
   }
 
+  public generateRecoveryToken(email: string): Observable<any> {
+    return this.http.get(`${this.url}/generate-token/${email}`);
+  }
+
+  public validateToken(email: string, token: string): Observable<any> {
+    return this.http.post(`${this.url}/validate-token`, { email: email, token: token });
+  }
+
+  public resetPassword(newPassword: string, token: string, email: string): Observable<any> {
+    return this.http.post(`${this.url}/reset-password`, { newPassword: newPassword, token: token, email: email });
+  }
+
   public updatePassword(currentPassword: string, newPassword: string): Observable<any> {
     return this.http.post(`${this.url}/update-password`, {
       currentPassword: currentPassword,

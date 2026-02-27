@@ -14,7 +14,13 @@ import {
   UpdatePasswordComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
-import { LandingComponent, LoginComponent, PageComponent, RegisterComponent } from './pages';
+import {
+  LandingComponent,
+  LoginComponent,
+  PageComponent,
+  PasswordRecoveryComponent,
+  RegisterComponent
+} from './pages';
 import {
   CustomerMenuDetailComponent,
   MenuComponent,
@@ -39,6 +45,10 @@ export const routes: Routes = [
         path: 'register',
         component: RegisterComponent,
       },
+      {
+        path: 'password-recovery',
+        component: PasswordRecoveryComponent
+      }
     ]
   },
   {

@@ -48,8 +48,8 @@ export class RegisterComponent {
           error: response => {
             if (response instanceof HttpErrorResponse) {
               const errorDetail: ErrorDetailResponse = response.error;
-              // console.log(ERROR_MESSAGES[errorDetail.message]);
-              this.errorMessage = ERROR_MESSAGES[errorDetail.message];
+              if (errorDetail.message !== null)
+                this.errorMessage = ERROR_MESSAGES[errorDetail.message];
             }
           }
         });
