@@ -11,7 +11,7 @@ COPY ./ /usr/local/app/
 ENV API_URL=$API_URL
 
 RUN npm install
-RUN ng build --configuration production --define API_URL=$API_URL
+RUN ng build --configuration production --define "API_URL='$API_URL'"
 
 
 FROM nginx:latest
