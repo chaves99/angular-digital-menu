@@ -27,6 +27,7 @@ export interface CreateUserResponse {
 export interface CategoryResponse {
   id: number;
   name: string;
+  sequence: number;
   enabled: boolean;
   createdAt: Date;
   updatedAt: Date;

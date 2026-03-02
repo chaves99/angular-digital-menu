@@ -11,7 +11,7 @@ export class CategoryService {
 
   private readonly url = API_URL + '/category';
 
-  public create(body: {name: string}[]): Observable<CategoryResponse[]> {
+  public create(body: {name: string, sequence: number}[]): Observable<CategoryResponse[]> {
     return this.http.post<CategoryResponse[]>(this.url, body);
   }
 
@@ -21,6 +21,10 @@ export class CategoryService {
 
   public disable(id: number): Observable<CategoryResponse[]> {
     return this.http.put<CategoryResponse[]>(`${this.url}/disable/${id}`, null);
+  }
+
+  public updateSequece(body: {id: number, sequence: number}[]): Observable<CategoryResponse[]> {
+    return this.http.put<CategoryResponse[]>(`${this.url}/sequence`, body);
   }
 
   public delete(id: number): Observable<CategoryResponse[]> {
