@@ -1,8 +1,10 @@
-import { CurrencyPipe, Location } from '@angular/common';
+import { CurrencyPipe, Location, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { afterEveryRender, Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
+import { filter, map } from 'rxjs';
 import { SpinnerComponent } from '../../../core';
 import { MenuService } from '../../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../../services/payload';
@@ -18,8 +20,13 @@ import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceRes
   templateUrl: './menu-customer-products.component.html',
 })
 export class MenuCustomerProductsComponent implements OnInit {
+
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly location = inject(Location);
+  private readonly viewportScroller = inject(ViewportScroller);
+
+  // used to scroll when get back from details
+  // see https://angular.love/angular-scroll-position-restoration
+  scrollingRef = viewChild<HTMLElement>('scrolling');
 
   private readonly menuService = inject(MenuService);
 
@@ -42,17 +49,18 @@ export class MenuCustomerProductsComponent implements OnInit {
   localName = "http://localhost:4200/customer-menu/";
 
   constructor() {
-    afterEveryRender({
-      read: () => {
-        this.activatedRoute.fragment.subscribe(f => {
-          if (f) {
-            this.scrollTo(f);
-            const newLocation = this.location.path(false);
-            this.location.replaceState(newLocation);
-          }
-        });
+    const scrollingPosition: Signal<[number, number] | undefined> = toSignal(
+      inject(Router).events.pipe(
+        filter((event): event is Scroll => event instanceof Scroll),
+        map((event: Scroll) => event.position || [0, 0])
+      ),
+    );
+    effect(() => {
+      if (this.scrollingRef() && scrollingPosition()) {
+        this.viewportScroller.scrollToPosition(scrollingPosition()!);
       }
     });
+
   }
 
   ngOnInit(): void {

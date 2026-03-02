@@ -8,7 +8,7 @@
   @if (menu === undefined) {
     <app-spinner></app-spinner>
   } @else {
-    <div class="bg-body-secondary">
+    <div #scrolling class="bg-body-secondary">
       <div class="bg-white mx-auto" style="max-width: 700px" data-bs-spy="scroll" data-bs-target="sticky-top" >
         <!-- <nav class="navbar bg-secondary"> -->
         <!--   <div class="container"> -->
@@ -28,7 +28,7 @@
         <!-- ################ CATEGORIES ################ -->
         <div class="d-flex justify-content-around sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
           @for(cat of menu.categories; track $index) {
-            <button (click)="scrollTo(cat.name)"
+            <button type="button" (click)="scrollTo(cat.name)"
               class="btn fw-semibold btn-secondary mx-2 text-nowrap">
               {{ cat.name }}
             </button>

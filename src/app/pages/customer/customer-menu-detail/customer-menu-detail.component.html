@@ -25,7 +25,7 @@
       }
     </div>
     <div class="d-grid mt-4">
-      <button class="btn btn-secondary" [routerLink]="['..']" [fragment]="state.product.id.toString()">
+      <button class="btn btn-secondary" (click)="back()">
         Voltar
       </button>
     </div>
