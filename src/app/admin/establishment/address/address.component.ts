@@ -1,6 +1,6 @@
-import { Component, ComponentRef, inject, inputBinding, OnInit, outputBinding, ViewContainerRef } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent, SnackBarService, SpinnerComponent } from '../../../core';
+import { SnackBarService, SpinnerComponent } from '../../../core';
 import { AddressService } from '../../../services';
 import { AddressResponse } from '../../../services/payload';
 
@@ -14,12 +14,8 @@ import { AddressResponse } from '../../../services/payload';
 })
 export class AddressComponent implements OnInit {
 
-  private viewContainer = inject(ViewContainerRef);
-
   private readonly addressService = inject(AddressService);
   private readonly snackBarService = inject(SnackBarService);
-
-  private modalComponentRef: ComponentRef<ModalComponent> | null = null;
 
   addresses: AddressResponse[] = [];
   isLoading = true;
@@ -68,22 +64,4 @@ export class AddressComponent implements OnInit {
         });
     }
   }
-
-  openDeleteModal(id: number) {
-    this.modalComponentRef = this.viewContainer
-      .createComponent(ModalComponent, {
-        bindings: [
-          inputBinding('title', () => 'Excluir endereço'),
-          inputBinding('message', () => 'Tem certeza de que deseja excluir o endereço?'),
-          outputBinding('close', () => {
-            if (this.modalComponentRef !== null) {
-              this.modalComponentRef.destroy();
-            }
-          }),
-          outputBinding('confirm', () => {
-          }),
-        ]
-      });
-  }
-
 }

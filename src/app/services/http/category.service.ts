@@ -1,4 +1,3 @@
-
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
@@ -11,7 +10,7 @@ export class CategoryService {
 
   private readonly url = API_URL + '/category';
 
-  public create(body: {name: string, sequence: number}[]): Observable<CategoryResponse[]> {
+  public create(body: { name: string }[]): Observable<CategoryResponse[]> {
     return this.http.post<CategoryResponse[]>(this.url, body);
   }
 
@@ -23,7 +22,11 @@ export class CategoryService {
     return this.http.put<CategoryResponse[]>(`${this.url}/disable/${id}`, null);
   }
 
-  public updateSequece(body: {id: number, sequence: number}[]): Observable<CategoryResponse[]> {
+  public update(id: number, body: { name: string }): Observable<CategoryResponse[]> {
+    return this.http.put<CategoryResponse[]>(`${this.url}/${id}`, body);
+  }
+
+  public updateSequece(body: { id: number, sequence: number }[]): Observable<CategoryResponse[]> {
     return this.http.put<CategoryResponse[]>(`${this.url}/sequence`, body);
   }
 

@@ -1,0 +1,26 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="formGroup"
+  class="" [ngClass]="isDark() ? 'bg-body-tertiary' : 'bg-white'">
+  @if(data.title !== null) {
+  <h3 class="mx-5 mt-3 text-center fs-5">{{ data.title }}</h3>
+  }
+  <div class="p-3 px-4 mt-2">
+    <p class="fs-6">
+      {{ data.message }}
+    </p>
+    <div class="">
+      <label for="input" class="form-label">{{ data.inputLabel ?? '' }}</label>
+      <input formControlName="value" type="email" class="form-control"
+        [ngClass]="isValid ? '' : 'is-invalid'"
+        id="input" [placeholder]="data.inputPlaceholder ?? ''">
+    </div>
+  </div>
+  <!-- </mat-dialog-content> -->
+  <mat-dialog-actions class="gap-0 column-gap-2">
+    <button type="button" (click)="close()" class="btn btn-secondary">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-primary">
+      {{ data.confirmButtonText }}
+    </button>
+  </mat-dialog-actions>
+</form>

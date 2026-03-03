@@ -6,12 +6,11 @@ import {
   CdkDropList,
   CdkDropListGroup,
   moveItemInArray
-}
-  from
-  '@angular/cdk/drag-drop';
+} from '@angular/cdk/drag-drop';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Validators } from '@angular/forms';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
 import { CategoryService } from '../../services';
 import { CategoryResponse } from '../../services/payload';
@@ -20,7 +19,6 @@ import { CategoryResponse } from '../../services/payload';
 @Component({
   selector: 'app-category',
   imports: [
-    ReactiveFormsModule,
     DatePipe,
     CommonModule,
     SpinnerComponent,
@@ -29,7 +27,8 @@ import { CategoryResponse } from '../../services/payload';
     CdkDragHandle,
     CdkDropListGroup,
     CdkDragPreview,
-    NgClass
+    NgClass,
+    MatTooltipModule
   ],
   templateUrl: './category.component.html',
 })
@@ -44,11 +43,6 @@ export class CategoryComponent implements OnInit {
   public shouldUpdateOrder = false;
 
   private originalOrder = signal<CategoryResponse[]>([]);
-
-  formGroup = new FormGroup({
-    name: new FormControl('', [Validators.required])
-  });
-  isNameInputValid = true;
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -66,34 +60,30 @@ export class CategoryComponent implements OnInit {
     this.shouldUpdateOrder = false;
   }
 
-  public onSubmit(): void {
-    this.isNameInputValid = true;
-    console.log('submit');
-    console.log(this.formGroup.invalid);
-    console.log(this.formGroup.controls.name.invalid);
-    if (this.formGroup.invalid) {
-      this.isNameInputValid = false;
-      return;
-    }
-    console.log("sending request");
-    const categoriesList: { name: string, sequence: number }[] = [];
-    if (this.formGroup.valid && this.formGroup.value.name) {
-      categoriesList.push({ name: this.formGroup.value.name, sequence: 0 });
-      this.isLoading = true;
-      this.categoryService
-        .create(categoriesList)
-        .subscribe({
-          next: c => {
-            this.setResponse(c)
-            this.formGroup.reset();
-            this.isLoading = false;
-          },
-          error: () => {
-            this.isLoading = false;
-            this.snackBarService.openError("Erro ao buscar categorias!");
-          }
-        });
-    }
+  public onCreateNewCategory(): void {
+    this.modalDialogService.openInput({
+      validators: [Validators.required],
+      inputLabel: "Nome da categoria:",
+      title: "Nova Categoria",
+      inputPlaceholder: "Pizzas, Pastel, Lanches, Suco, Bebida...",
+      confirmButtonText: "criar categoria",
+      onConfirm: value => {
+        const categoriesList: { name: string }[] = [];
+        categoriesList.push({ name: value });
+        this.isLoading = true;
+        this.categoryService
+          .create(categoriesList).subscribe({
+            next: c => {
+              this.setResponse(c)
+              this.isLoading = false;
+            },
+            error: () => {
+              this.isLoading = false;
+              this.snackBarService.openError("Erro ao buscar categorias!");
+            }
+          });
+      }
+    });
   }
 
   public onDelete(category: CategoryResponse): void {
@@ -122,8 +112,8 @@ export class CategoryComponent implements OnInit {
 
   public onDisable(category: CategoryResponse): void {
     this.modalDialogService.open({
-      title: "Desabilitar Categoria",
-      message: `Desabilitar categoria "${category.name}"`,
+      title: category.enabled ? "Desabilitar Categoria" : "Habilitar Categoria",
+      message: category.enabled ? `Desabilitar categoria "${category.name}"` : `Habilitar categaria: "${category.name}"`,
       afterClose: confirm => {
         if (confirm) {
           this.isLoading = true;
@@ -163,9 +153,30 @@ export class CategoryComponent implements OnInit {
         this.setResponse(c);
         this.isLoading = false;
       },
-      error: res => {
+      error: () => {
         this.isLoading = false;
         this.snackBarService.openError("Erro ao desabilitar categoria!");
+      }
+    });
+  }
+
+  onEdit(category: CategoryResponse): void {
+    this.modalDialogService.openInput({
+      message: `Editando categoria: ${category.name}.`,
+      inputLabel: "Nome da categoria:",
+      validators: [Validators.required],
+      inputValue: category.name,
+      confirmButtonText: "Salvar",
+      onConfirm: value => {
+        this.categoryService.update(category.id, { name: value }).subscribe({
+          next: (res) => {
+            this.snackBarService.openSuccess("Categoria atualizada com sucesso!");
+            this.setResponse(res);
+          },
+          error: () => {
+            this.snackBarService.openError("Erro ao atualizar categoria: " + category.name);
+          }
+        });
       }
     });
   }

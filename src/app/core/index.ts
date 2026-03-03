@@ -4,7 +4,6 @@ export * from './global-error.handler';
 export * from './theme.service';
 
 // COMPONENTS
-export * from './components/modal/modal.component';
 export * from './components/snackbar/snackbar.service';
 export * from './components/modal-dialog/modal-dialog.service';
 export * from './components/spinner/spinner.component';

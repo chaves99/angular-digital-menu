@@ -1,12 +1,12 @@
+import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  MAT_DIALOG_DATA,
-  MatDialogActions,
-  MatDialogRef,
+    MAT_DIALOG_DATA,
+    MatDialogActions,
+    MatDialogRef,
 } from '@angular/material/dialog';
-import { ThemeService } from '../../theme.service';
-import { NgClass } from '@angular/common';
 import { ModalDialogData } from './modal-dialog.service';
+import { ThemeService } from '../..';
 
 @Component({
   selector: 'app-modal-dialog',
