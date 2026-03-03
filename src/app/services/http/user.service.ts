@@ -11,7 +11,6 @@ export class UserService {
   private readonly url = API_URL + "/user";
 
   public register(body: CreateUserRequest): Observable<CreateUserResponse> {
-    console.log(API_URL);
     return this.http.post<CreateUserResponse>(this.url, body);
   }
 

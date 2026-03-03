@@ -1,6 +1,16 @@
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { CommonModule, DatePipe } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragHandle,
+  CdkDragPreview,
+  CdkDropList,
+  CdkDropListGroup,
+  moveItemInArray
+}
+  from
+  '@angular/cdk/drag-drop';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
 import { CategoryService } from '../../services';
@@ -15,7 +25,11 @@ import { CategoryResponse } from '../../services/payload';
     CommonModule,
     SpinnerComponent,
     CdkDropList,
-    CdkDrag
+    CdkDrag,
+    CdkDragHandle,
+    CdkDropListGroup,
+    CdkDragPreview,
+    NgClass
   ],
   templateUrl: './category.component.html',
 })
@@ -34,6 +48,7 @@ export class CategoryComponent implements OnInit {
   formGroup = new FormGroup({
     name: new FormControl('', [Validators.required])
   });
+  isNameInputValid = true;
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -52,6 +67,15 @@ export class CategoryComponent implements OnInit {
   }
 
   public onSubmit(): void {
+    this.isNameInputValid = true;
+    console.log('submit');
+    console.log(this.formGroup.invalid);
+    console.log(this.formGroup.controls.name.invalid);
+    if (this.formGroup.invalid) {
+      this.isNameInputValid = false;
+      return;
+    }
+    console.log("sending request");
     const categoriesList: { name: string, sequence: number }[] = [];
     if (this.formGroup.valid && this.formGroup.value.name) {
       categoriesList.push({ name: this.formGroup.value.name, sequence: 0 });
