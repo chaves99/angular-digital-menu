@@ -1,10 +1,10 @@
-import { Location } from '@angular/common';
+import { Location, NgOptimizedImage } from '@angular/common';
 import { afterEveryRender, Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink],
+  imports: [RouterLink, NgOptimizedImage],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
@@ -31,7 +31,7 @@ export class LandingComponent {
     const element = document.getElementById(ref);
     if (element) {
       element.scroll
-      element.scrollIntoView({block: 'nearest'});
+      element.scrollIntoView({ block: 'nearest' });
     }
   }
 }

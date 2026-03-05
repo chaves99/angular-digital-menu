@@ -1,4 +1,4 @@
-import { CurrencyPipe, Location, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, Location, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,7 +15,8 @@ import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceRes
     CurrencyPipe,
     FormsModule,
     RouterLink,
-    SpinnerComponent
+    SpinnerComponent,
+    NgOptimizedImage
   ],
   templateUrl: './menu-customer-products.component.html',
 })

@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
-import { ThemeService } from './core';
+import { Title } from '@angular/platform-browser';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +10,12 @@ import { ThemeService } from './core';
 })
 export class AppComponent implements OnInit{
 
-  private readonly themeService = inject(ThemeService);
 
-  private readonly router = inject(Router);
+  titleService = inject(Title);
 
-  title = 'angular-digital-menu';
+  title = 'ItiMenu - Menu Digital com QR Code';
 
   ngOnInit(): void {
+    this.titleService.setTitle(this.title);
   }
 }

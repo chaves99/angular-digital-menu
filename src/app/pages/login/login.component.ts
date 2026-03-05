@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ModalDialogService, ThemeService } from '../../core';
+import { ThemeService } from '../../core';
 import { StorageService, UserService } from '../../services';
 
 @Component({
@@ -20,7 +20,6 @@ export class LoginComponent {
   private readonly storageService = inject(StorageService);
   private readonly router = inject(Router);
   private readonly themeService = inject(ThemeService);
-  private readonly modalService = inject(ModalDialogService);
 
   isLoading = false;
 
