@@ -2,8 +2,8 @@ import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ModalDialogService, SpinnerComponent } from '../../../core';
-import { CategoryService, ProductService } from '../../../services';
+import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../../core';
+import { CategoryService, ProductService, StorageService } from '../../../services';
 import { CategoryResponse, Pagination, ProductResponse } from '../../../services/payload';
 
 @Component({
@@ -22,6 +22,8 @@ export class ProductListComponent implements OnInit {
   private readonly categoryService = inject(CategoryService);
   private readonly productService = inject(ProductService);
   private readonly modalService = inject(ModalDialogService);
+  private readonly storageService = inject(StorageService);
+  private readonly snackbarService = inject(SnackBarService);
 
   isLoading = false;
 
@@ -41,8 +43,8 @@ export class ProductListComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const storagedSizeSelectOption = localStorage.getItem(this.SIZE_SELECT_OPTION_STORAGE_KEY);
-    if (storagedSizeSelectOption !== null) {
+    const storagedSizeSelectOption = this.storageService.get(this.SIZE_SELECT_OPTION_STORAGE_KEY);
+    if (storagedSizeSelectOption !== null && storagedSizeSelectOption.length > 0) {
       this.sizeSelectOption = Number(storagedSizeSelectOption);
     }
     this.fetchProductList();
@@ -52,7 +54,7 @@ export class ProductListComponent implements OnInit {
   }
 
   selectChange() {
-    localStorage.setItem(this.SIZE_SELECT_OPTION_STORAGE_KEY, this.sizeSelectOption.toString());
+    this.storageService.store(this.SIZE_SELECT_OPTION_STORAGE_KEY, this.sizeSelectOption.toString())
     this.page = 0;
     this.fetchProductList();
   }
@@ -68,7 +70,7 @@ export class ProductListComponent implements OnInit {
       active: active
     }).subscribe({
       next: p => this.setProducts(p),
-      error: res => {
+      error: () => {
         this.isLoading = false;
       }
     });
@@ -126,7 +128,7 @@ export class ProductListComponent implements OnInit {
           this.productService.delete(product.id).subscribe({
             next: p => this.fetchProductList(),
             error: res => {
-              console.log(res);
+              this.snackbarService.openError("Erro ao deletar produto!");
             }
           });
         }
@@ -135,11 +137,12 @@ export class ProductListComponent implements OnInit {
 
   toggleActive(product: ProductResponse) {
     this.productService.toggleActive(product.id).subscribe({
-      next: p => {
+      next: () => {
         product.active = !product.active;
       },
       error: res => {
-        console.log(res);
+        const msg = product.active ? "ativar" : "inativar";
+        this.snackbarService.openError(`Erro ao ${msg} produto!`);
       }
     });
   }

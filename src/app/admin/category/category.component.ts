@@ -66,7 +66,7 @@ export class CategoryComponent implements OnInit {
       inputLabel: "Nome da categoria:",
       title: "Nova Categoria",
       inputPlaceholder: "Pizzas, Pastel, Lanches, Suco, Bebida...",
-      confirmButtonText: "criar categoria",
+      confirmButtonText: "Criar categoria",
       onConfirm: value => {
         const categoriesList: { name: string }[] = [];
         categoriesList.push({ name: value });

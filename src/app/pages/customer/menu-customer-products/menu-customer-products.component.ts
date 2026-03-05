@@ -1,6 +1,6 @@
-import { CurrencyPipe, Location, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, isPlatformBrowser, isPlatformServer, Location, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
+import { Component, DOCUMENT, effect, ElementRef, inject, OnInit, PLATFORM_ID, Signal, viewChild, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
@@ -24,6 +24,7 @@ export class MenuCustomerProductsComponent implements OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly viewportScroller = inject(ViewportScroller);
+  private readonly document = inject(DOCUMENT);
 
   // used to scroll when get back from details
   // see https://angular.love/angular-scroll-position-restoration
@@ -65,7 +66,7 @@ export class MenuCustomerProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    document.documentElement.setAttribute('data-bs-theme', 'light');
+    this.document.documentElement.setAttribute('data-bs-theme', 'light');
     this.activatedRoute.params
       .subscribe(param => {
         const localName = param['localName'];
@@ -91,7 +92,7 @@ export class MenuCustomerProductsComponent implements OnInit {
   }
 
   public scrollTo(ref: string): void {
-    const element = document.getElementById(ref);
+    const element = this.document.getElementById(ref);
     if (element) {
       element.scrollIntoView({ block: 'center' });
     }

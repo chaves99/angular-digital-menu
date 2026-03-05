@@ -28,7 +28,8 @@ export class ModalDialogService {
 
   openInput(data: InputModalDialogData) {
     const ref = this.matDialog.open(InputModalDialogComponent, {
-      data: data
+      data: data,
+      width: data.width
     });
     ref.afterClosed().subscribe(value => {
       if (data.onConfirm !== undefined && value) {
@@ -39,14 +40,19 @@ export class ModalDialogService {
 
 }
 
-export interface ModalDialogData {
+interface DefaultDialogProps {
+  width?: string;
+  height?: string;
+}
+
+export interface ModalDialogData extends DefaultDialogProps {
   message: string;
   subMessage?: string;
   title?: string;
   isConfirmation: boolean;
 }
 
-export interface InputModalDialogData {
+export interface InputModalDialogData extends DefaultDialogProps {
   message?: string;
   inputLabel?: string;
   inputValue?: string;

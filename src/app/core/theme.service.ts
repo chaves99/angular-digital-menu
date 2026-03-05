@@ -1,49 +1,59 @@
-import { Injectable, signal, WritableSignal } from "@angular/core";
+import { DOCUMENT, inject, Injectable, signal, WritableSignal } from "@angular/core";
+import { StorageService } from "../services";
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
 
   readonly themeSignal: WritableSignal<'light' | 'dark'> = signal('light');
 
+  private readonly STORAGE_KEY = "theme";
+
+  private readonly storageService = inject(StorageService);
+  private readonly document = inject(DOCUMENT);
+
   public setup() {
-    const dataTheme = localStorage.getItem('data-theme');
+    const dataTheme = this.storageService.get(this.STORAGE_KEY);
     if (dataTheme === null) {
-      localStorage.setItem('data-theme', 'light')
-      document.documentElement.setAttribute('data-bs-theme', 'light');
-      this.themeSignal.set('light');
+      this.setLightTheme();
       return;
     }
     if (dataTheme === 'light' || dataTheme === 'dark') {
       this.themeSignal.set(dataTheme);
     }
-    document.documentElement.setAttribute('data-bs-theme', dataTheme);
+    this.document.documentElement.setAttribute('data-bs-theme', dataTheme);
+  }
+
+  private setLightTheme() {
+    this.storageService.store(this.STORAGE_KEY, 'light');
+    this.document.documentElement.setAttribute('data-bs-theme', 'light');
+    this.themeSignal.set('light');
   }
 
   public getTheme(): 'light' | 'dark' {
-    const dataTheme = localStorage.getItem('data-theme');
+    const dataTheme = this.storageService.get(this.STORAGE_KEY);
     if (dataTheme !== null
-        && (dataTheme === 'light' || dataTheme === 'dark')) {
+      && (dataTheme === 'light' || dataTheme === 'dark')) {
       return dataTheme;
     }
-    this.setup();
-    return this.getTheme();
+    this.setLightTheme();
+    return 'light';
   }
 
   public toggleTheme() {
-    const dataTheme = localStorage.getItem('data-theme');
+    const dataTheme = this.storageService.get(this.STORAGE_KEY);
     if (dataTheme === null) {
-      localStorage.setItem('data-theme', 'light')
-      document.documentElement.setAttribute('data-bs-theme', 'light');
+      this.storageService.store(this.STORAGE_KEY, 'light');
+      this.document.documentElement.setAttribute('data-bs-theme', 'light');
       this.themeSignal.set('light');
-      return
+      return;
     }
     if (dataTheme === 'light') {
-      document.documentElement.setAttribute('data-bs-theme', 'dark');
-      localStorage.setItem('data-theme', 'dark')
+      this.document.documentElement.setAttribute('data-bs-theme', 'dark');
+      this.storageService.store(this.STORAGE_KEY, 'dark');
       this.themeSignal.set('dark');
     } else {
-      localStorage.setItem('data-theme', 'light')
-      document.documentElement.setAttribute('data-bs-theme', 'light');
+      this.storageService.store(this.STORAGE_KEY, 'light');
+      this.document.documentElement.setAttribute('data-bs-theme', 'light');
       this.themeSignal.set('light');
     }
   }

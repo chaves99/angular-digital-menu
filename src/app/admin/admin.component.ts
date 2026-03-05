@@ -1,12 +1,12 @@
-import { NgClass } from '@angular/common';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { isPlatformBrowser, NgClass } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ThemeService } from '../core';
 import { UserService } from '../services';
 import { CreateUserResponse } from '../services/payload';
 import { StorageService } from '../services/storage.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -25,6 +25,7 @@ export class AdminComponent implements OnInit {
   private storageService = inject(StorageService);
   private router = inject(Router);
   private themeService = inject(ThemeService);
+  private readonly platformId = inject(PLATFORM_ID);
 
   isDarkTheme = false;
 
@@ -36,16 +37,18 @@ export class AdminComponent implements OnInit {
     this.themeService.setup();
     this.isDarkTheme = this.themeService.getTheme() === 'dark';
 
-    this.userService.check().subscribe({
-      next: res => {
-        this.user = this.storageService.getUser();
-      },
-      error: res => {
-        if(res instanceof HttpErrorResponse && res.status == 401) {
-          this.logout();
+    if (isPlatformBrowser(this.platformId)) {
+      this.userService.check().subscribe({
+        next: res => {
+          this.user = this.storageService.getUser();
+        },
+        error: res => {
+          if (res instanceof HttpErrorResponse && res.status == 401) {
+            this.logout();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   public logout(): void {

@@ -18,7 +18,7 @@
 
         <!-- <div class=""> -->
         @if(menu.info.image !== null) {
-          <img [ngSrc]="menu.info.image" class="img-fluid w-100" alt="...">
+          <img [ngSrc]="menu.info.image" height="100" width="100" class="img-fluid w-100" alt="..." priority>
         } @else {
           <img src="pizza.png" class="img-fluid w-100" alt="...">
         }
@@ -72,7 +72,7 @@
                   <!--   <i class="bi fs-1 bi-card-image"></i> -->
                   <!-- </div> -->
                 } @else {
-                  <img [ngSrc]="product.image" style="height: 90px; width: 90px;" class="rounded-3" alt="...">
+                  <img [ngSrc]="product.image" height="90" width="90" style="height: 90px; width: 90px;" class="rounded-3" alt="..." priority>
                 }
                 </div>
 
@@ -189,7 +189,7 @@
           <div class="mt-5 mb-5">
             <a href="https://itimenu.app" target="_blank"
               class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-light">
-              Powered by: <img class="ms-1" ngSrc="logo/full_logo_white.png" width="90" />
+              Powered by: <img class="ms-1" ngSrc="logo/full_logo_white.png" width="90" height="35"/>
             </a>
           </div>
         </div>

@@ -16,10 +16,7 @@ export class GlobalErrorHandler implements ErrorHandler {
     console.log(error);
 
     if (error instanceof HttpErrorResponse && (error.status == 401 || error.status == 0)) {
-      console.log("redirecting to login");
       this.storageService.cleanUser();
-      console.log(this.storageService.getUser());
-      console.log(document.cookie);
       this.snackBarService.openError("Erro ao conectar no servidor");
       this.router.navigate(["/login"]);
     }

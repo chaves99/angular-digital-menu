@@ -46,7 +46,6 @@ export class UpdatePasswordComponent {
           this.formGroup.reset();
         },
         error: res => {
-          console.log(res);
           if (res instanceof HttpErrorResponse) {
             const errorDetail: ErrorDetailResponse = res.error;
             if (errorDetail.message !== null)

@@ -23,9 +23,7 @@ export class BannerComponent implements OnInit {
   currentSelectedImage: File | null = null;
 
   ngOnInit(): void {
-    console.log(caches);
     this.user = this.storageService.getUser();
-    console.log(this.user);
   }
 
   onImageChange(event: any): void {

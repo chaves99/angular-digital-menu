@@ -17,7 +17,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "allowedCommonJsDependencies": ["lodash"],
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
             "outputPath": "dist/angular-digital-menu",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -42,7 +44,16 @@
             ],
             "scripts": [
               "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-            ]
+            ],
+            "server": "src/main.server.ts",
+            "outputMode": "server",
+            "prerender": false,
+            "security": {
+              "allowedHosts": []
+            },
+            "ssr": {
+              "entry": "src/server.ts"
+            }
           },
           "configurations": {
             "production": {
