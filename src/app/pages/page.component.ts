@@ -41,7 +41,9 @@ export class PageComponent implements OnInit {
     this.meta.addTags([
       { property: 'og:title', content: 'ItiMenu - Menu Digital por QR Code' },
       { property: 'og:description', content: 'Crie seu cardápio digital por QR Code grátis' },
-      { property: 'og:site_name', content: 'itimenu.app' },
+      { property: 'og:url', content: 'https://itimenu.app' },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'ItiMenu - Seu Menu Digital por QR Code' },
       { property: 'og:locale', content: 'pt_BR' },
       { property: 'og:image', content: 'logo/full_logo_black_whitebg.png' },
     ]);
