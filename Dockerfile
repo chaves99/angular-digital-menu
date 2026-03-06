@@ -14,6 +14,3 @@ WORKDIR /app
 COPY --from=build /app/dist/angular-digital-menu/ ./
 CMD ["node", "server/server.mjs"]
 
-# FROM nginx:latest
-# COPY --from=build /usr/local/app/dist/angular-digital-menu/browser /usr/share/nginx/html
-# COPY /nginx.conf  /etc/nginx/conf.d/default.conf

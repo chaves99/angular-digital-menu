@@ -37,19 +37,23 @@
       <qrcode class="align-self-center mx-auto"
         elementType="canvas"
         #qrCodeElement
+        [title]="'Test title'"
         [qrdata]="user.establishmentName"
         [width]="256"
         [colorDark]="foregroundColor"
         [colorLight]="backgroundColor"
+        [imageSrc]="qrCodeCenterImage"
+        [imageHeight]="50"
+        [imageWidth]="115"
         [margin]="qrcodeMargin"
-        [errorCorrectionLevel]="'M'">
+        errorCorrectionLevel="H">
       </qrcode>
 
-      <button class="btn btn-lg btn-primary mx-auto" (click)="saveAsImage()">
+      <button class="btn btn-lg btn-primary mx-auto" (click)="onSaveAsImage()">
         Baixar QR Code
         <i class="bi bi-file-earmark-arrow-down"></i>
       </button>
-      <button class="btn btn-lg btn-outline-primary mx-auto" (click)="saveAsImage()">
+      <button class="btn btn-lg btn-outline-primary mx-auto" (click)="onSendEmail()">
         Enviar por email
         <i class="bi bi-envelope-paper"></i>
       </button>

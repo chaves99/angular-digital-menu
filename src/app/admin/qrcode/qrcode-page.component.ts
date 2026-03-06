@@ -1,8 +1,10 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { StorageService } from '../../services';
-import { CreateUserResponse } from '../../services/payload';
-import { QRCodeComponent } from 'angularx-qrcode';
 import { FormsModule } from '@angular/forms';
+import { SafeUrl } from '@angular/platform-browser';
+import { QRCodeComponent } from 'angularx-qrcode';
+import { SnackBarService } from '../../core';
+import { EmailService, StorageService } from '../../services';
+import { CreateUserResponse } from '../../services/payload';
 
 @Component({
   selector: 'app-category',
@@ -15,6 +17,8 @@ import { FormsModule } from '@angular/forms';
 export class QrcodePageComponent implements OnInit {
 
   private readonly storageService = inject(StorageService);
+  private readonly emailService = inject(EmailService);
+  private readonly snackbarService = inject(SnackBarService);
 
   localName: string | null = null;
 
@@ -22,6 +26,9 @@ export class QrcodePageComponent implements OnInit {
   backgroundColor = "#ffffff";
   foregroundColor = "#000000";
   qrcodeMargin: number = 1;
+  qrCodeCenterImage = 'logo/full_logo_black_whitebg.png';
+
+  private safeUrl!: SafeUrl;
 
   user: CreateUserResponse | null = null;
 
@@ -32,11 +39,10 @@ export class QrcodePageComponent implements OnInit {
     this.user = this.storageService.getUser();
     if (this.user != null) {
       this.user.establishmentName
-
     }
   }
 
-  saveAsImage() {
+  onSaveAsImage() {
     const parentElement = this.qrCodeElement.nativeElement.querySelector('canvas').toDataURL('image/png')
     if (parentElement) {
       const blobData = this.convertBase64ToBlob(parentElement)
@@ -44,8 +50,27 @@ export class QrcodePageComponent implements OnInit {
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = 'angularx-qrcode' // naming file
+      link.download = this.localName + '_qrcode' // naming file
       link.click()
+    }
+  }
+
+  onSendEmail(): void {
+    const parentElement = this.qrCodeElement.nativeElement.querySelector('canvas').toDataURL('image/png')
+    if (parentElement) {
+      const blobData = this.convertBase64ToBlob(parentElement)
+      const blob = new Blob([blobData], { type: 'image/png' })
+      const formData = new FormData();
+      formData.append("qrcode_image", blob);
+      this.emailService.sendQRcode(formData)
+        .subscribe({
+          next: () => {
+            this.snackbarService.openSuccess("E-mail enviado. Chegara em alguns instantes.");
+          },
+          error: () => {
+            this.snackbarService.openError("Erro ao enviar email!");
+          }
+        });
     }
   }
 
@@ -55,7 +80,7 @@ export class QrcodePageComponent implements OnInit {
     this.qrcodeMargin = 1;
   }
 
-  private convertBase64ToBlob(Base64Image: string) {
+  private convertBase64ToBlob(Base64Image: string): Blob {
     const parts = Base64Image.split(';base64,')
     const imageType = parts[0].split(':')[1]
     const decodedData = window.atob(parts[1])

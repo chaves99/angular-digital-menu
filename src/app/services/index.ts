@@ -9,3 +9,4 @@ export * from './http/product.service';
 export * from './http/address.service';
 export * from './http/schedule.service';
 export * from './http/menu.service';
+export * from './http/email.service';
