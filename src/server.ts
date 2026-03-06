@@ -6,6 +6,8 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { createGzip } from 'node:zlib';
+import { SitemapStream } from 'sitemap';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -19,6 +21,28 @@ app.use(
     redirect: false,
   }),
 );
+
+app.get("/robot.txt", (req, res) => {
+  res.type('text/plain');
+  res.send('User-agent: *\nAllow: /')
+});
+
+app.get("/sitemap.xml", (req, res) => {
+  res.header('Content-Type', 'application/xml');
+  res.header('Content-Encoding', 'gzip');
+  try {
+    const smStream = new SitemapStream({ hostname: 'https://itimenu.app/' })
+    const pipeline = smStream.pipe(createGzip())
+
+    smStream.write({ url: '/', changefreq: 'yearly', priority: 0.1 })
+
+    smStream.end()
+    pipeline.pipe(res).on('error', (e) => { throw e })
+  } catch (e) {
+    console.error(e)
+    res.status(500).end()
+  }
+});
 
 app.use((req, res, next) => {
   angularApp

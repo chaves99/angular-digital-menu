@@ -46,6 +46,7 @@ export class PageComponent implements OnInit {
       { property: 'og:site_name', content: 'ItiMenu - Seu Menu Digital por QR Code' },
       { property: 'og:locale', content: 'pt_BR' },
       { property: 'og:image', content: 'logo/full_logo_black_whitebg.png' },
+      { property: 'og:image:type', content: 'image/png' },
     ]);
 
     const script = this.renderer.createElement('script');
