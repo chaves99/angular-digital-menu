@@ -49,7 +49,10 @@
             "outputMode": "server",
             "prerender": false,
             "security": {
-              "allowedHosts": []
+              "allowedHosts": [
+                "itimenu.app",
+                "localhost"
+              ]
             },
             "ssr": {
               "entry": "src/server.ts"

@@ -24,11 +24,9 @@ export const loggedUserGuard: CanActivateFn = (route, state) => {
   const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   if (!isBrowser) return true;
 
-  const storageService = inject(StorageService);
-  const user: CreateUserResponse | null = storageService.getUser();
+  const user: CreateUserResponse | null = inject(StorageService).getUser();
   if (user === null)
     return true;
 
-  const router = inject(Router);
   return inject(Router).createUrlTree(['admin']);
 }

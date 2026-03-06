@@ -39,7 +39,7 @@ export class AdminComponent implements OnInit {
 
     if (isPlatformBrowser(this.platformId)) {
       this.userService.check().subscribe({
-        next: res => {
+        next: () => {
           this.user = this.storageService.getUser();
         },
         error: res => {
