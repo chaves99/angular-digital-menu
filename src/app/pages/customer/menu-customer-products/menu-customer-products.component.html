@@ -23,7 +23,16 @@
           <img src="pizza.png" class="img-fluid w-100" alt="...">
         }
 
-        <h2 class="display-5 fw-bold p-1">{{menu.info.establishmentName}}</h2>
+        <div class=" px-4 py-2">
+          <h2 class="display-5 fw-bold">
+            {{menu.info.establishmentName}}
+          </h2>
+          @if (menu.info.establishmentDescription !== null) {
+            <p class="text-body-secondary">
+              {{menu.info.establishmentDescription}}
+            </p>
+          }
+        </div>
 
         <!-- ################ CATEGORIES ################ -->
         <div class="d-flex justify-content-around sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
@@ -36,19 +45,17 @@
         </div>
 
         <!-- ################ SEARCH ################ -->
-        <form (ngSubmit)="search()" class="d-block p-2">
-          <div class="input-group input-group-lg mb-3">
-            <input [(ngModel)]="searchTerm" type="text" class="form-control" placeholder="Procurar..." name="searchTerm">
-            <button type="submit" class="btn btn-outline-secondary" >
-              <i class="bi bi-search"></i>
-            </button>
+        <div class="d-block p-2">
+          <div class="input-group input-group-lg mb-3 mt-2">
+            <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
+              class="form-control" placeholder="Procurar..." name="searchTerm">
             @if(isSearching) {
-              <button type="button" (click)="cleanSearch()" class="btn btn-outline-secondary" >
+              <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
                 <i class="bi bi-x-lg"></i>
               </button>
             }
           </div>
-        </form>
+        </div>
 
         <div class="container">
           <hr>
@@ -72,7 +79,7 @@
                   <!--   <i class="bi fs-1 bi-card-image"></i> -->
                   <!-- </div> -->
                 } @else {
-                  <img [ngSrc]="product.image" height="90" width="90" style="height: 90px; width: 90px;" class="rounded-3" alt="..." priority>
+                  <img [ngSrc]="product.image" height="90" width="90" style="height: 90px; width: 90px;" class="rounded-3" alt="...">
                 }
                 </div>
 

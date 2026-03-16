@@ -1,4 +1,4 @@
-import { CurrencyPipe, Location, NgOptimizedImage } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailState } from '../entities';
@@ -7,7 +7,6 @@ import { ProductDetailState } from '../entities';
   selector: 'app-customer-menu-detail',
   imports: [
     CurrencyPipe,
-    NgOptimizedImage
   ],
   templateUrl: './customer-menu-detail.component.html',
 })

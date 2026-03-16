@@ -37,3 +37,17 @@ export interface ScheduleRequest {
   startLaunch: string | null;
   endLaunch: string | null;
 }
+
+type CancellationFeedback =
+  'unused' |
+  'too_expensive' |
+  'too_complex' |
+  'switched_service' |
+  'other' |
+  'missing_features' |
+  'low_quality';
+
+export interface SubscriptionCancellation {
+  comment?: string;
+  feedback: CancellationFeedback;
+}

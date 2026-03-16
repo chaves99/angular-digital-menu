@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import {
+    AccountDataComponent,
   AddressComponent,
   AdminComponent,
   BannerComponent,
@@ -11,6 +12,7 @@ import {
   ProductRegisterComponent,
   QrcodePageComponent,
   ScheduleComponent,
+  SubscriptionComponent,
   UpdatePasswordComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
@@ -70,6 +72,14 @@ export const routes: Routes = [
     component: AdminComponent,
     canActivate: [authGuard],
     children: [
+      {
+        path: 'account-data',
+        component: AccountDataComponent
+      },
+      {
+        path: 'subscription',
+        component: SubscriptionComponent
+      },
       {
         path: 'update-password',
         component: UpdatePasswordComponent

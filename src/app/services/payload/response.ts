@@ -15,12 +15,18 @@ export interface Pageable {
   offset: number;
 }
 
+type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELLED';
+
 export interface CreateUserResponse {
   token: string;
   email: string;
   establishmentName: string;
+  establishmentUrl: string;
+  subscription: string;
+  subscriptionStatus: SubscriptionStatus;
   image: string | null;
-  cratedAt: Date;
+  freeTierEnd: Date;
+  createdAt: Date;
   updatedAt: Date;
 }
 
@@ -95,6 +101,7 @@ export interface MenuPriceResponse {
 export interface EstablishmentInfoResponse {
   id: number;
   establishmentName: string;
+  establishmentDescription: string | null;
   image: string;
   addressLine: string | null;
   addressCode: string | null;
@@ -108,6 +115,14 @@ export interface ScheduleResponse {
   closeHour: string;
   startLaunch: string | null;
   endLaunch: string | null;
+}
+
+export interface SubscriptionResponse {
+  id: string;
+  freeTier: boolean;
+  status: SubscriptionStatus;
+  createdAt: Date;
+  endDate: Date;
 }
 
 export interface ErrorDetailResponse {

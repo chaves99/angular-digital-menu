@@ -108,8 +108,8 @@ export class MenuCustomerProductsComponent implements OnInit {
     return lowest;
   }
 
-  public search() {
-    if (this.menu && this.searchTerm !== undefined) {
+  public onSearch() {
+    if (this.menu && this.searchTerm !== undefined && this.searchTerm.length > 0) {
       const newList: MenuCategoryResponse[] = [];
       this.menu.categories.filter(cat => {
         const productList: MenuProductResponse[] = [];
@@ -126,6 +126,8 @@ export class MenuCustomerProductsComponent implements OnInit {
       });
       this.menuCategories = newList;
       this.isSearching = true;
+    } else {
+      this.isSearching = false;
     }
   }
 

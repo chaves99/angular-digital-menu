@@ -1,0 +1,62 @@
+@if(isLoading) {
+<app-spinner></app-spinner>
+} @else if (subscription !== null){
+  <div class="py-5 row">
+    <div class="col-auto mx-auto">
+      @if (subscription.freeTier) {
+        <div class="card " [ngClass]="subscription.status === 'ACTIVE' ? 'border-success' : 'border-danger'">
+          <div class="card-header">
+            ID da assinatura: {{ subscription.id }}
+            <span class="badge " [ngClass]="subscription.status === 'ACTIVE' ? 'text-bg-success' : 'text-bg-danger'">
+              {{ subscription.status === 'ACTIVE' ? 'Ativo' : 'Vencido' }}
+            </span>
+          </div>
+          <div class="card-body px-5">
+            <p class="card-text">
+              Data da assinatura: {{ subscription.createdAt | date: 'd/MM/yy, H:mm'}}
+            </p>
+          </div>
+          <div class="card-footer text-body-secondary">
+            <div class="hstack gap-3 justify-content-end">
+              <a href="#" class="btn btn-outline-primary">
+                Ativar plano
+                <i class="bi bi-box-arrow-up-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="card " [ngClass]="subscription.status === 'ACTIVE' ? 'border-success' : 'border-danger'">
+          <div class="card-header">
+            ID da assinatura: {{ subscription.id }}
+            <span class="badge " [ngClass]="subscription.status === 'ACTIVE' ? 'text-bg-success' : 'text-bg-danger'">
+              {{ subscription.status === 'ACTIVE' ? 'Ativo' : 'Cancelado' }}
+            </span>
+          </div>
+          <div class="card-body px-5">
+            <p class="card-text">
+              Data da assinatura: {{ subscription.createdAt | date: 'd/MM/yy, H:mm'}}
+            </p>
+          </div>
+          <div class="card-footer text-body-secondary">
+            <div class="hstack gap-3 justify-content-end">
+              <div class="dropdown">
+                <button class="btn btn-sm " type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li>
+                    <button (click)="onCancel()" class="dropdown-item btn btn-danger">
+                      Cancelar
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}

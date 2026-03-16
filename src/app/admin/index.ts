@@ -4,7 +4,9 @@ export * from './category/category.component';
 
 export * from './qrcode/qrcode-page.component';
 
+export * from './account-data/account-data.component';
 export * from './update-password/update-password.component';
+export * from './subscription/subscription.component';
 
 export * from './product/product.component';
 export * from './product/product-list/product-list.component';

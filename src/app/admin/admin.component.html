@@ -1,9 +1,6 @@
 @if(user) {
   <nav class="navbar navbar-expand-lg bg-dark-subtle">
     <div class="container-fluid">
-      <!-- <a class="navbar-brand" [routerLink]="['']"> -->
-      <!--   {{ user!.establishmentName }} -->
-      <!-- </a> -->
       <a class="navbar-toggler" type="button" data-bs-toggle="offcanvas" href="#offcanvasExample" aria-controls="offcanvasExample">
         <span class="navbar-toggler-icon"></span>
       </a>
@@ -23,9 +20,17 @@
           </li>
         </ul>
       </div>
-      <div class="d-flex">
-        <a class="navbar-brand" [routerLink]="['']">
-          {{ user!.establishmentName }}
+      <div class="d-flex gap-3">
+        <span class="navbar-text">
+
+        </span>
+        <a class="navbar-brand" >
+          {{ user!.subscription }}
+          @if (user!.subscriptionStatus === 'ACTIVE') {
+            <span class="badge text-bg-success">Ativo</span>
+          } @else {
+            <span class="badge text-bg-warning">Inativo</span>
+          }
         </a>
       </div>
     </div>
@@ -44,6 +49,19 @@
       <div class="w-100">
         <div class="list-group list-group-flush mb-4 border-bottom w-100">
           <h5 class="fs-6">Conta</h5>
+          <a [routerLink]="['account-data']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [class]="menuItemClass">
+            Minha conta
+          </a>
+
+          <a [routerLink]="['subscription']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [class]="menuItemClass">
+            Assinatura
+          </a>
           <a [routerLink]="['update-password']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
@@ -129,6 +147,18 @@
   </div>
 
   <div class="container">
+    @if(isFreeTier) {
+      <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
+        <strong>Você esta usando o modo gratuito!</strong> Valido ate: {{(user.freeTierEnd | date: 'd/MM/yy')}}.
+        <br>
+        <a class="btn btn-primary btn-sm mt-2" target="_blank"
+          href="https://buy.stripe.com/test_4gMdRbbof6K7gdO1uc3VC00">
+          Assinar Plano
+          <i class="bi bi-box-arrow-up-right"></i>
+        </a>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    }
     <router-outlet></router-outlet>
   </div>
 }

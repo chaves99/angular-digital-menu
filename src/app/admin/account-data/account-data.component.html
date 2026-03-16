@@ -1,0 +1,45 @@
+@if (user !== null) {
+<div class="container mt-5">
+  <!-- <table class="table table-borderless"> -->
+  <!--   <thead> -->
+  <!--   <tr> -->
+  <!--     <th scope="col">First</th> -->
+  <!--     <th scope="col">Last</th> -->
+  <!--     <th scope="col">Handle</th> -->
+  <!--   </tr> -->
+  <!--   </thead> -->
+  <!--   <tbody class="table-group-divider"> -->
+  <!--     <tr> -->
+  <!--       <td>E-mail:</td> -->
+  <!--       <td>{{ user.email }}</td> -->
+  <!--     </tr> -->
+  <!--   </tbody> -->
+  <!-- </table> -->
+  <dl class="row">
+    <dt class="col-sm-3 mb-2">E-mail</dt>
+    <dd class="col-sm-9 mb-3">
+      <div class="mb-3">
+        <input type="email" class="form-control" disabled [value]="user.email">
+      </div>
+    </dd>
+
+    <dt class="col-sm-3 mb-2">Nome do estabelecimento: </dt>
+    <dd class="col-sm-9 mb-3">
+      <div class="mb-3">
+        <input type="email" class="form-control" disabled [value]="user.establishmentName">
+      </div>
+    </dd>
+
+    <dt class="col-sm-3 mb-2">Assinatura: </dt>
+    <dd class="col-sm-9 mb-3">
+      <p> {{ user.subscription }} </p>
+    </dd>
+
+    <dt class="col-sm-3">Data de criação: </dt>
+    <dd class="col-sm-9">
+      <p> {{ user.createdAt | date: 'd/MM/yy, H:mm' }}. </p>
+    </dd>
+
+  </dl>
+</div>
+}

@@ -37,7 +37,7 @@ export class QrcodePageComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.storageService.getUser();
     if (this.user != null) {
-      this.localName = `https://itimenu.app/${this.user.establishmentName}`;
+      this.localName = `https://itimenu.app/${this.user.establishmentUrl}`;
     }
   }
 

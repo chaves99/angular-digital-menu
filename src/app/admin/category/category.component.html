@@ -48,8 +48,8 @@
                   [ngClass]="cat.enabled ? ['text-success', 'bi-check-circle-fill'] : ['text-danger',  'bi-x-circle-fill']">
                 </i>
               </td>
-              <td>{{ cat.createdAt | date: 'd/M/yy, H:mm'}}</td>
-              <td>{{ cat.updatedAt | date: 'd/M/yy, H:mm'}}</td>
+              <td>{{ cat.createdAt | date: 'd/MM/yy, H:mm'}}</td>
+              <td>{{ cat.updatedAt | date: 'd/MM/yy, H:mm'}}</td>
               <td>
                 <div class="btn-group dropstart">
                   <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
