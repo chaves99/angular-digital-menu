@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
 import { CreateUserResponse, SubscriptionResponse } from '../../services/payload';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-subscription',
@@ -17,7 +18,9 @@ export class SubscriptionComponent implements OnInit {
 
   user!: CreateUserResponse | null;
 
-  subscription: SubscriptionResponse | null = null;
+  stripeUrl = environment.stripe_payment_plan_url;
+
+  subscriptions: SubscriptionResponse[] = [];
 
   isLoading = false;
 
@@ -27,20 +30,20 @@ export class SubscriptionComponent implements OnInit {
     this.subscriptionService.get().subscribe({
       next: s => {
         console.log(s);
-        this.subscription = s;
+        this.subscriptions = s;
         this.isLoading = false;
       },
       error: () => { this.isLoading = false }
     });
   }
 
-  onCancel(): void {
-    if (this.subscription !== null) {
+  onCancel(id: string): void {
+    if (this.subscriptions !== null) {
       this.isLoading = true;
-      this.subscriptionService.cancel(this.subscription.id).subscribe({
+      this.subscriptionService.cancel(id).subscribe({
         next: s => {
           this.isLoading = false;
-          this.subscription = s;
+          this.subscriptions = s;
         },
         error: () => {
           this.isLoading = false;
@@ -50,4 +53,8 @@ export class SubscriptionComponent implements OnInit {
     }
   }
 
+  showBuyButton(): boolean {
+    const nonFreeActiveSubs = this.subscriptions.filter(s => !s.freeTier && s.status === 'ACTIVE');
+    return nonFreeActiveSubs.length === 0;
+  }
 }

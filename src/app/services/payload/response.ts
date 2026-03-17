@@ -119,6 +119,7 @@ export interface ScheduleResponse {
 
 export interface SubscriptionResponse {
   id: string;
+  description: string;
   freeTier: boolean;
   status: SubscriptionStatus;
   createdAt: Date;
