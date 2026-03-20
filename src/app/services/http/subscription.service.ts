@@ -11,11 +11,11 @@ export class SubscriptionService {
 
   private readonly url = API_URL + "/subscription";
 
-  public get(): Observable<SubscriptionResponse[]> {
-    return this.http.get<SubscriptionResponse[]>(this.url);
+  public get(): Observable<SubscriptionResponse> {
+    return this.http.get<SubscriptionResponse>(this.url);
   }
 
-  public cancel(subscriptionId: string): Observable<SubscriptionResponse[]> {
-    return this.http.delete<SubscriptionResponse[]>(`${this.url}/${subscriptionId}`);
+  public cancel(subscriptionId: string): Observable<SubscriptionResponse> {
+    return this.http.delete<SubscriptionResponse>(`${this.url}/${subscriptionId}`);
   }
 }

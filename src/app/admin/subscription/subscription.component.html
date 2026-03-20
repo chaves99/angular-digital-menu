@@ -1,56 +1,71 @@
 @if(isLoading) {
-<app-spinner></app-spinner>
+  <app-spinner></app-spinner>
 } @else {
 
-  @if (showBuyButton()) {
-    <div class="d-flex justify-content-center mt-5">
+  @if (activeSubscription === null) {
+    <div class="d-flex justify-content-center mt-5 mb-5">
       <a class="btn btn-lg btn-primary align-item-center" [href]="stripeUrl.monthly_simple" target="_blank">
         Assinar Plano
         <i class="bi bi-box-arrow-up-right"></i>
       </a>
     </div>
-  }
+  } @else {
+    <div class="mt-5">
+      <div [ngClass]="activeSubscription.status==='ACTIVE' ? 'border-success' : 'border-danger'"
+        class="card mx-auto" style="max-width: 560px;">
+        <div class="card-body">
+          <h5 class="card-title">
+            {{ activeSubscription.description }}
+              @if(activeSubscription.status === 'PAYMENT_FAILED') {
+                <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-danger">
+                    Erro
+                  <span class="visually-hidden">Erro</span>
+                </span>
+              } @else {
+                <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-success">
+                    Ativo
+                  <span class="visually-hidden">Ativo</span>
+                </span>
+              }
 
-  @for (subscription of subscriptions; track subscription.id) {
-    <div class="py-5 row">
-      <div class="col-auto mx-auto">
-        <div class="card " [ngClass]="subscription.status === 'ACTIVE' ? 'border-success' : 'border-danger'">
-          <div class="card-header">
-            {{ subscription.description }}
-            <span class="badge " [ngClass]="subscription.status === 'ACTIVE' ? 'text-bg-success' : 'text-bg-danger'">
-              {{ subscription.status === 'ACTIVE' ? 'Ativo' : 'Cancelado' }}
-            </span>
-          </div>
-          <div class="card-body px-5">
-            <p class="card-text">
-              Data da assinatura: {{ subscription.createdAt | date: 'd/MM/yy, H:mm'}}
-            </p>
-            <p class="card-text">
-              {{subscription.freeTier ? 'Fim do acesso gratuito:' : 'Proxima renovação:'}}
-              {{ subscription.endDate| date: 'd/MM/yy, H:mm'}}
-            </p>
-          </div>
-          @if (!subscription.freeTier) {
-            <div class="card-footer text-body-secondary">
-              <div class="hstack gap-3 justify-content-end">
-                <div class="dropdown">
-                  <button class="btn btn-sm " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-three-dots-vertical"></i>
+          </h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">
+            Desde: {{ activeSubscription.createdAt | date: 'd/MM/yy'}}
+          </h6>
+          <div class="mt-4 d-flex justify-content-end">
+            <div class="dropdown">
+              <button class="btn" data-bs-toggle="dropdown">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <button class="dropdown-item" (click)="onCancel(activeSubscription.id)">
+                    Cancelar
+                    <i class="bi bi-trash"></i>
                   </button>
-                  <ul class="dropdown-menu">
-                    <li>
-                      <button (click)="onCancel(subscription.id)" class="dropdown-item btn btn-danger">
-                        Cancelar
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+                </li>
+              </ul>
             </div>
-          }
+          </div>
         </div>
       </div>
     </div>
   }
+
+  <!-- ######### HISTORICO ######### -->
+  <div class="mt-5">
+    <p class="mb-2 fs-5">Histórico de assinaturas:</p>
+    <ul class="list-group gap-1 border-0">
+      @for (subscription of subscriptionsHistory; track subscription.id) {
+        <li class="list-group-item d-flex rounded-3 border-top justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="">{{subscription.description}}</div>
+            <small class="text-body-secondary">
+              De {{ subscription.createdAt | date: 'd/MM/yy'}} ate {{subscription.endDate | date:'d/MM/yy'}}
+            </small>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
 }

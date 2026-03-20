@@ -15,7 +15,7 @@ export interface Pageable {
   offset: number;
 }
 
-type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELLED';
+type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELED';
 
 export interface CreateUserResponse {
   token: string;
@@ -118,6 +118,11 @@ export interface ScheduleResponse {
 }
 
 export interface SubscriptionResponse {
+  active: SubscriptionResponseItem | null;
+  history: SubscriptionResponseItem[];
+}
+
+export interface SubscriptionResponseItem {
   id: string;
   description: string;
   freeTier: boolean;

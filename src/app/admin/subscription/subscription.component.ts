@@ -1,13 +1,13 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
-import { CreateUserResponse, SubscriptionResponse } from '../../services/payload';
-import { environment } from '../../../environments/environment';
+import { CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
 
 @Component({
   selector: 'app-subscription',
-  imports: [NgClass, DatePipe, SpinnerComponent],
+  imports: [DatePipe, NgClass , SpinnerComponent],
   templateUrl: './subscription.component.html'
 })
 export class SubscriptionComponent implements OnInit {
@@ -20,7 +20,9 @@ export class SubscriptionComponent implements OnInit {
 
   stripeUrl = environment.stripe_payment_plan_url;
 
-  subscriptions: SubscriptionResponse[] = [];
+  activeSubscription: SubscriptionResponseItem | null = null;
+
+  subscriptionsHistory: SubscriptionResponseItem[] = [];
 
   isLoading = false;
 
@@ -30,20 +32,25 @@ export class SubscriptionComponent implements OnInit {
     this.subscriptionService.get().subscribe({
       next: s => {
         console.log(s);
-        this.subscriptions = s;
+        this.activeSubscription = s.active;
+        this.subscriptionsHistory = s.history;
         this.isLoading = false;
       },
-      error: () => { this.isLoading = false }
+      error: () => {
+        this.isLoading = false;
+        this.snackbarService.openError("Erro ao carregar assinatura! Tente mais tarde ou entre em contato com o suporte.");
+      }
     });
   }
 
   onCancel(id: string): void {
-    if (this.subscriptions !== null) {
+    if (this.subscriptionsHistory !== null) {
       this.isLoading = true;
       this.subscriptionService.cancel(id).subscribe({
         next: s => {
           this.isLoading = false;
-          this.subscriptions = s;
+          this.activeSubscription = s.active;
+          this.subscriptionsHistory = s.history;
         },
         error: () => {
           this.isLoading = false;
@@ -54,7 +61,6 @@ export class SubscriptionComponent implements OnInit {
   }
 
   showBuyButton(): boolean {
-    const nonFreeActiveSubs = this.subscriptions.filter(s => !s.freeTier && s.status === 'ACTIVE');
-    return nonFreeActiveSubs.length === 0;
+    return this.activeSubscription === null;
   }
 }

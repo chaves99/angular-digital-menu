@@ -1,6 +1,6 @@
-import { CurrencyPipe, isPlatformBrowser, isPlatformServer, Location, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, effect, ElementRef, inject, OnInit, PLATFORM_ID, Signal, viewChild, ViewChild } from '@angular/core';
+import { Component, DOCUMENT, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
@@ -84,8 +84,8 @@ export class MenuCustomerProductsComponent implements OnInit {
                 const errorDetail: ErrorDetailResponse = res.error;
                 if (errorDetail.message !== null)
                   this.errorMessage = ERROR_MESSAGES[errorDetail.message];
-                this.isLoading = false;
               }
+              this.isLoading = false;
             }
           });
       });

@@ -55,7 +55,6 @@ export class AdminComponent implements OnInit {
           if (res instanceof HttpErrorResponse && res.status == 500) {
             this.dialogService.open({
               message: "Houve um problema ao conectar com o servidor!",
-              afterClose: () => { this.logout() }
             });
           }
         }
