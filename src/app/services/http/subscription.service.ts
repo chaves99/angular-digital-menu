@@ -15,6 +15,15 @@ export class SubscriptionService {
     return this.http.get<SubscriptionResponse>(this.url);
   }
 
+  public updatePaymentMethod(id: string): Observable<string> {
+    return this.http.get(`${this.url}/update-payment-method/${id}`, { responseType: 'text' });
+  }
+
+  public getPlanUrl(): Observable<string> {
+    return this.http.get(`${this.url}/new-plan`, { responseType: 'text' });
+
+  }
+
   public cancel(subscriptionId: string): Observable<SubscriptionResponse> {
     return this.http.delete<SubscriptionResponse>(`${this.url}/${subscriptionId}`);
   }

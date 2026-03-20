@@ -1,13 +1,12 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { environment } from '../../../environments/environment';
 import { SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
 import { CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
 
 @Component({
   selector: 'app-subscription',
-  imports: [DatePipe, NgClass , SpinnerComponent],
+  imports: [DatePipe, NgClass, SpinnerComponent],
   templateUrl: './subscription.component.html'
 })
 export class SubscriptionComponent implements OnInit {
@@ -18,20 +17,19 @@ export class SubscriptionComponent implements OnInit {
 
   user!: CreateUserResponse | null;
 
-  stripeUrl = environment.stripe_payment_plan_url;
-
   activeSubscription: SubscriptionResponseItem | null = null;
 
   subscriptionsHistory: SubscriptionResponseItem[] = [];
 
   isLoading = false;
 
+  isPlanButtonLoading = false;
+
   ngOnInit(): void {
     this.user = this.storageService.getUser();
     this.isLoading = true;
     this.subscriptionService.get().subscribe({
       next: s => {
-        console.log(s);
         this.activeSubscription = s.active;
         this.subscriptionsHistory = s.history;
         this.isLoading = false;
@@ -58,6 +56,34 @@ export class SubscriptionComponent implements OnInit {
         }
       });
     }
+  }
+
+  onOpenPlanPayment() {
+    this.isPlanButtonLoading = true;
+    this.subscriptionService.getPlanUrl().subscribe({
+      next: s => {
+        this.isPlanButtonLoading = false;
+        window.location.assign(s);
+      },
+      error: () => {
+        this.isPlanButtonLoading = false;
+        this.snackbarService.openError("Erro ao abrir assinatura! Tente mais tarde ou entre em contato com o suporte.");
+      }
+    });
+  }
+
+  onChangePaymentMethod(id: string) {
+    this.isLoading = true;
+    this.subscriptionService.updatePaymentMethod(id).subscribe({
+      next: url => {
+        this.isLoading = false;
+        window.location.assign(url);
+      },
+      error: () => {
+        this.isLoading = false;
+        this.snackbarService.openError("Erro ao cancelar assinatura! Tente mais tarde ou entre em contato com o suporte.");
+      }
+    })
   }
 
   showBuyButton(): boolean {

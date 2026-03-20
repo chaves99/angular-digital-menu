@@ -12,7 +12,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   private readonly snackBarService = inject(SnackBarService);
 
   handleError(error: any) {
-    console.error("GlobalErrorHandler");
     console.log(error);
 
     if (error instanceof HttpErrorResponse && (error.status == 401 || error.status == 0)) {

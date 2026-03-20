@@ -4,10 +4,14 @@
 
   @if (activeSubscription === null) {
     <div class="d-flex justify-content-center mt-5 mb-5">
-      <a class="btn btn-lg btn-primary align-item-center" [href]="stripeUrl.monthly_simple" target="_blank">
+      <button class="btn btn-lg btn-primary align-item-center" (click)="onOpenPlanPayment()" target="_blank">
         Assinar Plano
-        <i class="bi bi-box-arrow-up-right"></i>
-      </a>
+        @if (isPlanButtonLoading) {
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        } @else {
+          <i class="bi bi-box-arrow-up-right"></i>
+        }
+      </button>
     </div>
   } @else {
     <div class="mt-5">
@@ -38,6 +42,14 @@
                 <i class="bi bi-three-dots-vertical"></i>
               </button>
               <ul class="dropdown-menu">
+                <li>
+                  <button class="dropdown-item" (click)="onChangePaymentMethod(activeSubscription.id)">
+                    Alterar forma de pagamento
+                    <i class="bi bi-wallet2"></i>
+                    <!-- <i class="bi bi-credit-card-2-front"></i> -->
+                  </button>
+                </li>
+                <li><hr class="dropdown-divider"></li>
                 <li>
                   <button class="dropdown-item" (click)="onCancel(activeSubscription.id)">
                     Cancelar
