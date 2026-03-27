@@ -1,35 +1,23 @@
-<!-- <p>customer-menu works!</p> -->
-<!-- <qrcode elementType="canvas" #qrCodeElement [qrdata]="localName" [width]="256" [errorCorrectionLevel]="'M'"></qrcode> -->
-<!-- <a color="primary" [href]="localName" (click)="saveAsImage()"> -->
-<!--   Download QR Code Image -->
-<!-- </a> -->
-
 @if (errorMessage === null) {
   @if (menu === undefined) {
     <app-spinner></app-spinner>
   } @else {
     <div #scrolling class="bg-body-secondary">
       <div class="bg-white mx-auto" style="max-width: 700px" data-bs-spy="scroll" data-bs-target="sticky-top" >
-        <!-- <nav class="navbar bg-secondary"> -->
-        <!--   <div class="container"> -->
-        <!--     <span class="navbar-brand text-white fw-bold">{{ menu.info.establishmentName }}</span> -->
-        <!--   </div> -->
-        <!-- </nav> -->
 
-        <!-- <div class=""> -->
         @if(menu.info.image !== null) {
-          <img [ngSrc]="menu.info.image" height="100" width="100" class="img-fluid w-100" alt="..." priority>
+          <img [ngSrc]="menu.info.image" height="100" width="100" class="img-fluid w-100 rounded-bottom-3" alt="..." priority>
         } @else {
-          <img src="pizza.png" class="img-fluid w-100" alt="...">
+          <!-- <img src="pizza.png" class="img-fluid w-100" alt="..."> -->
         }
 
-        <div class=" px-4 py-2">
+        <div [ngClass]="menu.info.image === null ? 'pt-4' : ''" class="text-center px-4 py-2">
           <h2 class="display-5 fw-bold">
             {{menu.info.establishmentName}}
           </h2>
-          @if (menu.info.establishmentDescription !== null) {
+          @if (menu.info.description !== null) {
             <p class="text-body-secondary">
-              {{menu.info.establishmentDescription}}
+              {{menu.info.description}}
             </p>
           }
         </div>

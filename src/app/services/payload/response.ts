@@ -22,6 +22,7 @@ export interface CreateUserResponse {
   email: string;
   establishmentName: string;
   establishmentUrl: string;
+  establishmentDescription: string | null;
   subscription: string;
   subscriptionStatus: SubscriptionStatus;
   image: string | null;
@@ -101,7 +102,7 @@ export interface MenuPriceResponse {
 export interface EstablishmentInfoResponse {
   id: number;
   establishmentName: string;
-  establishmentDescription: string | null;
+  description: string | null;
   image: string;
   addressLine: string | null;
   addressCode: string | null;
@@ -129,6 +130,18 @@ export interface SubscriptionResponseItem {
   status: SubscriptionStatus;
   createdAt: Date;
   endDate: Date;
+}
+
+export interface SubscriptionDetails {
+  id: string;
+  description: string;
+  billingCycleAncher: Date;
+  cardBrand: string;
+  cardCreated: Date;
+  cardExpirationMonth: string;
+  cardExpirationYear: string;
+  cardLastDigits: string;
+  startDate: Date;
 }
 
 export interface ErrorDetailResponse {

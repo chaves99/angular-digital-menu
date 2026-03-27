@@ -2,7 +2,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { SubscriptionResponse } from "../payload";
+import { SubscriptionDetails, SubscriptionResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
@@ -21,7 +21,10 @@ export class SubscriptionService {
 
   public getPlanUrl(): Observable<string> {
     return this.http.get(`${this.url}/new-plan`, { responseType: 'text' });
+  }
 
+  public getDetails(id: string): Observable<SubscriptionDetails> {
+    return this.http.get<SubscriptionDetails>(`${this.url}/${id}/details`);
   }
 
   public cancel(subscriptionId: string): Observable<SubscriptionResponse> {

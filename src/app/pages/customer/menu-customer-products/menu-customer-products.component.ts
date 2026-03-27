@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgClass, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DOCUMENT, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -16,7 +16,8 @@ import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceRes
     FormsModule,
     RouterLink,
     SpinnerComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgClass
   ],
   templateUrl: './menu-customer-products.component.html',
 })
@@ -45,11 +46,6 @@ export class MenuCustomerProductsComponent implements OnInit {
 
   errorMessage: string | null = null;
 
-  @ViewChild('qrCodeElement', { read: ElementRef })
-  qrCodeElement!: ElementRef;
-
-  localName = "http://localhost:4200/customer-menu/";
-
   constructor() {
     const scrollingPosition: Signal<[number, number] | undefined> = toSignal(
       inject(Router).events.pipe(
@@ -69,10 +65,9 @@ export class MenuCustomerProductsComponent implements OnInit {
     this.document.documentElement.setAttribute('data-bs-theme', 'light');
     this.activatedRoute.params
       .subscribe(param => {
-        const localName = param['localName'];
-        this.localName += localName;
+        const urlCode = param['localName'];
         this.isLoading = true;
-        this.menuService.get(localName)
+        this.menuService.get(urlCode)
           .subscribe({
             next: menu => {
               this.menu = menu;

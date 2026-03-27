@@ -1,11 +1,7 @@
 
 <div class="mx-auto" style="max-width: 700px">
   @if(state !== null) {
-    @if(state.product.image === null) {
-      <span class="d-flex h-25 w-100 bg-secondary justify-content-center align-items-center">
-        Sem imagem
-      </span>
-    } @else {
+    @if(state.product.image !== null) {
       <div class="d-flex">
         <img [src]="state.product.image" class="figure-img mx-auto img-fluid" alt="...">
       </div>

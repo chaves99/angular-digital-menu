@@ -43,6 +43,12 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
+                  <button class="dropdown-item" (click)="onGetDetail(activeSubscription.id)">
+                    Detalhes
+                    <i class="bi bi-eye"></i>
+                  </button>
+                </li>
+                <li>
                   <button class="dropdown-item" (click)="onChangePaymentMethod(activeSubscription.id)">
                     Alterar forma de pagamento
                     <i class="bi bi-wallet2"></i>

@@ -4,7 +4,6 @@ import { QRCodeComponent } from 'angularx-qrcode';
 import { SnackBarService } from '../../core';
 import { EmailService, StorageService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-category',
@@ -19,7 +18,6 @@ export class QrcodePageComponent implements OnInit {
   private readonly storageService = inject(StorageService);
   private readonly emailService = inject(EmailService);
   private readonly snackbarService = inject(SnackBarService);
-  private readonly activatedRoute = inject(ActivatedRoute);
 
   localName: string | null = null;
 
@@ -27,7 +25,6 @@ export class QrcodePageComponent implements OnInit {
   backgroundColor = "#ffffff";
   foregroundColor = "#000000";
   qrcodeMargin: number = 1;
-  qrCodeCenterImage = 'logo/full_logo_black_whitebg.png';
 
   user: CreateUserResponse | null = null;
 

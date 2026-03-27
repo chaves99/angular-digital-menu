@@ -1,13 +1,17 @@
 import { inject, Injectable } from "@angular/core";
+import { ValidatorFn } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
-import { ModalDialogComponent } from "./modal-dialog.component";
+import { ThemeService } from "../../";
+import { SubscriptionDetails } from "../../../services/payload";
+import { CustomModalDialogComponent } from "./custom/custom-modal-dialog.component";
 import { InputModalDialogComponent } from "./input/input-modal-dialog.component";
-import { ValidatorFn, Validators } from "@angular/forms";
+import { ModalDialogComponent } from "./modal-dialog.component";
 
 @Injectable({ providedIn: 'root' })
 export class ModalDialogService {
 
   private readonly matDialog = inject(MatDialog);
+  private readonly themeService = inject(ThemeService);
 
   open(config: {
     message: string,
@@ -34,6 +38,21 @@ export class ModalDialogService {
     ref.afterClosed().subscribe(value => {
       if (data.onConfirm !== undefined && value) {
         data.onConfirm(value);
+      }
+    });
+  }
+
+  openCustom(config: {
+    subscriptionDetail: SubscriptionDetails,
+    afterClose?: () => void
+  }) {
+    const ref = this.matDialog.open(CustomModalDialogComponent, {
+      data: config.subscriptionDetail,
+      panelClass: ['']
+    });
+    ref.afterClosed().subscribe(() => {
+      if (config.afterClose !== undefined) {
+        config.afterClose()
       }
     });
   }

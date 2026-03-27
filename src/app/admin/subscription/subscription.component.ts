@@ -1,6 +1,6 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { SnackBarService, SpinnerComponent } from '../../core';
+import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
 import { CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
 
@@ -14,6 +14,7 @@ export class SubscriptionComponent implements OnInit {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly snackbarService = inject(SnackBarService);
   private readonly storageService = inject(StorageService);
+  private readonly dialogService = inject(ModalDialogService);
 
   user!: CreateUserResponse | null;
 
@@ -84,6 +85,20 @@ export class SubscriptionComponent implements OnInit {
         this.snackbarService.openError("Erro ao cancelar assinatura! Tente mais tarde ou entre em contato com o suporte.");
       }
     })
+  }
+
+  onGetDetail(id: string) {
+    this.subscriptionService.getDetails(id).subscribe({
+      next: res => {
+        this.dialogService.openCustom({
+          subscriptionDetail: res
+        });
+        console.log(res);
+      },
+      error: res => {
+        console.log(res);
+      }
+    });
   }
 
   showBuyButton(): boolean {
