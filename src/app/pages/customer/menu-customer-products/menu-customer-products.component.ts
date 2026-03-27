@@ -1,6 +1,6 @@
-import { CurrencyPipe, NgClass, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, effect, ElementRef, inject, OnInit, Signal, viewChild, ViewChild } from '@angular/core';
+import { Component, DOCUMENT, effect, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
@@ -17,7 +17,6 @@ import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceRes
     RouterLink,
     SpinnerComponent,
     NgOptimizedImage,
-    NgClass
   ],
   templateUrl: './menu-customer-products.component.html',
 })
@@ -67,7 +66,6 @@ export class MenuCustomerProductsComponent implements OnInit {
       .subscribe(param => {
         const urlCode = param['localName'];
         this.isLoading = true;
-        console.log("dkfjkd");
         this.menuService.get(urlCode)
           .subscribe({
             next: menu => {
@@ -77,7 +75,6 @@ export class MenuCustomerProductsComponent implements OnInit {
             },
             error: res => {
               this.isLoading = false;
-              console.log("not loading anymore");
               if (res && res instanceof HttpErrorResponse) {
                 const errorDetail: ErrorDetailResponse = res.error;
                 if (errorDetail !== null && errorDetail.message !== null) {
