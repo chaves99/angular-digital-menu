@@ -67,6 +67,7 @@ export class MenuCustomerProductsComponent implements OnInit {
       .subscribe(param => {
         const urlCode = param['localName'];
         this.isLoading = true;
+        console.log("dkfjkd");
         this.menuService.get(urlCode)
           .subscribe({
             next: menu => {
@@ -75,12 +76,16 @@ export class MenuCustomerProductsComponent implements OnInit {
               this.isLoading = false;
             },
             error: res => {
+              this.isLoading = false;
+              console.log("not loading anymore");
               if (res && res instanceof HttpErrorResponse) {
                 const errorDetail: ErrorDetailResponse = res.error;
-                if (errorDetail.message !== null)
+                if (errorDetail !== null && errorDetail.message !== null) {
                   this.errorMessage = ERROR_MESSAGES[errorDetail.message];
+                } else {
+                  this.errorMessage = "Erro ao carregar menu!";
+                }
               }
-              this.isLoading = false;
             }
           });
       });
