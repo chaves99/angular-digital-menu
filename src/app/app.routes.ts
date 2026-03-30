@@ -33,7 +33,6 @@ export const routes: Routes = [
   {
     path: '',
     component: PageComponent,
-    canActivate: [loggedUserGuard],
     children: [
       {
         path: '',
@@ -42,14 +41,17 @@ export const routes: Routes = [
       {
         path: 'login',
         component: LoginComponent,
+        canActivate: [loggedUserGuard],
       },
       {
         path: 'register',
         component: RegisterComponent,
+        canActivate: [loggedUserGuard],
       },
       {
         path: 'password-recovery',
-        component: PasswordRecoveryComponent
+        component: PasswordRecoveryComponent,
+        canActivate: [loggedUserGuard],
       }
     ]
   },
@@ -67,6 +69,9 @@ export const routes: Routes = [
       }
     ]
   },
+  // {
+  //   path: ''
+  // },
   {
     path: 'admin',
     component: AdminComponent,
