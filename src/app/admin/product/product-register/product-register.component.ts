@@ -5,7 +5,7 @@ import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { Observable } from 'rxjs';
-import { SnackBarService, SpinnerComponent } from '../../../core';
+import { getImagesUrl, SnackBarService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
 import {
   CategoryResponse,
@@ -33,6 +33,8 @@ export class ProductRegisterComponent implements OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly location = inject(Location);
+
+  public getImageUrlLocal = getImagesUrl;
 
   public isLoading = false;
   public isCategoryOptionLoading = false;

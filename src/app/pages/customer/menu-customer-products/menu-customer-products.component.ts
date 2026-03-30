@@ -5,7 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { SpinnerComponent } from '../../../core';
+import { getImagesUrl, SpinnerComponent } from '../../../core';
 import { MenuService } from '../../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../../services/payload';
 
@@ -37,6 +37,8 @@ export class MenuCustomerProductsComponent implements OnInit {
   public menuCategories: MenuCategoryResponse[] = [];
 
   public isLoading = false;
+
+  public getImageUrlLocal = getImagesUrl;
 
   // Variable to control clear filter button
   public isSearching: boolean = false;

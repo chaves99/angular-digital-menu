@@ -3,7 +3,7 @@
   @if(state !== null) {
     @if(state.product.image !== null) {
       <div class="d-flex">
-        <img [src]="state.product.image" class="figure-img mx-auto img-fluid" alt="...">
+        <img [src]="getImageUrlLocal(state.product.image)" class="figure-img mx-auto img-fluid" alt="...">
       </div>
     }
 

@@ -1,7 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { SnackBarService, SpinnerComponent } from '../../../core';
+import { getImagesUrl } from '../../../core/';
 import { StorageService, UserService } from '../../../services';
 import { CreateUserResponse } from '../../../services/payload';
-import { SnackBarService, SpinnerComponent } from '../../../core';
 
 @Component({
   selector: 'app-banner',
@@ -19,6 +20,7 @@ export class BannerComponent implements OnInit {
   user: CreateUserResponse | null = null;
 
   isLoading = false;
+  isDeleteLoading = false;
 
   currentSelectedImage: File | null = null;
 
@@ -52,6 +54,22 @@ export class BannerComponent implements OnInit {
     }
   }
 
+  onDelete(): void {
+    this.isDeleteLoading = true;
+    this.userService.deleteImage().subscribe({
+      next: user => {
+        this.user = user;
+        this.isDeleteLoading = false;
+        this.storageService.storeUser(user);
+        this.snackbarService.openSuccess("Imagem deletada com sucesso!");
+      },
+      error: () => {
+        this.isDeleteLoading = false;
+        this.snackbarService.openError("Erro ao deletar imagem!");
+      },
+    });
+  }
+
   hasImage(): boolean {
     return this.user !== null
       && this.user.image !== null
@@ -59,7 +77,14 @@ export class BannerComponent implements OnInit {
       && this.user.image.length > 0;
   }
 
+  getImageUrl() {
+    if (this.user !== null && this.user.image !== null) {
+      return getImagesUrl(this.user.image) + this.getLastModified();
+    }
+    return '';
+  }
+
   getLastModified(): string {
-    return "?" +  new Date().getTime();
+    return "?" + new Date().getTime();
   }
 }

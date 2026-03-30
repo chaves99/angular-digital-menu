@@ -7,7 +7,7 @@
         @if(productResponse) {
           <div class="d-flex">
             @if(productResponse.image !== null) {
-              <img [src]="productResponse.image" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
+              <img [src]="getImageUrlLocal(productResponse.image)" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
             }
             <div>
               <h2 class="">Editar Produto</h2>

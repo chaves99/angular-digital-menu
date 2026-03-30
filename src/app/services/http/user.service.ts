@@ -26,6 +26,10 @@ export class UserService {
     return this.http.post<CreateUserResponse>(`${this.url}/image`, data);
   }
 
+  public deleteImage(): Observable<CreateUserResponse> {
+    return this.http.delete<CreateUserResponse>(`${this.url}/image`);
+  }
+
   public generateRecoveryToken(email: string): Observable<any> {
     return this.http.get(`${this.url}/generate-token/${email}`);
   }

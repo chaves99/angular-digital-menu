@@ -8,7 +8,7 @@ export class StorageService {
   private cookieService = inject(CookieService);
 
   public store(key: string, data: string) {
-    this.cookieService.set(key, data);
+    this.cookieService.set(key, data, 0, "/");
   }
 
   public get(key: string): string | null {
@@ -16,12 +16,13 @@ export class StorageService {
   }
 
   public delete(key: string): void {
-    this.cookieService.delete(key);
+    this.cookieService.delete(key, "/");
   }
 
   public storeUser(user: CreateUserResponse): void {
+    this.cleanUser();
     const userJson = JSON.stringify(user);
-    this.cookieService.set("user", userJson);
+    this.cookieService.set("user", userJson, 0, "/");
   }
 
   public getUser(): CreateUserResponse | null {
@@ -34,5 +35,6 @@ export class StorageService {
 
   public cleanUser() {
     this.cookieService.delete("user");
+    this.cookieService.delete("user", "/");
   }
 }

@@ -33,9 +33,12 @@
               }
 
           </h5>
-          <h6 class="card-subtitle mb-2 text-body-secondary">
+          <p class="card-subtitle mb-2 text-body-secondary">
             Desde: {{ activeSubscription.createdAt | date: 'd/MM/yy'}}
-          </h6>
+          </p>
+          <p class="card-subtitle mb-2 text-body-secondary">
+            Fim: {{ activeSubscription.endDate | date: 'd/MM/yy'}}
+          </p>
           <div class="mt-4 d-flex justify-content-end">
             <div class="dropdown">
               <button class="btn" data-bs-toggle="dropdown">
@@ -43,13 +46,13 @@
               </button>
               <ul class="dropdown-menu">
                 <li>
-                  <button class="dropdown-item" (click)="onGetDetail(activeSubscription.id)">
+                  <button class="dropdown-item py-2" (click)="onGetDetail(activeSubscription.id)">
                     Detalhes
                     <i class="bi bi-eye"></i>
                   </button>
                 </li>
                 <li>
-                  <button class="dropdown-item" (click)="onChangePaymentMethod(activeSubscription.id)">
+                  <button class="dropdown-item py-2" (click)="onChangePaymentMethod(activeSubscription.id)">
                     Alterar forma de pagamento
                     <i class="bi bi-wallet2"></i>
                     <!-- <i class="bi bi-credit-card-2-front"></i> -->
@@ -57,7 +60,7 @@
                 </li>
                 <li><hr class="dropdown-divider"></li>
                 <li>
-                  <button class="dropdown-item" (click)="onCancel(activeSubscription.id)">
+                  <button class="dropdown-item py-2" (click)="onCancel(activeSubscription.id)">
                     Cancelar
                     <i class="bi bi-trash"></i>
                   </button>

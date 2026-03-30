@@ -2,6 +2,7 @@ import { CurrencyPipe, Location } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductDetailState } from '../entities';
+import { getImagesUrl } from '../../../core';
 
 @Component({
   selector: 'app-customer-menu-detail',
@@ -16,6 +17,8 @@ export class CustomerMenuDetailComponent implements OnInit {
   private readonly router = inject(Router)
 
   private readonly location = inject(Location);
+
+  public getImageUrlLocal = getImagesUrl;
 
   state: ProductDetailState | null = null;
 
