@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar shadow navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">
       @if(isDarkTheme) {
@@ -20,7 +20,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" routerLink="/" fragment="prices">
-            Preços
+            Planos
           </a>
         </li>
         <li class="nav-item">
@@ -29,7 +29,7 @@
           </a>
         </li>
       </ul>
-      <button ngClass='isDarkTheme ? "btn-outline-dark" : "btn-outline-light"' (click)="onThemeChange()" class="mx-0 mx-lg-3 mb-3 mb-lg-0 btn">
+      <button ngClass='isDarkTheme ? "btn-dark" : "btn-light"' (click)="onThemeChange()" class="mx-0 mx-lg-3 mb-3 mb-lg-0 btn">
         <!-- Mudar tema -->
         @if(isDarkTheme) {
           <i class="bi bi-brightness-high-fill"></i>
@@ -54,7 +54,11 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-lg-end">
               <li><h6 class="dropdown-header">{{ user.email }}</h6></li>
-              <li><a routerLink="/admin" class="dropdown-item" href="#">Dashboard</a></li>
+              <li>
+                <a routerLink="/admin" class="dropdown-item" href="#">
+                  Área logada
+                </a>
+              </li>
               <li><hr class="dropdown-divider"></li>
               <li>
                 <button class="dropdown-item" (click)="logout()">

@@ -26,7 +26,6 @@ export interface CreateUserResponse {
   subscription: string;
   subscriptionStatus: SubscriptionStatus;
   image: string | null;
-  freeTierEnd: Date;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -142,6 +141,14 @@ export interface SubscriptionDetails {
   cardExpirationYear: string;
   cardLastDigits: string;
   startDate: Date;
+}
+
+export interface AvailablePlans {
+  priceId: string;
+  value: number;
+  name: string;
+  description: string;
+  recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
 }
 
 export interface ErrorDetailResponse {

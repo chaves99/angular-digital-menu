@@ -4,10 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { getEstablishmentUrl, SnackBarService } from '../../core';
 import { StorageService, UserService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-account-data',
-  imports: [DatePipe, FormsModule],
+  imports: [DatePipe, FormsModule, RouterLink],
   templateUrl: './account-data.component.html'
 })
 export class AccountDataComponent implements OnInit {

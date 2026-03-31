@@ -1,12 +1,12 @@
-import { DatePipe, NgClass } from '@angular/common';
+import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
+import { isFreeTierActive, ModalDialogService, PlansListComponent, SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
-import { CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
+import { AvailablePlans, CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
 
 @Component({
   selector: 'app-subscription',
-  imports: [DatePipe, NgClass, SpinnerComponent],
+  imports: [CommonModule, DatePipe, NgClass, SpinnerComponent, PlansListComponent],
   templateUrl: './subscription.component.html'
 })
 export class SubscriptionComponent implements OnInit {
@@ -19,11 +19,12 @@ export class SubscriptionComponent implements OnInit {
   user!: CreateUserResponse | null;
 
   activeSubscription: SubscriptionResponseItem | null = null;
-
   subscriptionsHistory: SubscriptionResponseItem[] = [];
+  availablePlans: AvailablePlans[] = [];
+
+  isFreeTierActive = false;
 
   isLoading = false;
-
   isPlanButtonLoading = false;
 
   ngOnInit(): void {
@@ -31,6 +32,7 @@ export class SubscriptionComponent implements OnInit {
     this.isLoading = true;
     this.subscriptionService.get().subscribe({
       next: s => {
+        this.isFreeTierActive = isFreeTierActive(s);
         this.activeSubscription = s.active;
         this.subscriptionsHistory = s.history;
         this.isLoading = false;
@@ -40,6 +42,13 @@ export class SubscriptionComponent implements OnInit {
         this.snackbarService.openError("Erro ao carregar assinatura! Tente mais tarde ou entre em contato com o suporte.");
       }
     });
+    this.subscriptionService.getAvailablePlans().subscribe({
+      next: plans => {
+        this.availablePlans = plans;
+      },
+      error: () => {
+      }
+    })
   }
 
   onCancel(id: string): void {
@@ -59,9 +68,9 @@ export class SubscriptionComponent implements OnInit {
     }
   }
 
-  onOpenPlanPayment() {
+  onOpenPlanPayment(priceId: string) {
     this.isPlanButtonLoading = true;
-    this.subscriptionService.getPlanUrl().subscribe({
+    this.subscriptionService.getPlanUrl(priceId).subscribe({
       next: s => {
         this.isPlanButtonLoading = false;
         window.location.assign(s);

@@ -1,0 +1,46 @@
+<div class="pt-3">
+  @if(isFreeTierActive) {
+    <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
+      <strong>Você esta usando o modo gratuito!</strong>
+      @if (subscription !== null && subscription.active !== null) {
+        Valido ate: {{(subscription!.active!.endDate | date: 'd/MM/yy')}}.
+      }
+      <br>
+      <a class="btn btn-primary btn-sm mt-2" [routerLink]="['subscription']">
+        Ver Planos
+        <i class="bi bi-box-arrow-up-right"></i>
+      </a>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    } @else if (subscription !== null && subscription.active === null) {
+    <div class="alert alert-warning alert-dismissible fade show mt-2" role="alert">
+      <strong>Você não tem nenhum plano ativo, assine um agora!</strong>
+      <br>
+      <a class="btn btn-outline-warning mt-2" [routerLink]="['subscription']">
+        Ver Planos
+        <i class="bi bi-box-arrow-up-right"></i>
+      </a>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  }
+  <div class="d-flex py-5 justify-content-center">
+    <button class="btn btn-lg btn-primary shadow rounded-pill">
+      Ver Cardápio
+      <i class="bi bi-box-arrow-up-right"></i>
+    </button>
+  </div>
+  <div class="row gap-4 justify-content-center">
+    <div class="card col-auto shadow">
+      <div class="card-body">
+        <h5 class="card-title">28</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Número de produtos cadastrados</h6>
+      </div>
+    </div>
+    <div class="card col-auto shadow">
+      <div class="card-body">
+        <h5 class="card-title">4</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Número de categorias cadastrados</h6>
+      </div>
+    </div>
+  </div>
+</div>

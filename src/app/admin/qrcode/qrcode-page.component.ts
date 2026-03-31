@@ -46,7 +46,7 @@ export class QrcodePageComponent implements OnInit {
       const url = window.URL.createObjectURL(blob)
       const link = document.createElement('a')
       link.href = url
-      link.download = this.localName + '_qrcode' // naming file
+      link.download = this.user?.establishmentName + '_qrcode' // naming file
       link.click()
     }
   }

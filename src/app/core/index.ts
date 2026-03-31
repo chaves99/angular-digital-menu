@@ -8,3 +8,4 @@ export * from './util';
 export * from './components/snackbar/snackbar.service';
 export * from './components/modal-dialog/modal-dialog.service';
 export * from './components/spinner/spinner.component';
+export * from './components/plans-list/plans-list.component';

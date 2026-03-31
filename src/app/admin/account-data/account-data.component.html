@@ -1,20 +1,5 @@
 @if (user !== null) {
 <div class="container mt-5">
-  <!-- <table class="table table-borderless"> -->
-  <!--   <thead> -->
-  <!--   <tr> -->
-  <!--     <th scope="col">First</th> -->
-  <!--     <th scope="col">Last</th> -->
-  <!--     <th scope="col">Handle</th> -->
-  <!--   </tr> -->
-  <!--   </thead> -->
-  <!--   <tbody class="table-group-divider"> -->
-  <!--     <tr> -->
-  <!--       <td>E-mail:</td> -->
-  <!--       <td>{{ user.email }}</td> -->
-  <!--     </tr> -->
-  <!--   </tbody> -->
-  <!-- </table> -->
   <dl class="row">
     <dt class="col-sm-3 mb-2">E-mail: </dt>
     <dd class="col-sm-9 mb-3">
@@ -61,14 +46,25 @@
     </dd>
 
     <dt class="col-sm-3 mb-2">Assinatura: </dt>
-    <dd class="col-sm-9 mb-3">
-      <p> {{ user.subscription }} </p>
+    <dd class="col-sm-9 mb-4">
+      <div class="d-block">
+        <p> {{ user.subscription }} </p>
+        <a routerLink="../subscription" class="btn btn-primary shadow-sm">
+          Ir para Assinatura
+        </a>
+      </div>
     </dd>
 
     <dt class="col-sm-3">Data de criação: </dt>
-    <dd class="col-sm-9">
+    <dd class="col-sm-9 mb-4">
       <p> {{ user.createdAt | date: 'd/MM/yy, H:mm' }}. </p>
     </dd>
+
+    <div class="col-12 mb-4 d-flex justify-content-center">
+      <a routerLink="../update-password" class="mx-auto btn btn-outline-warning">
+        Atualizar Senha
+      </a>
+    </div>
 
   </dl>
 </div>

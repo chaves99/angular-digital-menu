@@ -12,18 +12,18 @@
               Menu
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active" role="button" (click)="goToMenu()">
-              <i class="bi bi-box-arrow-up-right"></i>
-              Ver menu
-            </a>
-          </li>
         </ul>
       </div>
       <div class="d-flex gap-3">
-        <span class="navbar-text">
-
-        </span>
+        <button ngClass='isDarkTheme ? "btn-dark" : "btn-light"' (click)="onThemeChange()"
+          class="btn">
+          <!-- Mudar tema -->
+          @if(isDarkTheme) {
+            <i class="bi bi-brightness-high-fill"></i>
+          } @else {
+            <i class="bi bi-moon-stars"></i>
+          }
+        </button>
         <a class="navbar-brand" >
           {{ user!.subscription }}
           @if (user!.subscriptionStatus === 'ACTIVE') {
@@ -38,7 +38,7 @@
 
   <div class="offcanvas offcanvas-fixed offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <a class="link-secondary text-decoration-none" data-bs-dismiss="offcanvas" routerLink="/">
+      <a class="link-secondary text-decoration-none" data-bs-dismiss="offcanvas" routerLink="/admin">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">
           {{ user!.establishmentName }}
         </h5>
@@ -47,118 +47,80 @@
     </div>
     <div class="offcanvas-body d-flex align-items-start flex-column">
       <div class="w-100">
-        <div class="list-group list-group-flush mb-4 border-bottom w-100">
-          <h5 class="fs-6">Conta</h5>
-          <a [routerLink]="['account-data']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
+        <div class="d-flex mb-3 justify-content-center">
+          <a data-bs-dismiss="offcanvas" [routerLink]="['account-data']" class="w-75 shadow mx-auto mt-3 btn btn-outline-primary">
+            <i class="bi bi-person-circle"></i>
             Minha conta
           </a>
+        </div>
+        @if(isFreeTierActive) {
+          <div class="d-flex mb-5 justify-content-center">
+            <a data-bs-dismiss="offcanvas" [routerLink]="['subscription']"
+              class="w-75 shadow mx-auto mt-3 btn btn-outline-success">
+              <i class="bi bi-box-arrow-up-right"></i>
+              Ver Planos
+            </a>
+          </div>
+        }
 
-          <a [routerLink]="['subscription']"
+        <!-- ######### MENU ######### -->
+        <div class="list-group">
+          <a [routerLink]="['products', 'register']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             [class]="menuItemClass">
-            Assinatura
+            <i class="bi bi-plus-circle"></i>
+            Adicionar Produtos
           </a>
-          <a [routerLink]="['update-password']"
+          <a [routerLink]="['products', 'list']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             [class]="menuItemClass">
-            Atualizar senha
-          </a>
-        </div>
-        <div class="list-group list-group-flush mb-4 border-bottom w-100">
-          <h5 class="fs-6">Configurações</h5>
-          <a [routerLink]="['qr-code']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
-            QR Code
-          </a>
-        </div>
-        <div class="list-group list-group-flush mb-4 border-bottom w-100">
-          <h5 class="fs-6">Estabelecimento</h5>
-          <a [routerLink]="['establishment', 'address']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [ngClass]="menuItemClass">
-            Endereço
-          </a>
-          <a [routerLink]="['establishment', 'schedule']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
-            Horários
-          </a>
-          <a [routerLink]="['establishment', 'contact']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
-            Contatos
-          </a>
-          <a [routerLink]="['establishment', 'banner']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
-            Banner
-          </a>
-        </div>
-        <div class="list-group list-group-flush mb-4 border-bottom">
-          <h5 class="fs-6">Cadastro</h5>
-          <a [routerLink]="['products']"
-            data-bs-dismiss="offcanvas"
-            routerLinkActive="active"
-            [class]="menuItemClass">
-            Produtos
+            <!-- <i class="bi bi-upc"></i> -->
+            <i class="bi bi-eye"></i>
+            Ver Produtos
           </a>
           <a [routerLink]="['categories']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             [class]="menuItemClass">
+            <i class="bi bi-table"></i>
             Categorias
           </a>
+          <a [routerLink]="['establishment', 'address']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [ngClass]="menuItemClass">
+            <i class="bi bi-shop"></i>
+            Configurações do Estabelecimento
+          </a>
+          <a [routerLink]="['qr-code']"
+            data-bs-dismiss="offcanvas"
+            routerLinkActive="active"
+            [class]="menuItemClass">
+            <i class="bi bi-qr-code"></i>
+            QR Code
+          </a>
         </div>
-        <div class="row py-2 mb-3">
-          <a class="btn w-75 mx-auto btn-lg- btn-primary" routerLinkActive="active" role="button" (click)="goToMenu()">
-            Ver menu
+        <div class="d-flex justify-content-center">
+          <a class="btn btn-lg btn-outline-primary shadow mt-5" (click)="goToMenu()">
+            Abrir Cardápio
             <i class="bi bi-box-arrow-up-right"></i>
           </a>
-          <button (click)="onThemeChange()" class="w-75 mx-auto mt-3 btn btn-outline-primary">
-            Mudar tema
-            @if(isDarkTheme) {
-              <i class="bi bi-moon-stars"></i>
-            } @else {
-              <i class="bi bi-brightness-high-fill"></i>
-            }
-          </button>
         </div>
       </div>
-      <div class="w-100 list-group list-group-flush mt-5 mt-auto">
-        <a (click)="logout()"
+      <div class="w-100 mt-5">
+        <button (click)="logout()"
           data-bs-dismiss="offcanvas"
-          class="border-0 rounded list-group-item p-2 list-group-item-action border-top">
+          class="border-0 list-group-item p-2 list-group-item-action border-top">
           Sair
           <i class="bi bi-box-arrow-right"></i>
-        </a>
+        </button>
       </div>
     </div>
   </div>
 
   <div class="container">
-    @if(isFreeTier) {
-      <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
-        <strong>Você esta usando o modo gratuito!</strong> Valido ate: {{(user.freeTierEnd | date: 'd/MM/yy')}}.
-        <br>
-        <a class="btn btn-primary btn-sm mt-2" target="_blank"
-          href="https://buy.stripe.com/test_4gMdRbbof6K7gdO1uc3VC00">
-          Assinar Plano
-          <i class="bi bi-box-arrow-up-right"></i>
-        </a>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-    }
     <router-outlet></router-outlet>
   </div>
 }

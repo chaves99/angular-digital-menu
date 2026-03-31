@@ -1,11 +1,12 @@
 import { Routes } from '@angular/router';
 import {
-    AccountDataComponent,
+  AccountDataComponent,
   AddressComponent,
   AdminComponent,
   BannerComponent,
   CategoryComponent,
   ContactComponent,
+  DashboardComponent,
   EstablishmentComponent,
   ProductComponent,
   ProductListComponent,
@@ -21,6 +22,7 @@ import {
   LoginComponent,
   PageComponent,
   PasswordRecoveryComponent,
+  PostSaleComponent,
   RegisterComponent
 } from './pages';
 import {
@@ -39,19 +41,23 @@ export const routes: Routes = [
         component: LandingComponent
       },
       {
+        path: 'post-sale',
+        component: PostSaleComponent
+      },
+      {
         path: 'login',
         component: LoginComponent,
-        canActivate: [loggedUserGuard],
+        canActivate: [loggedUserGuard]
       },
       {
         path: 'register',
         component: RegisterComponent,
-        canActivate: [loggedUserGuard],
+        canActivate: [loggedUserGuard]
       },
       {
         path: 'password-recovery',
         component: PasswordRecoveryComponent,
-        canActivate: [loggedUserGuard],
+        canActivate: [loggedUserGuard]
       }
     ]
   },
@@ -69,14 +75,15 @@ export const routes: Routes = [
       }
     ]
   },
-  // {
-  //   path: ''
-  // },
   {
     path: 'admin',
     component: AdminComponent,
     canActivate: [authGuard],
     children: [
+      {
+        path: '',
+        component: DashboardComponent
+      },
       {
         path: 'account-data',
         component: AccountDataComponent

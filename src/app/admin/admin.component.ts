@@ -1,12 +1,12 @@
-import { DatePipe, isPlatformBrowser, NgClass } from '@angular/common';
+import { isPlatformBrowser, NgClass } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ModalDialogService, ThemeService } from '../core';
-import { UserService } from '../services';
-import { CreateUserResponse } from '../services/payload';
+import { isFreeTierActive, ModalDialogService, ThemeService } from '../core';
+import { SubscriptionService, UserService } from '../services';
+import { CreateUserResponse, SubscriptionResponse } from '../services/payload';
 import { StorageService } from '../services/storage.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin',
@@ -16,26 +16,27 @@ import { HttpErrorResponse } from '@angular/common/http';
     RouterLinkActive,
     FormsModule,
     NgClass,
-    DatePipe
   ],
   templateUrl: './admin.component.html',
 })
 export class AdminComponent implements OnInit {
 
-  private userService = inject(UserService);
-  private storageService = inject(StorageService);
-  private router = inject(Router);
-  private themeService = inject(ThemeService);
-  private dialogService = inject(ModalDialogService);
+  private readonly userService = inject(UserService);
+  private readonly subscriptionService = inject(SubscriptionService);
+  private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
+  private readonly themeService = inject(ThemeService);
+  private readonly dialogService = inject(ModalDialogService);
   private readonly platformId = inject(PLATFORM_ID);
 
   isDarkTheme = false;
 
-  menuItemClass = "border-0 rounded list-group-item p-2 list-group-item-action";
+  menuItemClass = "border-0 border-bottom list-group-item py-3 px-3 list-group-item-action";
 
-  isFreeTier = false;
+  isFreeTierActive = false;
 
   public user: CreateUserResponse | null = null;
+  public subscription: SubscriptionResponse | null = null;
 
   ngOnInit(): void {
     this.themeService.setup();
@@ -45,7 +46,6 @@ export class AdminComponent implements OnInit {
       this.userService.check().subscribe({
         next: (u) => {
           this.user = u;
-          this.isFreeTier = u.subscription === 'FREE_TIER';
           this.storageService.storeUser(u);
         },
         error: res => {
@@ -59,12 +59,21 @@ export class AdminComponent implements OnInit {
           }
         }
       });
+
+      this.subscriptionService.get().subscribe({
+        next: sub => {
+          this.subscription = sub;
+          this.isFreeTierActive = isFreeTierActive(this.subscription);
+        },
+        error: () => {
+        }
+      });
     }
   }
 
   public logout(): void {
-    this.storageService.cleanUser();
-    this.router.navigate(["/login"])
+      this.storageService.cleanUser();
+      this.router.navigate(["/login"])
   }
 
   public toggleTheme() {

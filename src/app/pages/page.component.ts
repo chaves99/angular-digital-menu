@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { ThemeService } from '../core';
 import { StorageService } from '../services';
 import { CreateUserResponse } from '../services/payload';

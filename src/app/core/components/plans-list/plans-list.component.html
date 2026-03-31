@@ -1,0 +1,34 @@
+@if(isLoading) {
+  <app-spinner></app-spinner>
+} @else {
+  <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+    <h1 class="display-4 fw-normal text-body-emphasis">Planos</h1>
+  </div>
+  <div class="container">
+    <div class="row justify-content-center">
+      @for (plan of availablePlans; track $index) {
+        <div class="col-auto" style="max-width: 360px">
+          <div class="card text-center mb-4 shadow-lg">
+            <div class="card-header py-3">
+              <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
+            </div>
+            <div class="card-body">
+              <h1 class="card-title">
+                {{ plan.value | currency: 'BRL' }}
+                <small class="text-body-secondary fw-light">/{{getPeriodText(plan)}}</small>
+              </h1>
+              <ul class="list-unstyled lh-lg mt-3 mb-4">
+                @for(desc of plan.description.split('<break>'); track $index) {
+                  <li class="">{{ desc }}</li>
+                }
+              </ul>
+              <button type="button" (click)="onAssign(plan.priceId)" class="shadow w-100 btn btn-lg btn-outline-primary">
+                Assinar
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+}
