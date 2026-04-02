@@ -1,0 +1,33 @@
+<div class="btn-group">
+  <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+    Sua Conta
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><h6 class="dropdown-header">{{ user()!.email }}</h6></li>
+    <li>
+      <a routerLink="/admin" class="dropdown-item py-2" type="button">
+        <i class="bi bi-graph-up-arrow"></i>
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/account-data" class="dropdown-item py-2" type="button">
+        <i class="bi bi-person-circle"></i>
+        Meus Dados
+      </a>
+    </li>
+    <li>
+      <a routerLink="/admin/subscription" class="dropdown-item py-2" type="button">
+        <i class="bi bi-wallet"></i>
+        Assinatura
+      </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <button class="dropdown-item py-2" (click)="logout()" type="button">
+        <i class="bi bi-box-arrow-right"></i>
+        Sair
+      </button>
+    </li>
+  </ul>
+</div>

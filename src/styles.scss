@@ -6,13 +6,15 @@
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
+
 html {
   @include mat.theme((
     color: (
       primary: mat.$cyan-palette,
       tertiary: mat.$orange-palette,
     ),
-    typography: Roboto,
+    /* typography: Roboto, */
     density: 0,
   ));
 }
@@ -21,7 +23,7 @@ body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
-  color-scheme: dark;
+  /* color-scheme: dark; */
 
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
@@ -36,12 +38,13 @@ body {
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+/* body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
 
-.custom-style {
-  background-color: brown;
-}
+/* .mat-mdc-snack-bar-container .mdc-snackbar__surface { */
+/*   background-color: transparent !important; */
+/* } */
 
-.mat-mdc-snack-bar-container .mdc-snackbar__surface {
-  background-color: transparent !important;
+
+.btn-primary, .btn-success, .btn-secondary, .btn-warning, .btn-danger  {
+  box-shadow: var(--bs-box-shadow);
 }

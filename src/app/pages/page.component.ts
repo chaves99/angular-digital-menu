@@ -2,7 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { ThemeService } from '../core';
+import { ThemeService, UserAccountButtonComponent } from '../core';
 import { StorageService } from '../services';
 import { CreateUserResponse } from '../services/payload';
 
@@ -12,7 +12,8 @@ import { CreateUserResponse } from '../services/payload';
     RouterLink,
     RouterOutlet,
     FormsModule,
-    NgClass
+    NgClass,
+    UserAccountButtonComponent
   ],
   templateUrl: './page.component.html',
 })

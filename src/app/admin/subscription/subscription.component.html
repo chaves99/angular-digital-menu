@@ -1,6 +1,20 @@
 @if(isLoading) {
   <app-spinner></app-spinner>
 } @else {
+
+  <div class="mt-3">
+    <app-info-button title="Pagamentos e Assinaturas"
+      [paragraphs]="[
+            'Após o término do período de avaliação, você pode acessar a plataforma, editar o menu e suas informações,
+            porem fica desabilitado o acesso de terceiros ao menu.',
+            'As taxas de assinatura paga são cobradas antecipadamente, automaticamente e mensalmente ou em outro intervalo
+            recorrente divulgado ao usuário antes da compra.',
+            'Você pode cancelar a assinatura a qualquer momento.',
+            'O ItiMenu não oferece reembolsos nem créditos caso o cliente cancele o serviço após a
+            assinatura do plano caso o mesmo seja pago.'
+            ]"
+    ></app-info-button>
+  </div>
   @if (activeSubscription === null) {
     <app-plans-list></app-plans-list>
   } @else {

@@ -1,12 +1,19 @@
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { isFreeTierActive, ModalDialogService, PlansListComponent, SnackBarService, SpinnerComponent } from '../../core';
+import { InfoButtonComponent, isFreeTierActive, ModalDialogService, PlansListComponent, SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
 import { AvailablePlans, CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
 
 @Component({
   selector: 'app-subscription',
-  imports: [CommonModule, DatePipe, NgClass, SpinnerComponent, PlansListComponent],
+  imports: [
+    CommonModule,
+    DatePipe,
+    NgClass,
+    SpinnerComponent,
+    PlansListComponent,
+    InfoButtonComponent
+  ],
   templateUrl: './subscription.component.html'
 })
 export class SubscriptionComponent implements OnInit {

@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { isFreeTierActive } from '../../core';
+import { isFreeTierActive, openMenu } from '../../core';
 import { StorageService, SubscriptionService } from '../../services';
 import { SubscriptionResponse } from '../../services/payload';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
 
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
 
   isFreeTierActive = false;
 
@@ -33,4 +34,10 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onGoToMenu() {
+    const user = this.storageService.getUser();
+    if (user !== null) {
+      openMenu(user.establishmentUrl, this.router);
+    }
+  }
 }

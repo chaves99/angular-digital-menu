@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { isFreeTierActive, ModalDialogService, ThemeService } from '../core';
+import { isFreeTierActive, ModalDialogService, openMenu, ThemeService, UserAccountButtonComponent } from '../core';
 import { SubscriptionService, UserService } from '../services';
 import { CreateUserResponse, SubscriptionResponse } from '../services/payload';
 import { StorageService } from '../services/storage.service';
@@ -16,6 +16,7 @@ import { StorageService } from '../services/storage.service';
     RouterLinkActive,
     FormsModule,
     NgClass,
+    UserAccountButtonComponent
   ],
   templateUrl: './admin.component.html',
 })
@@ -31,7 +32,7 @@ export class AdminComponent implements OnInit {
 
   isDarkTheme = false;
 
-  menuItemClass = "border-0 border-bottom list-group-item py-3 px-3 list-group-item-action";
+  menuItemClass = "border-bottom list-group-item py-3 px-3 list-group-item-action";
 
   isFreeTierActive = false;
 

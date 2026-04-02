@@ -1,0 +1,18 @@
+<div class="d-flex justify-content-end">
+  <button class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
+    aria-expanded="false" aria-controls="collapseWidthExample">
+    <i class="bi bi-info-lg"></i>
+  </button>
+</div>
+<div class="d-flex justify-content-end mt-2 mb-3">
+  <div class="collapse" id="collapseWidthExample">
+    <div class="card card-body border-info" style="max-width: 700px;">
+      @if (title() !== null) {
+      <p class="h3 mt-4"> {{ title() }} </p>
+      }
+      @for(paragraph of paragraphs(); track $index) {
+        <p>{{paragraph}}</p>
+      }
+    </div>
+  </div>
+</div>

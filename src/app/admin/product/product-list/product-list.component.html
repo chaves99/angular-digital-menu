@@ -2,6 +2,7 @@
 <div class="mt-5 d-flex justify-content-between">
   <div class="flex-grow-1">
     <button type="button" class="btn btn-primary" routerLink="../register">
+      <i class="bi bi-plus-lg"></i>
       Adicionar Produto
     </button>
   </div>
@@ -17,7 +18,7 @@
     </select>
   </div>
   <div class="">
-    <button type="button ms-3" class="btn btn-outline-primary end-0" data-bs-toggle="modal"
+    <button type="button ms-3" class="btn btn-primary end-0" data-bs-toggle="modal"
       data-bs-target="#filterModal">
       Filtro
       <i class="bi bi-funnel"></i>
@@ -122,12 +123,12 @@
           <!-- <td>{{ product.createdAt | date: 'd/M/yy, H:mm' }}</td> -->
           <!-- <td>{{ product.updatedAt| date: 'd/M/yy, H:mm' }}</td> -->
           <td>
-            <button [routerLink]="['..', 'register', product.id]" class="btn btn-outline-success">
+            <button [routerLink]="['..', 'register', product.id]" class="btn btn-success">
               Editar
             </button>
           </td>
           <td>
-            <button class="btn" [ngClass]="product.active ? 'btn-outline-danger' : 'btn-outline-primary'"
+            <button class="btn" [ngClass]="product.active ? 'btn-danger' : 'btn-primary'"
               (click)="toggleActive(product)">
               @if(product.active) {
               Inativar
@@ -137,7 +138,7 @@
             </button>
           </td>
           <td>
-            <button class="btn btn-outline-danger" (click)="delete(product)">
+            <button class="btn btn-danger" (click)="delete(product)">
               Excluir
             </button>
           </td>

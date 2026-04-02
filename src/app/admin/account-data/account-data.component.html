@@ -21,7 +21,7 @@
         <textarea [(ngModel)]="newDescription" type="email" class="form-control"></textarea>
         @if (hasDescriptionChange()) {
           <div class="d-flex justify-content-end">
-            <button (click)="onUpdateDescription()" class="mt-2 btn btn-outline-success" type="button" id="button-addon2">
+            <button (click)="onUpdateDescription()" class="mt-2 btn btn-success" type="button" id="button-addon2">
               Salvar
               @if (isLoadingDescCall) {
                 <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
@@ -36,10 +36,10 @@
     <dd class="col-sm-9 mb-3">
       <div class="input-group mb-3">
         <input type="email" class="form-control" disabled [value]="getUrl()">
-        <a [href]="getUrl()" target="_blank" class="btn btn-outline-primary" type="button" id="button-addon2">
+        <a [href]="getUrl()" target="_blank" class="btn btn-primary" type="button" id="button-addon2">
           Acessar
         </a>
-        <button (click)="onCopyUrl()" class="btn btn-outline-success" type="button" id="button-addon2">
+        <button (click)="onCopyUrl()" class="btn btn-success" type="button" id="button-addon2">
           Copiar
         </button>
       </div>
@@ -61,7 +61,7 @@
     </dd>
 
     <div class="col-12 mb-4 d-flex justify-content-center">
-      <a routerLink="../update-password" class="mx-auto btn btn-outline-warning">
+      <a routerLink="../update-password" class="mx-auto btn btn-warning">
         Atualizar Senha
       </a>
     </div>

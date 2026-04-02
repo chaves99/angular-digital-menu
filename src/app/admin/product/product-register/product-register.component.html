@@ -91,12 +91,14 @@
     <div class="d-flex flex-wrap-reverse pb-5 mt-2 row p-2 justify-content-end gap-4">
     <!-- [routerLink]="getBackRouterLink()" -->
       <button (click)="getBack()" type="button" class="col-md-2 btn btn-outline-primary">
+        <i class="bi bi-arrow-left"></i>
         Voltar
       </button>
       <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
         @if(isSavingLoading) {
             <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
         } @else {
+          <i class="bi bi-floppy"></i>
           Salvar
         }
       </button>

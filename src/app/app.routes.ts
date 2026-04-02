@@ -23,7 +23,9 @@ import {
   PageComponent,
   PasswordRecoveryComponent,
   PostSaleComponent,
-  RegisterComponent
+  PrivacyComponent,
+  RegisterComponent,
+  TermsOfServiceComponent
 } from './pages';
 import {
   CustomerMenuDetailComponent,
@@ -41,8 +43,20 @@ export const routes: Routes = [
         component: LandingComponent
       },
       {
+        path: 'contact',
+        component: ContactComponent
+      },
+      {
         path: 'post-sale',
         component: PostSaleComponent
+      },
+      {
+        path: 'privacy',
+        component: PrivacyComponent
+      },
+      {
+        path: 'terms',
+        component: TermsOfServiceComponent
       },
       {
         path: 'login',

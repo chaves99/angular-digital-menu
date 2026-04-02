@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { SnackBarService, SpinnerComponent } from '../../../core';
+import { InfoButtonComponent, SnackBarService, SpinnerComponent } from '../../../core';
 import { getImagesUrl } from '../../../core/';
 import { StorageService, UserService } from '../../../services';
 import { CreateUserResponse } from '../../../services/payload';
@@ -7,7 +7,8 @@ import { CreateUserResponse } from '../../../services/payload';
 @Component({
   selector: 'app-banner',
   imports: [
-    SpinnerComponent
+    SpinnerComponent,
+    InfoButtonComponent
   ],
   templateUrl: './banner.component.html',
 })

@@ -47,27 +47,7 @@
             <i class="bi bi-box-arrow-in-right"></i>
           </button>
         } @else {
-          <div class="dropdown">
-            <button class="btn btn-outline-success dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Sua conta
-              <i class="bi bi-person-circle"></i>
-            </button>
-            <ul class="dropdown-menu dropdown-menu-lg-end">
-              <li><h6 class="dropdown-header">{{ user.email }}</h6></li>
-              <li>
-                <a routerLink="/admin" class="dropdown-item" href="#">
-                  Área logada
-                </a>
-              </li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <button class="dropdown-item" (click)="logout()">
-                  Sair
-                  <i class="bi bi-box-arrow-right"></i>
-                </button>
-              </li>
-            </ul>
-          </div>
+          <app-user-account-button [user]="user"></app-user-account-button>
         }
       </div>
     </div>
