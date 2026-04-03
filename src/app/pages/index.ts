@@ -6,4 +6,4 @@ export * from './password-recovery/password-recovery.component';
 export * from './post-sale/post-sale.component';
 export * from './privacy/privacy.component';
 export * from './terms-of-service/terms-of-service.component';
-export * from './contact/contact.component';
+export * from './send-message/send-message.component';

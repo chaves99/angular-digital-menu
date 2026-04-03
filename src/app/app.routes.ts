@@ -25,6 +25,7 @@ import {
   PostSaleComponent,
   PrivacyComponent,
   RegisterComponent,
+  SendMessageComponent,
   TermsOfServiceComponent
 } from './pages';
 import {
@@ -43,8 +44,8 @@ export const routes: Routes = [
         component: LandingComponent
       },
       {
-        path: 'contact',
-        component: ContactComponent
+        path: 'send-message',
+        component: SendMessageComponent
       },
       {
         path: 'post-sale',

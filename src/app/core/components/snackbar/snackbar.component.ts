@@ -1,30 +1,40 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { NgClass } from '@angular/common';
+import { Component, output } from '@angular/core';
 
 @Component({
-  selector: 'app-snackbar',
-  imports: [],
-  templateUrl: './snackbar.component.html'
+  selector: 'toast',
+  imports: [NgClass],
+  template: `
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div [ngClass]="data.success ? 'border-success' : 'border-danger'" class="toast border show" >
+        <div class="toast-header">
+          @if (data.success) {
+            <strong class="me-auto text-success"><i class="bi bi-check2-all"></i></strong>
+          } @else {
+            <strong class="me-auto text-danger"><i class="bi bi-exclamation-triangle"></i></strong>
+          }
+          <button type="button" class="btn-close" (click)="onInternalClose()"></button>
+        </div>
+        <div class="toast-body">
+          {{ data !== null ? data.message : ''  }}
+        </div>
+      </div>
+    </div>
+  `
 })
-export class SnackbarComponent implements OnInit {
+export class SnackBarComponent {
 
-  hasAction = false;
+  onClose = output();
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: { message: string, dismiss: () => {}, action?: () => {} }) { }
+  data: {
+    success: boolean;
+    message: string;
+  } = {
+      message: '',
+      success: true
+    };
 
-  ngOnInit(): void {
-    if (this.data.action)
-      this.hasAction = true;
-
+  public onInternalClose(): void {
+    this.onClose.emit();
   }
-
-  onClose() {
-    this.data.dismiss();
-  }
-
-  onAction() {
-    if (this.data.action)
-      this.data.action();
-  }
-
 }

@@ -13,4 +13,9 @@ export class EmailService {
   public sendQRcode(qrcode: any): Observable<any> {
     return this.http.post(`${this.url}/qrcode`, qrcode);
   }
+
+  public sendUserMessage(body: {userEmail: string, subject: string, message: string}): Observable<any> {
+    return this.http.post(`${this.url}/user-message`, body);
+  }
+
 }

@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { getEstablishmentUrl, SnackBarService } from '../../core';
 import { StorageService, UserService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
-import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-account-data',
@@ -16,7 +16,6 @@ export class AccountDataComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly storageService = inject(StorageService);
   private readonly snackbarService = inject(SnackBarService);
-  // private readonly navigator = inject(Navigator);
 
   newDescription: string | null = null;
   isLoadingDescCall = false;
@@ -35,7 +34,6 @@ export class AccountDataComponent implements OnInit {
   }
 
   public onCopyUrl(): void {
-    console.log("onCopyUrl");
     navigator.clipboard.writeText(getEstablishmentUrl(this.user!.establishmentUrl));
     this.snackbarService.openSuccess("Copiado com sucesso!")
   }
