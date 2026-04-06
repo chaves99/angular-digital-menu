@@ -33,6 +33,7 @@ export class SubscriptionComponent implements OnInit {
 
   isLoading = false;
   isPlanButtonLoading = false;
+  isMenuButtonLoading = false;
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
@@ -90,15 +91,15 @@ export class SubscriptionComponent implements OnInit {
   }
 
   onChangePaymentMethod(id: string) {
-    this.isLoading = true;
+    this.isMenuButtonLoading = true;
     this.subscriptionService.updatePaymentMethod(id).subscribe({
       next: url => {
-        this.isLoading = false;
         window.location.assign(url);
+        this.isMenuButtonLoading = false;
       },
       error: () => {
-        this.isLoading = false;
-        this.snackbarService.openError("Erro ao cancelar assinatura! Tente mais tarde ou entre em contato com o suporte.");
+        this.isMenuButtonLoading = false;
+        this.snackbarService.openError("Erro ao abrir tela! Tente mais tarde ou entre em contato com o suporte.");
       }
     })
   }
@@ -106,13 +107,12 @@ export class SubscriptionComponent implements OnInit {
   onGetDetail(id: string) {
     this.subscriptionService.getDetails(id).subscribe({
       next: res => {
+        console.log();
         this.dialogService.openCustom({
           subscriptionDetail: res
         });
-        console.log(res);
       },
       error: res => {
-        console.log(res);
       }
     });
   }

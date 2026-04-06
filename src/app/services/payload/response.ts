@@ -129,6 +129,7 @@ export interface SubscriptionResponseItem {
   status: SubscriptionStatus;
   createdAt: Date;
   endDate: Date;
+  endReason: 'UNPAID' | 'USER_CANCEL' | null;
 }
 
 export interface SubscriptionDetails {
