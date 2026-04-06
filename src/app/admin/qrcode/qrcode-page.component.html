@@ -50,10 +50,14 @@
         Baixar QR Code
         <i class="bi bi-file-earmark-arrow-down"></i>
       </button>
-      <!-- <button class="btn btn-lg btn-outline-primary mx-auto" (click)="onSendEmail()"> -->
-      <!--   Enviar por email -->
-      <!--   <i class="bi bi-envelope-paper"></i> -->
-      <!-- </button> -->
+      <button class="btn btn-lg btn-outline-primary mx-auto" (click)="onSendEmail()">
+        Enviar por email
+        @if(isEmailLoading) {
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        } @else {
+          <i class="bi bi-envelope-paper"></i>
+        }
+      </button>
     </div>
   </div>
   } @else {

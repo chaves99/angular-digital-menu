@@ -41,7 +41,7 @@
             Desde: {{ activeSubscription.createdAt | date: 'd/MM/yy'}}
           </p>
           <p class="card-subtitle mb-2 text-body-secondary">
-            Fim: {{ activeSubscription.endDate | date: 'd/MM/yy'}}
+            {{activeSubscription.freeTier ? 'Fim' : 'Renova em'}}: {{ activeSubscription.endDate | date: 'd/MM/yy'}}
           </p>
           @if(!isFreeTierActive) {
             <div class="mt-4 d-flex justify-content-end">

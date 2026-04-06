@@ -104,6 +104,10 @@ export const routes: Routes = [
         component: AccountDataComponent
       },
       {
+        path: 'send-message',
+        component: SendMessageComponent
+      },
+      {
         path: 'subscription',
         component: SubscriptionComponent
       },

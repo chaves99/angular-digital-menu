@@ -28,6 +28,8 @@ export class QrcodePageComponent implements OnInit {
 
   user: CreateUserResponse | null = null;
 
+  isEmailLoading = false;
+
   @ViewChild('qrCodeElement', { read: ElementRef })
   qrCodeElement!: ElementRef;
 
@@ -58,13 +60,16 @@ export class QrcodePageComponent implements OnInit {
       const blob = new Blob([blobData], { type: 'image/png' })
       const formData = new FormData();
       formData.append("qrcode_image", blob);
+      this.isEmailLoading = true;
       this.emailService.sendQRcode(formData)
         .subscribe({
           next: () => {
             this.snackbarService.openSuccess("E-mail enviado. Chegara em alguns instantes.");
+            this.isEmailLoading = false;
           },
           error: () => {
             this.snackbarService.openError("Erro ao enviar email!");
+            this.isEmailLoading = false;
           }
         });
     }

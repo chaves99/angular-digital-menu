@@ -168,13 +168,16 @@ export class CategoryComponent implements OnInit {
       inputValue: category.name,
       confirmButtonText: "Salvar",
       onConfirm: value => {
+        this.isLoading = true;
         this.categoryService.update(category.id, { name: value }).subscribe({
           next: (res) => {
             this.snackBarService.openSuccess("Categoria atualizada com sucesso!");
             this.setResponse(res);
+            this.isLoading = false;
           },
           error: () => {
             this.snackBarService.openError("Erro ao atualizar categoria: " + category.name);
+            this.isLoading = false;
           }
         });
       }

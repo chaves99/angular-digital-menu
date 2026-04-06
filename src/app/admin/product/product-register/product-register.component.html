@@ -7,7 +7,24 @@
         @if(productResponse) {
           <div class="d-flex">
             @if(productResponse.image !== null) {
-              <img [src]="getImageUrlLocal(productResponse.image)" style="width:120px; height: 120px;" class="img-thumbnail me-4" alt="...">
+              <div class="d-flex align-items-end">
+                <img [src]="getImageUrlLocal(productResponse.image)"
+                  style="width:120px; height: 120px;"
+                  class="img-thumbnail me-2" alt="...">
+                <div class="dropdown">
+                  <button type="button" class="btn me-4" data-bs-toggle="dropdown" >
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Deletar imagem
+                        <i class="bi bi-trash"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             }
             <div>
               <h2 class="">Editar Produto</h2>
