@@ -27,10 +27,9 @@
         }
         <div class="d-flex mt-2 row px-3">
           <button class="col-md-2 offset-md-10 mt-3 btn btn-primary" [ngClass]="isLoading ? 'disabled' : ''" type="submit">
+              Entrar
               @if (isLoading) {
                 <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-              } @else {
-                Entrar
               }
           </button>
         </div>

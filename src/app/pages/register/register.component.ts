@@ -33,6 +33,7 @@ export class RegisterComponent {
   public onSubmit(): void {
     this.errorMessage = null;
     const { email, password, establishmentName } = this.formGroup.value;
+    this.isLoading = true;
     if (email && password && establishmentName) {
       this.userService.register(
         {
@@ -44,8 +45,10 @@ export class RegisterComponent {
           next: response => {
             this.storageService.storeUser(response);
             this.router.navigateByUrl('admin');
+            this.isLoading = false;
           },
           error: response => {
+            this.isLoading = false;
             if (response instanceof HttpErrorResponse) {
               const errorDetail: ErrorDetailResponse = response.error;
               if (errorDetail.message !== null)
