@@ -11,3 +11,4 @@ export * from './http/schedule.service';
 export * from './http/menu.service';
 export * from './http/email.service';
 export * from './http/subscription.service';
+export * from './http/dashboard.service';

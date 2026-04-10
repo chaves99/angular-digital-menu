@@ -39,6 +39,10 @@ export class ProductService {
     return this.http.post(`${this.url}/${productId}/image`, image);
   }
 
+  public deleteImage(productId: number): Observable<ProductResponse> {
+    return this.http.delete<ProductResponse>(`${this.url}/${productId}/image`);
+  }
+
   public create(body: CreateProductRequest): Observable<ProductResponse> {
     return this.http.post<ProductResponse>(this.url, body);
   }

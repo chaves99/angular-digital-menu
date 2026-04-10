@@ -1,17 +1,16 @@
 import { DatePipe, Location, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { SafeUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { Observable } from 'rxjs';
 import { getImagesUrl, SnackBarService, SpinnerComponent } from '../../../core';
 import { CategoryService, ProductService } from '../../../services';
 import {
-  CategoryResponse,
-  CreateProductRequest,
-  PricesRequest,
-  ProductResponse
+    CategoryResponse,
+    CreateProductRequest,
+    PricesRequest,
+    ProductResponse
 } from '../../../services/payload';
 
 @Component({
@@ -39,6 +38,7 @@ export class ProductRegisterComponent implements OnInit {
   public isLoading = false;
   public isCategoryOptionLoading = false;
   public isSavingLoading = false;
+  public isDeleteImageLoading = false;
 
   public selectedImage: File | null = null;
 
@@ -46,8 +46,6 @@ export class ProductRegisterComponent implements OnInit {
 
   productId: number | null = null;
   productResponse: ProductResponse | null = null;
-
-  imageSafeUrl: SafeUrl | null = "https://itimenu-product-images.fly.storage.tigris.dev/user_11/product_16";
 
   private readonly fb = new FormBuilder();
 
@@ -117,10 +115,10 @@ export class ProductRegisterComponent implements OnInit {
       this.isSavingLoading = true;
       this.executeRequest(body).subscribe({
         next: res => {
-          if (this.selectedImage !== null && this.productId) {
+          if (this.selectedImage !== null) {
             const formData = new FormData();
             formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
-            this.productService.uploadImage(this.productId, formData).subscribe({
+            this.productService.uploadImage(res.id, formData).subscribe({
               next: res => {
                 this.isSavingLoading = false;
                 this.location.back();
@@ -142,6 +140,23 @@ export class ProductRegisterComponent implements OnInit {
       });
     } else {
       this.snackBarService.openError("Preencha todos os campos obrigatorios(*)");
+    }
+  }
+
+  public onDeleteImage() {
+    if (this.productId !== null) {
+      this.isDeleteImageLoading = true;
+      this.productService.deleteImage(this.productId).subscribe({
+        next: prod => {
+          this.isDeleteImageLoading = false;
+          this.setFormValues(prod);
+          this.snackBarService.openSuccess("Imagem excluida.");
+        },
+        error: () => {
+          this.snackBarService.openError("Erro ao excluir imagem!");
+          this.isDeleteImageLoading = false;
+        }
+      });
     }
   }
 

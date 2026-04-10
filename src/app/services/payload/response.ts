@@ -152,6 +152,16 @@ export interface AvailablePlans {
   recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
 }
 
+export interface DashboardResponse {
+  product: DashboardItemResponse;
+  category: DashboardItemResponse;
+}
+
+export interface DashboardItemResponse {
+  active: number;
+  inactive: number;
+}
+
 export interface ErrorDetailResponse {
   message: string | null;
 }
