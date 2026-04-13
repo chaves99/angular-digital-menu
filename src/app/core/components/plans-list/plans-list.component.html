@@ -1,27 +1,41 @@
-@if(isLoading) {
+@if(screenPhase === 'LOADING') {
   <app-spinner></app-spinner>
+} @else if(screenPhase === 'ERROR') {
+  <div class="p-5">
+    <p class="text-center">
+      Error ao carregar planos.
+    </p>
+    <div class="d-flex justify-content-center">
+      <button type="button" (click)="onLoadPlans()" class="btn btn-primary">
+        Tentar de novo
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+    </div>
+  </div>
 } @else {
   <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
     <h1 class="display-4 fw-normal text-body-emphasis">Planos Disponiveis</h1>
   </div>
   <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center overflow-x-hidden">
       @for (plan of availablePlans; track $index) {
-        <div class="col-auto" style="max-width: 360px">
-          <div class="card text-center mb-4 shadow-lg">
+        <div class="col-auto pb-3" style="max-width: 360px">
+          <div class="card text-center mb-4 shadow-lg h-100">
             <div class="card-header py-3">
               <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
             </div>
             <div class="card-body">
-              <h1 class="card-title">
+              <h2 class="card-title">
                 {{ plan.value | currency: 'BRL' }}
                 <small class="text-body-secondary fw-light">/{{getPeriodText(plan)}}</small>
-              </h1>
+              </h2>
               <ul class="list-unstyled lh-lg mt-3 mb-4">
                 @for(desc of plan.description.split('<break>'); track $index) {
                   <li class="">{{ desc }}</li>
                 }
               </ul>
+            </div>
+            <div class="card-footer">
               <button type="button" (click)="onAssign(plan.priceId)" class="shadow w-100 btn btn-lg btn-primary">
                 <i class="bi bi-stripe"></i>
                 Assinar

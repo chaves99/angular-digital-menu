@@ -22,21 +22,25 @@ export class PlansListComponent {
 
   user: CreateUserResponse | null = null;
 
-  isLoading = false;
+  screenPhase: 'LOADING' | 'ERROR' | 'DONE' = 'LOADING';
   isPlanButtonLoading = false;
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
-    this.isLoading = true;
+    this.onLoadPlans();
+  }
+
+  onLoadPlans(): void {
+    this.screenPhase = 'LOADING';
     this.subscriptionService.getAvailablePlans().subscribe({
       next: p => {
-        this.isLoading = false;
+        this.screenPhase = 'DONE';
         this.availablePlans = p;
       },
       error: () => {
-        this.isLoading = false;
+        this.screenPhase = 'ERROR';
       }
-    })
+    });
   }
 
   getPeriodText(plan: AvailablePlans): string {
