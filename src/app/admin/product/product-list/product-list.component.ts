@@ -26,6 +26,9 @@ export class ProductListComponent implements OnInit {
   private readonly snackbarService = inject(SnackBarService);
 
   isLoading = false;
+  isActiveButtonLoading: {
+    productId: number, status: boolean
+  } = { productId: -1, status: false };
 
   private readonly SIZE_SELECT_OPTION_STORAGE_KEY = "size.select.option.storage.key";
 
@@ -118,7 +121,7 @@ export class ProductListComponent implements OnInit {
     if (callService) this.fetchProductList();
   }
 
-  delete(product: ProductResponse) {
+  onDelete(product: ProductResponse) {
     this.modalService.open(
       {
         message: "Deseja deleta o produto: " + product.name + "?",
@@ -135,14 +138,17 @@ export class ProductListComponent implements OnInit {
       });
   }
 
-  toggleActive(product: ProductResponse) {
+  onToggleActive(product: ProductResponse) {
+    this.isActiveButtonLoading = { productId: product.id, status: true };
     this.productService.toggleActive(product.id).subscribe({
       next: () => {
         product.active = !product.active;
+        this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };
       },
       error: res => {
         const msg = product.active ? "ativar" : "inativar";
         this.snackbarService.openError(`Erro ao ${msg} produto!`);
+        this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };
       }
     });
   }

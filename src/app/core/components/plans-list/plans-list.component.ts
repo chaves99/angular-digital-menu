@@ -69,7 +69,11 @@ export class PlansListComponent {
 
   public onAssign(planId: string): void {
     if (this.user === null) {
-      this.router.navigateByUrl("/login");
+      this.router.navigateByUrl("/login", {
+        state: {
+          subscription: true
+        }
+      });
       return;
     }
     this.openPlanPayment(planId);

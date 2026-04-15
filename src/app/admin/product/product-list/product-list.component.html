@@ -129,16 +129,19 @@
           </td>
           <td>
             <button class="btn" [ngClass]="product.active ? 'btn-danger' : 'btn-primary'"
-              (click)="toggleActive(product)">
+              (click)="onToggleActive(product)">
               @if(product.active) {
               Inativar
               } @else {
               Ativar
               }
+              @if(isActiveButtonLoading.status && isActiveButtonLoading.productId === product.id) {
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              }
             </button>
           </td>
           <td>
-            <button class="btn btn-danger" (click)="delete(product)">
+            <button class="btn btn-danger" (click)="onDelete(product)">
               Excluir
             </button>
           </td>

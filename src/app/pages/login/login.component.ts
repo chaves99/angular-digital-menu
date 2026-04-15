@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Navigation, Router, RouterLink } from '@angular/router';
 import { ThemeService } from '../../core';
 import { StorageService, UserService } from '../../services';
 
@@ -31,6 +31,8 @@ export class LoginComponent {
 
   public showError = false;
 
+  private goToSubscription = false;
+
   validatingClasses: Record<string, boolean> = {};
 
   formGroup = new FormGroup({
@@ -39,6 +41,13 @@ export class LoginComponent {
   });
 
   constructor() {
+    const navigation: Navigation | null = this.router.currentNavigation();
+    if (navigation !== null && navigation.extras.state) {
+      const state: any = navigation.extras.state;
+      if (state.subscription) {
+        this.goToSubscription = true;
+      }
+    }
   }
 
   public onSubmit(): void {
@@ -53,7 +62,11 @@ export class LoginComponent {
           .subscribe({
             next: response => {
               this.storageService.storeUser(response);
-              this.router.navigate(['/admin']);
+              if(this.goToSubscription) {
+                this.router.navigate(['/admin/subscription']);
+              } else {
+                this.router.navigate(['/admin']);
+              }
               this.isLoading = false;
             },
             error: () => {
