@@ -14,12 +14,12 @@
   </div>
 } @else {
   <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
-    <h1 class="display-4 fw-normal text-body-emphasis">Planos Disponiveis</h1>
+    <h1 class="display-5 fw-normal text-body-emphasis">Planos Disponiveis</h1>
   </div>
   <div class="container">
     <div class="row justify-content-center overflow-x-hidden">
       @for (plan of availablePlans; track $index) {
-        <div class="col-auto pb-3" style="max-width: 360px">
+        <div class="col-auto pb-3">
           <div class="card text-center mb-4 shadow-lg h-100">
             <div class="card-header py-3">
               <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
@@ -29,14 +29,18 @@
                 {{ plan.value | currency: 'BRL' }}
                 <small class="text-body-secondary fw-light">/{{getPeriodText(plan)}}</small>
               </h2>
-              <ul class="list-unstyled lh-lg mt-3 mb-4">
+              <ul class="list-unstyled lh-lg mt-1 mb-1">
                 @for(desc of plan.description.split('<break>'); track $index) {
-                  <li class="">{{ desc }}</li>
+                  <li class="">
+                    {{ desc }}
+                  </li>
                 }
               </ul>
             </div>
             <div class="card-footer">
-              <button type="button" (click)="onAssign(plan.priceId)" class="shadow w-100 rounded-pill btn btn-lg btn-primary">
+              <button type="button"
+                (click)="onAssign(plan.priceId)"
+                class="shadow w-75 rounded-pill btn btn btn-primary">
                 <i class="bi bi-stripe"></i>
                 Assinar
               </button>
