@@ -1,30 +1,35 @@
-<div class="" [ngClass]="isDark() ? 'bg-body-tertiary' : 'bg-white'">
-  @if(data.title !== null) {
-    <h3 class="mx-5 mt-3 text-center fs-5">{{ data.title }}</h3>
-  }
-  <div class="p-3 px-4 mt-2">
-    <p class="fs-4" >
-      {{ data.message }}
-    </p>
-    @if (data.subMessage) {
-      <p class="fw-light" >
-        {{ data.subMessage }}
-      </p>
-    }
+
+@if(data !== null) {
+  <div class="modal d-inline-block show" >
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
+      <div class="modal-content shadow-lg">
+        @if(data.title !== null) {
+          <div class="modal-header">
+            <h5 class="modal-title">{{data.title}}</h5>
+            <button type="button" class="btn-close" (click)="onCloseAction()" aria-label="Close"></button>
+          </div>
+        }
+        <div class="modal-body">
+          <div class="p-3 px-4 mt-2">
+            <p class="fs-4" >
+              {{ data.message }}
+            </p>
+            @if (data.subMessage) {
+              <p class="fw-light" >
+                {{ data.subMessage }}
+              </p>
+            }
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button (click)="onCloseAction()" class="btn btn-secondary">
+            Cancelar
+          </button>
+          <button (click)="onConfirmAction()" class="btn btn-primary">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- </mat-dialog-content> -->
-  <mat-dialog-actions class="gap-0 column-gap-2">
-    @if(data.isConfirmation) {
-      <button (click)="close()" class="btn btn-secondary">
-        Cancelar
-      </button>
-      <button (click)="confirm()" class="btn btn-primary">
-        Confirmar
-      </button>
-    } @else {
-      <button (click)="close()" class="btn btn-secondary">
-        Fechar
-      </button>
-    }
-  </mat-dialog-actions>
-</div>
+}

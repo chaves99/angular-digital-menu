@@ -1,0 +1,32 @@
+@if(data !== null) {
+  <div class="modal d-inline-block show">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
+      <div class="modal-content shadow-lg">
+        <div class="modal-header">
+          <h5 class="modal-title">Dados do Pagamento</h5>
+          <button type="button" class="btn-close" (click)="_onClose()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p class="border border-2 py-2 px-3 rounded-pill">
+            <i class="bi bi-person-vcard"></i>
+            Cartão:
+            {{data.cardBrand}} - {{data.cardLastDigits}} - {{data.cardExpirationMonth}}/{{data.cardExpirationYear}}
+            <br>
+          </p>
+          <p class="border border-2 py-2 px-3 rounded-4">
+            <i class="bi bi-calendar3"></i>
+            <br>
+            Cartão cadastrado em: {{data.cardCreated | date: 'dd/MM/yy'}}
+            <br>
+            Início da assinatura: {{data.startDate | date: 'dd/MM/yy'}}
+          </p>
+        </div>
+        <!-- <div class="modal-footer"> -->
+        <!--   <button (click)="onCloseAction()" class="btn btn-secondary"> -->
+        <!--     Cancelar -->
+        <!--   </button> -->
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+}

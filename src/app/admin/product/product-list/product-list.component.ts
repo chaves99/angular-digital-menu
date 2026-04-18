@@ -3,8 +3,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../../core';
-import { CategoryService, ProductService, StorageService } from '../../../services';
-import { CategoryResponse, Pagination, ProductResponse } from '../../../services/payload';
+import { ProductService, StorageService } from '../../../services';
+import { Pagination, ProductResponse } from '../../../services/payload';
+import { CategoryResponse, CategoryService } from '../../../features/category';
 
 @Component({
   selector: 'app-product-list',
@@ -129,8 +130,8 @@ export class ProductListComponent implements OnInit {
         afterClose: confirm => {
           if (!confirm) return;
           this.productService.delete(product.id).subscribe({
-            next: p => this.fetchProductList(),
-            error: res => {
+            next: () => this.fetchProductList(),
+            error: () => {
               this.snackbarService.openError("Erro ao deletar produto!");
             }
           });
@@ -145,7 +146,7 @@ export class ProductListComponent implements OnInit {
         product.active = !product.active;
         this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };
       },
-      error: res => {
+      error: () => {
         const msg = product.active ? "ativar" : "inativar";
         this.snackbarService.openError(`Erro ao ${msg} produto!`);
         this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };

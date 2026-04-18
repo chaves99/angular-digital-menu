@@ -9,11 +9,9 @@ import {
 } from '@angular/cdk/drag-drop';
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { Validators } from '@angular/forms';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
-import { CategoryService } from '../../services';
-import { CategoryResponse } from '../../services/payload';
+import { InputModalDialogComponent } from './components/input/input-modal-dialog.component';
+import { CategoryResponse, CategoryService } from './category.service';
 
 
 @Component({
@@ -28,7 +26,6 @@ import { CategoryResponse } from '../../services/payload';
     CdkDropListGroup,
     CdkDragPreview,
     NgClass,
-    MatTooltipModule
   ],
   templateUrl: './category.component.html',
 })
@@ -61,27 +58,25 @@ export class CategoryComponent implements OnInit {
   }
 
   public onCreateNewCategory(): void {
-    this.modalDialogService.openInput({
-      validators: [Validators.required],
-      inputLabel: "Nome da categoria:",
-      title: "Nova Categoria",
-      inputPlaceholder: "Pizzas, Pastel, Lanches, Suco, Bebida...",
-      confirmButtonText: "Criar categoria",
-      onConfirm: value => {
-        const categoriesList: { name: string }[] = [];
-        categoriesList.push({ name: value });
-        this.isLoading = true;
-        this.categoryService
-          .create(categoriesList).subscribe({
-            next: c => {
-              this.setResponse(c)
-              this.isLoading = false;
-            },
-            error: () => {
-              this.isLoading = false;
-              this.snackBarService.openError("Erro ao buscar categorias!");
-            }
-          });
+    this.modalDialogService.openGeneric({
+      type: InputModalDialogComponent,
+      callback: value => {
+        if (value) {
+          const categoriesList: { name: string }[] = [];
+          categoriesList.push({ name: value });
+          this.isLoading = true;
+          this.categoryService
+            .create(categoriesList).subscribe({
+              next: c => {
+                this.setResponse(c)
+                this.isLoading = false;
+              },
+              error: () => {
+                this.isLoading = false;
+                this.snackBarService.openError("Erro ao buscar categorias!");
+              }
+            });
+        }
       }
     });
   }
@@ -89,7 +84,7 @@ export class CategoryComponent implements OnInit {
   public onDelete(category: CategoryResponse): void {
     this.modalDialogService.open({
       title: "Excluir Categoria",
-      message: `Deletar categoria "${category.name}"`,
+      message: `Deletar categoria "${category.name}"?`,
       subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
       afterClose: confirm => {
         if (confirm) {
@@ -161,25 +156,26 @@ export class CategoryComponent implements OnInit {
   }
 
   onEdit(category: CategoryResponse): void {
-    this.modalDialogService.openInput({
-      message: `Editando categoria: ${category.name}.`,
-      inputLabel: "Nome da categoria:",
-      validators: [Validators.required],
-      inputValue: category.name,
-      confirmButtonText: "Salvar",
-      onConfirm: value => {
-        this.isLoading = true;
-        this.categoryService.update(category.id, { name: value }).subscribe({
-          next: (res) => {
-            this.snackBarService.openSuccess("Categoria atualizada com sucesso!");
-            this.setResponse(res);
-            this.isLoading = false;
-          },
-          error: () => {
-            this.snackBarService.openError("Erro ao atualizar categoria: " + category.name);
-            this.isLoading = false;
-          }
-        });
+    this.modalDialogService.openGeneric({
+      type: InputModalDialogComponent,
+      data: category.name,
+      callback: value => {
+        if (value) {
+          const categoriesList: { name: string }[] = [];
+          categoriesList.push({ name: value });
+          this.isLoading = true;
+          this.categoryService
+            .update(category.id, { name: value }).subscribe({
+              next: c => {
+                this.setResponse(c)
+                this.isLoading = false;
+              },
+              error: () => {
+                this.isLoading = false;
+                this.snackBarService.openError("Erro ao atualizar categoria!");
+              }
+            });
+        }
       }
     });
   }

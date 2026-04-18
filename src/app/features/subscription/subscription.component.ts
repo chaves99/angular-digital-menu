@@ -1,8 +1,10 @@
 import { CommonModule, DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { AvailablePlans, SubscriptionResponseItem, SubscriptionService } from '.';
 import { InfoButtonComponent, isFreeTierActive, ModalDialogService, PlansListComponent, SnackBarService, SpinnerComponent } from '../../core';
-import { StorageService, SubscriptionService } from '../../services';
-import { AvailablePlans, CreateUserResponse, SubscriptionResponseItem } from '../../services/payload';
+import { StorageService } from '../../services';
+import { CreateUserResponse } from '../../services/payload';
+import { SubscriptionDetailModalComponent } from './components/subscription-details-modal/subscription-detail-modal.component';
 
 @Component({
   selector: 'app-subscription',
@@ -21,7 +23,7 @@ export class SubscriptionComponent implements OnInit {
   private readonly subscriptionService = inject(SubscriptionService);
   private readonly snackbarService = inject(SnackBarService);
   private readonly storageService = inject(StorageService);
-  private readonly dialogService = inject(ModalDialogService);
+  private readonly modalService = inject(ModalDialogService);
 
   user!: CreateUserResponse | null;
 
@@ -107,12 +109,13 @@ export class SubscriptionComponent implements OnInit {
   onGetDetail(id: string) {
     this.subscriptionService.getDetails(id).subscribe({
       next: res => {
-        console.log();
-        this.dialogService.openCustom({
-          subscriptionDetail: res
+        this.modalService.openGeneric({
+          type: SubscriptionDetailModalComponent,
+          data: res,
         });
       },
       error: res => {
+        this.snackbarService.openError("Erro ao buscar detalhes! Tente mais tarde ou entre em contato com o suporte.");
       }
     });
   }

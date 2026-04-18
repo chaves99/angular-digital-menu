@@ -1,17 +1,13 @@
-import { inject, Injectable } from "@angular/core";
-import { ValidatorFn } from "@angular/forms";
-import { MatDialog } from "@angular/material/dialog";
-import { ThemeService } from "../../";
-import { SubscriptionDetails } from "../../../services/payload";
-import { CustomModalDialogComponent } from "./custom/custom-modal-dialog.component";
-import { InputModalDialogComponent } from "./input/input-modal-dialog.component";
+import { ComponentType, Overlay, OverlayRef } from "@angular/cdk/overlay";
+import { ComponentPortal } from "@angular/cdk/portal";
+import { ComponentRef, inject, Injectable } from "@angular/core";
 import { ModalDialogComponent } from "./modal-dialog.component";
 
 @Injectable({ providedIn: 'root' })
 export class ModalDialogService {
 
-  private readonly matDialog = inject(MatDialog);
-  private readonly themeService = inject(ThemeService);
+  private readonly overlay = inject(Overlay);
+  private overlayRef: OverlayRef | null = null;
 
   open(config: {
     message: string,
@@ -19,65 +15,65 @@ export class ModalDialogService {
     title?: string,
     afterClose?: (v?: boolean) => void
   }) {
-    const data: ModalDialogData = { ...config, isConfirmation: (config.afterClose !== undefined) };
-    const ref = this.matDialog.open(ModalDialogComponent, {
-      data: data,
-    });
-    ref.afterClosed().subscribe(value => {
+    const component = this.openComponent(ModalDialogComponent).instance;
+    component.data = { ...config };
+
+    component.onClose.subscribe((value) => {
+      this.closeModal()
       if (config.afterClose !== undefined) {
-        config.afterClose(value)
+        config.afterClose(value);
       }
     });
   }
 
-  openInput(data: InputModalDialogData) {
-    const ref = this.matDialog.open(InputModalDialogComponent, {
-      data: data,
-      width: data.width
-    });
-    ref.afterClosed().subscribe(value => {
-      if (data.onConfirm !== undefined && value) {
-        data.onConfirm(value);
+  public openGeneric<IN, OUT>(params: {
+    type: ComponentType<ModalComponent<IN, OUT>>,
+    data?: IN,
+    callback?: ModalComponentFunction<OUT>
+  }): void {
+    const ref = this.openComponent(params.type);
+    const component = ref.instance;
+
+    console.log("openGeneric");
+    console.log(params);
+    component.init({
+      data: params.data,
+      callbackFunc: out => {
+        this.closeModal();
+        if (params.callback) {
+          params.callback(out);
+        }
       }
     });
   }
 
-  openCustom(config: {
-    subscriptionDetail: SubscriptionDetails,
-    afterClose?: () => void
-  }) {
-    const ref = this.matDialog.open(CustomModalDialogComponent, {
-      data: config.subscriptionDetail,
-      panelClass: ['']
-    });
-    ref.afterClosed().subscribe(() => {
-      if (config.afterClose !== undefined) {
-        config.afterClose()
-      }
-    });
+  private openComponent<T>(component: ComponentType<T>): ComponentRef<T> {
+    if (this.overlayRef !== null) {
+      this.overlayRef.detach();
+    }
+    this.overlayRef = this.overlay.create();
+    return this.overlayRef.attach(new ComponentPortal<T>(component));
+  }
+
+  private closeModal() {
+    if (this.overlayRef !== null) {
+      this.overlayRef.detach();
+      this.overlayRef = null;
+    }
   }
 
 }
 
-interface DefaultDialogProps {
-  width?: string;
-  height?: string;
+export abstract class ModalComponent<IN, OUT> {
+
+  abstract init(model: { data?: IN, callbackFunc: ModalComponentFunction<OUT> }): void;
 }
 
-export interface ModalDialogData extends DefaultDialogProps {
+export type ModalComponentFunction<OUT> = (r?: OUT) => void;
+
+export interface ModalDialogData {
   message: string;
   subMessage?: string;
   title?: string;
-  isConfirmation: boolean;
 }
 
-export interface InputModalDialogData extends DefaultDialogProps {
-  message?: string;
-  inputLabel?: string;
-  inputValue?: string;
-  inputPlaceholder?: string;
-  validators?: ValidatorFn[];
-  title?: string;
-  confirmButtonText: string;
-  onConfirm?: (value: any) => void;
-}

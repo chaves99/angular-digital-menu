@@ -4,7 +4,6 @@ import {
   AddressComponent,
   AdminComponent,
   BannerComponent,
-  CategoryComponent,
   ContactComponent,
   DashboardComponent,
   EstablishmentComponent,
@@ -13,7 +12,6 @@ import {
   ProductRegisterComponent,
   QrcodePageComponent,
   ScheduleComponent,
-  SubscriptionComponent,
   UpdatePasswordComponent
 } from './admin';
 import { authGuard, loggedUserGuard } from './core';
@@ -28,11 +26,9 @@ import {
   SendMessageComponent,
   TermsOfServiceComponent
 } from './pages';
-import {
-  CustomerMenuDetailComponent,
-  MenuComponent,
-  MenuCustomerProductsComponent
-} from './pages/customer';
+import { CustomerMenuComponent } from './features/customer-menu/customer-menu.component';
+import { CategoryComponent } from './features/category/category.component';
+import { SubscriptionComponent } from '@features/subscription';
 
 export const routes: Routes = [
   {
@@ -78,17 +74,7 @@ export const routes: Routes = [
   },
   {
     path: 'customer-menu/:localName',
-    component: MenuComponent,
-    children: [
-      {
-        path: '',
-        component: MenuCustomerProductsComponent
-      },
-      {
-        path: ':productId',
-        component: CustomerMenuDetailComponent
-      }
-    ]
+    component: CustomerMenuComponent,
   },
   {
     path: 'admin',

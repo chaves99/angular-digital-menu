@@ -49,33 +49,39 @@
         }
       </div>
 
-      <div class="d-flex mb-3">
-        <button class="btn btn-primary" (click)="addPrice()" type="button">
-          Adicionar Preço
-          <i class="bi bi-plus-lg"></i>
-        </button>
+      <div class="border rounded-2 px-3 px-md-5 py-3 mb-3">
+        <div class="d-flex justify-content-between mb-3">
+          <h5 class="d-none d-md-block">
+            Preços
+          </h5>
+          <button class="btn btn-primary" (click)="addPrice()" type="button">
+            Adicionar Preço
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+
+        <!-- ####### PRICE INPUTS ####### -->
+        @for(price of priceControls; let priceIndex = $index; track priceIndex) {
+          <div class="d-flex row border-bottom mb-3" [formGroup]="getFormGroupAtIndex(priceIndex)">
+            <input type="hidden" id="unit-{{$index}}" formControlName="id">
+            <div class="mb-3 col-5">
+              <label for="unit-{{$index}}" class="form-label">Unidade:</label>
+              <input class="form-control" id="unit-{{$index}}" placeholder="KG, CM, Pequeno" formControlName="unit" required>
+            </div>
+            <div class="mb-3 col-5">
+              <label for="price-{{$index}}" class="form-label">Preço:</label>
+              <input inputmode="numeric" pattern="[0-9]+" currencyMask [options]="{align: 'left', prefix: 'R$ ', thousands: '.', decimal: ','}"
+                class="form-control" id="price-{{$index}}" formControlName="value" required>
+            </div>
+            <div class="mb-3 col position-relative">
+              <button class="btn btn-danger position-absolute bottom-0" type="button" (click)="deletePrice(priceIndex)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+        }
       </div>
 
-      <!-- ####### PRICE INPUTS ####### -->
-      @for(price of priceControls; let priceIndex = $index; track priceIndex) {
-        <div class="d-flex row border-bottom mb-3" [formGroup]="getFormGroupAtIndex(priceIndex)">
-          <input type="hidden" id="unit-{{$index}}" formControlName="id">
-          <div class="mb-3 col-5">
-            <label for="unit-{{$index}}" class="form-label">Unidade:</label>
-            <input class="form-control" id="unit-{{$index}}" placeholder="KG, CM, Pequeno" formControlName="unit" required>
-          </div>
-          <div class="mb-3 col-5">
-            <label for="price-{{$index}}" class="form-label">Preço:</label>
-            <input inputmode="numeric" pattern="[0-9]+" currencyMask [options]="{align: 'left', prefix: 'R$ ', thousands: '.', decimal: ','}"
-              class="form-control" id="price-{{$index}}" formControlName="value" required>
-          </div>
-          <div class="mb-3 col position-relative">
-            <button class="btn btn-danger position-absolute bottom-0" type="button" (click)="deletePrice(priceIndex)">
-              <i class="bi bi-trash"></i>
-            </button>
-          </div>
-        </div>
-      }
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="active" formControlName="active" required>
         <label for="active" class="form-label">Active</label>

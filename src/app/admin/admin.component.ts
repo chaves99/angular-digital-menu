@@ -3,9 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { isFreeTierActive, ModalDialogService, openMenu, ThemeService, UserAccountButtonComponent } from '../core';
-import { SubscriptionService, UserService } from '../services';
-import { CreateUserResponse, SubscriptionResponse } from '../services/payload';
+import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
+import { isFreeTierActive, ModalDialogService, ThemeService, UserAccountButtonComponent } from '../core';
+import { UserService } from '../services';
+import { CreateUserResponse } from '../services/payload';
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -73,8 +74,8 @@ export class AdminComponent implements OnInit {
   }
 
   public logout(): void {
-      this.storageService.cleanUser();
-      this.router.navigate(["/login"])
+    this.storageService.cleanUser();
+    this.router.navigate(["/login"])
   }
 
   public toggleTheme() {

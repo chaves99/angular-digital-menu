@@ -5,12 +5,12 @@ import { ActivatedRoute } from '@angular/router';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { Observable } from 'rxjs';
 import { getImagesUrl, SnackBarService, SpinnerComponent } from '../../../core';
-import { CategoryService, ProductService } from '../../../services';
+import { CategoryResponse, CategoryService } from '../../../features/category';
+import { ProductService } from '../../../services';
 import {
-    CategoryResponse,
-    CreateProductRequest,
-    PricesRequest,
-    ProductResponse
+  CreateProductRequest,
+  PricesRequest,
+  ProductResponse
 } from '../../../services/payload';
 
 @Component({
@@ -102,7 +102,7 @@ export class ProductRegisterComponent implements OnInit {
       const pricesRequest: PricesRequest[] = prices.map(p => {
         const p2 = p as { id: number | null, unit: string, value: number, layerId: number };
         return { id: p2.id, value: p2.value, unit: p2.unit, layerId: p2.layerId };
-      });
+      }).filter(p => p.value !== null);
 
       const body: CreateProductRequest = {
         name: name,
@@ -119,11 +119,11 @@ export class ProductRegisterComponent implements OnInit {
             const formData = new FormData();
             formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
             this.productService.uploadImage(res.id, formData).subscribe({
-              next: res => {
+              next: () => {
                 this.isSavingLoading = false;
                 this.location.back();
               },
-              error: res => {
+              error: () => {
                 this.isSavingLoading = false;
               }
             });
@@ -133,7 +133,7 @@ export class ProductRegisterComponent implements OnInit {
           }
 
         },
-        error: res => {
+        error: () => {
           this.isSavingLoading = false;
           this.snackBarService.openError("Erro ao cadastrar produto!"); // TODO message error
         }

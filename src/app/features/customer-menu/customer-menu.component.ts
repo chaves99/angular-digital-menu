@@ -3,28 +3,29 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DOCUMENT, effect, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink, Scroll } from '@angular/router';
+import { ActivatedRoute, Router, Scroll } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { getImagesUrl, SpinnerComponent } from '../../../core';
-import { MenuService } from '../../../services';
-import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../../services/payload';
+import { getImagesUrl, ModalDialogService, SpinnerComponent } from '../../core';
+import { MenuService } from '../../services';
+import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../services/payload';
+import { CustomerMenuItemModalComponent } from './components/customer-menu-item/customer-menu-item-modal.component';
 
 @Component({
-  selector: 'app-customer-product-list',
+  selector: 'app-customer-menu',
+  templateUrl: 'customer-menu.component.html',
   imports: [
     CurrencyPipe,
     FormsModule,
-    RouterLink,
-    SpinnerComponent,
     NgOptimizedImage,
-  ],
-  templateUrl: './menu-customer-products.component.html',
+    SpinnerComponent
+  ]
 })
-export class MenuCustomerProductsComponent implements OnInit {
+export class CustomerMenuComponent implements OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly document = inject(DOCUMENT);
+  private readonly modalService = inject(ModalDialogService);
 
   // used to scroll when get back from details
   // see https://angular.love/angular-scroll-position-restoration
@@ -158,10 +159,16 @@ export class MenuCustomerProductsComponent implements OnInit {
         || this.menu.info.phone !== null);
   }
 
+  onOpenItem(product: MenuProductResponse, category: MenuCategoryResponse) {
+    this.modalService.openGeneric({
+      type: CustomerMenuItemModalComponent,
+      data: { product: product, category: category }
+    });
+  }
+
   public openContactLink(link: string): void {
   }
 
   public openTelephone(): void {
   }
-
 }

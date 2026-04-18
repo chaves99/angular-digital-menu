@@ -1,41 +1,29 @@
-import { NgClass } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import {
-    MAT_DIALOG_DATA,
-    MatDialogActions,
-    MatDialogRef,
-} from '@angular/material/dialog';
+import { Component, OnInit, output } from '@angular/core';
 import { ModalDialogData } from './modal-dialog.service';
-import { ThemeService } from '../..';
 
 @Component({
   selector: 'app-modal-dialog',
   imports: [
-    MatDialogActions,
-    NgClass
   ],
-  templateUrl: './modal-dialog.component.html'
+  templateUrl: './modal-dialog.component.html',
+  styles: `
+  `
 })
 export class ModalDialogComponent implements OnInit {
 
-  private readonly dialogRef = inject(MatDialogRef<ModalDialogComponent>);
-  private readonly themeService = inject(ThemeService);
+  onClose = output<boolean>();
 
-  data = inject<ModalDialogData>(MAT_DIALOG_DATA);
+  data: ModalDialogData | null = null;
 
   ngOnInit(): void {
   }
 
-  public isDark(): boolean {
-    return this.themeService.getTheme() === 'dark';
+  onCloseAction(): void {
+    this.onClose.emit(false);
   }
 
-  close(): void {
-    this.dialogRef.close(false);
-  }
-
-  confirm(): void {
-    this.dialogRef.close(true);
+  onConfirmAction(): void {
+    this.onClose.emit(true);
   }
 }
 

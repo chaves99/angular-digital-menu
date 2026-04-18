@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
-import { AvailablePlans, CreateUserResponse } from '../../../services/payload';
-import { StorageService, SubscriptionService } from '../../../services';
+import { CreateUserResponse } from '../../../services/payload';
+import { StorageService } from '../../../services';
 import { CurrencyPipe } from '@angular/common';
 import { SpinnerComponent } from '../spinner/spinner.component';
 import { Router } from '@angular/router';
 import { SnackBarService } from '../snackbar/snackbar.service';
+import { AvailablePlans, SubscriptionService } from '@features/subscription';
 
 @Component({
   selector: 'app-plans-list',

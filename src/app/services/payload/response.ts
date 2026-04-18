@@ -15,7 +15,6 @@ export interface Pageable {
   offset: number;
 }
 
-type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELED';
 
 export interface CreateUserResponse {
   token: string;
@@ -24,17 +23,8 @@ export interface CreateUserResponse {
   establishmentUrl: string;
   establishmentDescription: string | null;
   subscription: string;
-  subscriptionStatus: SubscriptionStatus;
+  // subscriptionStatus: SubscriptionStatus;
   image: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export interface CategoryResponse {
-  id: number;
-  name: string;
-  sequence: number;
-  enabled: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -117,40 +107,6 @@ export interface ScheduleResponse {
   endLaunch: string | null;
 }
 
-export interface SubscriptionResponse {
-  active: SubscriptionResponseItem | null;
-  history: SubscriptionResponseItem[];
-}
-
-export interface SubscriptionResponseItem {
-  id: string;
-  description: string;
-  freeTier: boolean;
-  status: SubscriptionStatus;
-  createdAt: Date;
-  endDate: Date;
-  endReason: 'UNPAID' | 'USER_CANCEL' | null;
-}
-
-export interface SubscriptionDetails {
-  id: string;
-  description: string;
-  billingCycleAncher: Date;
-  cardBrand: string;
-  cardCreated: Date;
-  cardExpirationMonth: string;
-  cardExpirationYear: string;
-  cardLastDigits: string;
-  startDate: Date;
-}
-
-export interface AvailablePlans {
-  priceId: string;
-  value: number;
-  name: string;
-  description: string;
-  recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
-}
 
 export interface DashboardResponse {
   product: DashboardItemResponse;

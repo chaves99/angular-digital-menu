@@ -1,0 +1,34 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="formGroup" class="modal d-inline-block show" >
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down">
+    <div class="modal-content shadow-lg">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Categoria</h5>
+        <button type="button" class="btn-close" (click)="_onClose()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="p-3 px-4 mt-2">
+          <label for="input" class="form-label">Nome da categoria:</label>
+          <input #categoryInput formControlName="value" type="text" class="form-control"
+            [ngClass]="isValid ? '' : 'is-invalid'"
+            id="input" placeholder="Pizzas, Pastel, Lanches, Suco, Bebida...">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="_onClose()" class="btn btn-secondary">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          @if (data) {
+            Atualizar
+          } @else {
+            Criar Categoria
+          }
+        </button>
+      </div>
+
+    </div>
+  </div>
+</form>

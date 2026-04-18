@@ -2,7 +2,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { AvailablePlans, SubscriptionDetails, SubscriptionResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class SubscriptionService {
@@ -35,3 +34,40 @@ export class SubscriptionService {
     return this.http.delete<SubscriptionResponse>(`${this.url}/${subscriptionId}`);
   }
 }
+
+export interface SubscriptionResponse {
+  active: SubscriptionResponseItem | null;
+  history: SubscriptionResponseItem[];
+}
+
+export interface SubscriptionResponseItem {
+  id: string;
+  description: string;
+  freeTier: boolean;
+  status: SubscriptionStatus;
+  createdAt: Date;
+  endDate: Date;
+  endReason: 'UNPAID' | 'USER_CANCEL' | null;
+}
+
+export interface SubscriptionDetails {
+  id: string;
+  description: string;
+  billingCycleAncher: Date;
+  cardBrand: string;
+  cardCreated: Date;
+  cardExpirationMonth: string;
+  cardExpirationYear: string;
+  cardLastDigits: string;
+  startDate: Date;
+}
+
+export interface AvailablePlans {
+  priceId: string;
+  value: number;
+  name: string;
+  description: string;
+  recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+}
+
+type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELED';

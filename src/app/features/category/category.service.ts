@@ -1,7 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { CategoryResponse } from "../payload";
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
@@ -34,4 +33,13 @@ export class CategoryService {
     return this.http.delete<CategoryResponse[]>(`${this.url}/${id}`);
   }
 
+}
+
+export interface CategoryResponse {
+  id: number;
+  name: string;
+  sequence: number;
+  enabled: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }

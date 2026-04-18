@@ -2,14 +2,15 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { isFreeTierActive, openMenu } from '../../core';
-import { DashboardService, StorageService, SubscriptionService } from '../../services';
-import { DashboardResponse, SubscriptionResponse } from '../../services/payload';
+import { DashboardService, StorageService } from '../../services';
+import { DashboardResponse } from '../../services/payload';
+import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
 
 @Component({
   selector: 'app-dashboard',
   imports: [
     RouterLink,
-    DatePipe
+    DatePipe,
   ],
   templateUrl: './dashboard.component.html',
 })

@@ -1,0 +1,38 @@
+<div class="modal d-inline-block show" >
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen">
+    <div class="modal-content rounded-3">
+      <div class="modal-body p-0">
+        @if(state !== null) {
+          @if(state.product.image !== null) {
+            <div class="d-flex  ">
+              <img [src]="getImageUrlLocal(state.product.image)" class="figure-img rounded-bottom-3 mx-auto img-fluid" alt="...">
+            </div>
+          }
+
+          <div class="container py-3 ">
+            <small class="text-body-secondary text-capitalize">{{ state.category.name }}</small>
+            <h1 class="display-3 fw-semibold">{{ state.product.name }}</h1>
+            <p class="" style="white-space: pre-line; "> {{ state.product.description }}</p>
+            <div class="mt-5">
+              @for(price of state.product.prices; track price.id) {
+              <p class="">
+                @if (price.unit !== null && price.unit.length > 0) {
+                {{ price.unit }} -
+                }
+                {{ price.value | currency: 'BRL'}}
+              </p>
+              }
+            </div>
+            <div class="d-grid mt-4">
+            </div>
+          </div>
+        }
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="back()">
+          Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
