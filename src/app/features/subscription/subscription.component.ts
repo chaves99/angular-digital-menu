@@ -1,15 +1,14 @@
-import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { AvailablePlans, SubscriptionResponseItem, SubscriptionService } from '.';
 import { InfoButtonComponent, isFreeTierActive, ModalDialogService, PlansListComponent, SnackBarService, SpinnerComponent } from '../../core';
 import { StorageService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
 import { SubscriptionDetailModalComponent } from './components/subscription-details-modal/subscription-detail-modal.component';
+import { AvailablePlans, SubscriptionResponseItem, SubscriptionService } from './subscription.service';
 
 @Component({
   selector: 'app-subscription',
   imports: [
-    CommonModule,
     DatePipe,
     NgClass,
     SpinnerComponent,
@@ -58,7 +57,7 @@ export class SubscriptionComponent implements OnInit {
       },
       error: () => {
       }
-    })
+    });
   }
 
   onCancel(id: string): void {
@@ -107,15 +106,18 @@ export class SubscriptionComponent implements OnInit {
   }
 
   onGetDetail(id: string) {
+    this.isMenuButtonLoading = true;
     this.subscriptionService.getDetails(id).subscribe({
       next: res => {
-        this.modalService.openGeneric({
+        this.modalService.open({
           type: SubscriptionDetailModalComponent,
           data: res,
         });
+        this.isMenuButtonLoading = false;
       },
-      error: res => {
+      error: () => {
         this.snackbarService.openError("Erro ao buscar detalhes! Tente mais tarde ou entre em contato com o suporte.");
+        this.isMenuButtonLoading = false;
       }
     });
   }

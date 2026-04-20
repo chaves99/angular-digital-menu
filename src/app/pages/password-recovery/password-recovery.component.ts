@@ -161,7 +161,7 @@ export class PasswordRecoveryComponent implements OnInit {
         .subscribe({
           next: () => {
             this.isLoading = false;
-            this.modalDialogService.open({
+            this.modalDialogService.openDefault({
               message: "Senha atualizada com sucesso!",
               afterClose: () => {
                 this.router.navigateByUrl("/login");

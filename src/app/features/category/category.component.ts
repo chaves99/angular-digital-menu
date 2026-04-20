@@ -58,7 +58,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public onCreateNewCategory(): void {
-    this.modalDialogService.openGeneric({
+    this.modalDialogService.open({
       type: InputModalDialogComponent,
       callback: value => {
         if (value) {
@@ -82,7 +82,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public onDelete(category: CategoryResponse): void {
-    this.modalDialogService.open({
+    this.modalDialogService.openDefault({
       title: "Excluir Categoria",
       message: `Deletar categoria "${category.name}"?`,
       subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
@@ -106,7 +106,7 @@ export class CategoryComponent implements OnInit {
   }
 
   public onDisable(category: CategoryResponse): void {
-    this.modalDialogService.open({
+    this.modalDialogService.openDefault({
       title: category.enabled ? "Desabilitar Categoria" : "Habilitar Categoria",
       message: category.enabled ? `Desabilitar categoria "${category.name}"` : `Habilitar categaria: "${category.name}"`,
       afterClose: confirm => {
@@ -156,7 +156,7 @@ export class CategoryComponent implements OnInit {
   }
 
   onEdit(category: CategoryResponse): void {
-    this.modalDialogService.openGeneric({
+    this.modalDialogService.open({
       type: InputModalDialogComponent,
       data: category.name,
       callback: value => {

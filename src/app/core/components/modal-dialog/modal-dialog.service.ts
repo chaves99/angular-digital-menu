@@ -9,7 +9,7 @@ export class ModalDialogService {
   private readonly overlay = inject(Overlay);
   private overlayRef: OverlayRef | null = null;
 
-  open(config: {
+  openDefault(config: {
     message: string,
     subMessage?: string,
     title?: string,
@@ -26,7 +26,7 @@ export class ModalDialogService {
     });
   }
 
-  public openGeneric<IN, OUT>(params: {
+  public open<IN, OUT>(params: {
     type: ComponentType<ModalComponent<IN, OUT>>,
     data?: IN,
     callback?: ModalComponentFunction<OUT>

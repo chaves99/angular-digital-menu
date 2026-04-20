@@ -1,9 +1,10 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { QRCodeComponent } from 'angularx-qrcode';
-import { SnackBarService } from '../../core';
+import { ModalDialogService, SnackBarService } from '../../core';
 import { EmailService, StorageService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-category',
@@ -18,6 +19,7 @@ export class QrcodePageComponent implements OnInit {
   private readonly storageService = inject(StorageService);
   private readonly emailService = inject(EmailService);
   private readonly snackbarService = inject(SnackBarService);
+  private readonly modalService = inject(ModalDialogService);
 
   localName: string | null = null;
 
@@ -36,7 +38,8 @@ export class QrcodePageComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.storageService.getUser();
     if (this.user != null) {
-      this.localName = `https://itimenu.app/${this.user.establishmentUrl}`;
+
+      this.localName = `${environment.APP_URL}/${this.user.establishmentUrl}`;
     }
   }
 
@@ -54,25 +57,32 @@ export class QrcodePageComponent implements OnInit {
   }
 
   onSendEmail(): void {
-    const parentElement = this.qrCodeElement.nativeElement.querySelector('canvas').toDataURL('image/png')
-    if (parentElement) {
-      const blobData = this.convertBase64ToBlob(parentElement)
-      const blob = new Blob([blobData], { type: 'image/png' })
-      const formData = new FormData();
-      formData.append("qrcode_image", blob);
-      this.isEmailLoading = true;
-      this.emailService.sendQRcode(formData)
-        .subscribe({
-          next: () => {
-            this.snackbarService.openSuccess("E-mail enviado. Chegara em alguns instantes.");
-            this.isEmailLoading = false;
-          },
-          error: () => {
-            this.snackbarService.openError("Erro ao enviar email!");
-            this.isEmailLoading = false;
+    this.modalService.openDefault({
+      message: `Enviar QR Code para: ${this.user?.email}?`,
+      afterClose: result => {
+        if (result) {
+          const parentElement = this.qrCodeElement.nativeElement.querySelector('canvas').toDataURL('image/png')
+          if (parentElement) {
+            const blobData = this.convertBase64ToBlob(parentElement)
+            const blob = new Blob([blobData], { type: 'image/png' })
+            const formData = new FormData();
+            formData.append("qrcode_image", blob);
+            this.isEmailLoading = true;
+            this.emailService.sendQRcode(formData)
+              .subscribe({
+                next: () => {
+                  this.snackbarService.openSuccess("E-mail enviado. Chegara em alguns instantes.");
+                  this.isEmailLoading = false;
+                },
+                error: () => {
+                  this.snackbarService.openError("Erro ao enviar email!");
+                  this.isEmailLoading = false;
+                }
+              });
           }
-        });
-    }
+        }
+      }
+    });
   }
 
   reset(): void {

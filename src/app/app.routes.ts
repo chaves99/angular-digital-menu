@@ -1,20 +1,14 @@
 import { Routes } from '@angular/router';
-import {
-  AccountDataComponent,
-  AddressComponent,
-  AdminComponent,
-  BannerComponent,
-  ContactComponent,
-  DashboardComponent,
-  EstablishmentComponent,
-  ProductComponent,
-  ProductListComponent,
-  ProductRegisterComponent,
-  QrcodePageComponent,
-  ScheduleComponent,
-  UpdatePasswordComponent
-} from './admin';
+import { AccountDataComponent } from '@features/account-data/account-data.component';
+import { DashboardComponent } from '@features/dashboard/dashboard.component';
+import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, ScheduleComponent } from '@features/establishment';
+import { ProductComponent, ProductListComponent, ProductRegisterComponent } from '@features/product';
+import { QrcodePageComponent } from '@features/qrcode/qrcode-page.component';
+import { SubscriptionComponent } from '@features/subscription/subscription.component';
+import { UpdatePasswordComponent } from '@features/update-password/update-password.component';
 import { authGuard, loggedUserGuard } from './core';
+import { CategoryComponent } from './features/category/category.component';
+import { CustomerMenuComponent } from './features/customer-menu/customer-menu.component';
 import {
   LandingComponent,
   LoginComponent,
@@ -26,9 +20,7 @@ import {
   SendMessageComponent,
   TermsOfServiceComponent
 } from './pages';
-import { CustomerMenuComponent } from './features/customer-menu/customer-menu.component';
-import { CategoryComponent } from './features/category/category.component';
-import { SubscriptionComponent } from '@features/subscription';
+import { AdminComponent } from '@features/admin';
 
 export const routes: Routes = [
   {

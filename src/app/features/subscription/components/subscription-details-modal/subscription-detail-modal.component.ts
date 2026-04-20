@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { SubscriptionDetails } from '@features/subscription';
+import { SubscriptionDetails } from '@features/subscription/subscription.service';
 import { ModalComponent, ModalComponentFunction } from 'app/core';
 
 @Component({

@@ -160,7 +160,7 @@ export class CustomerMenuComponent implements OnInit {
   }
 
   onOpenItem(product: MenuProductResponse, category: MenuCategoryResponse) {
-    this.modalService.openGeneric({
+    this.modalService.open({
       type: CustomerMenuItemModalComponent,
       data: { product: product, category: category }
     });

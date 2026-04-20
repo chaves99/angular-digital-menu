@@ -4,7 +4,7 @@ import { SnackBarService, SpinnerComponent } from '../../core';
 import { UserService } from '../../services';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ERROR_MESSAGES, ErrorDetailResponse } from '../../services/payload';
-import { NgClass } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-update-password',
@@ -19,6 +19,7 @@ export class UpdatePasswordComponent {
 
   private readonly userService = inject(UserService);
   private readonly snackBarService = inject(SnackBarService);
+  private readonly location = inject(Location);
 
   formGroup = new FormGroup({
     currentPassword: new FormControl(''),
@@ -40,7 +41,7 @@ export class UpdatePasswordComponent {
 
       this.isLoading = true;
       this.userService.updatePassword(currentPassword, newPassword).subscribe({
-        next: res => {
+        next: () => {
           this.snackBarService.openSuccess("Senha atualizada!");
           this.isLoading = false;
           this.formGroup.reset();
@@ -58,6 +59,11 @@ export class UpdatePasswordComponent {
         }
       });
     }
+
+  }
+
+  public onBack(): void {
+    this.location.back();
   }
 
 }

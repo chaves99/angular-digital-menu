@@ -4,10 +4,9 @@ import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
-import { isFreeTierActive, ModalDialogService, ThemeService, UserAccountButtonComponent } from '../core';
-import { UserService } from '../services';
-import { CreateUserResponse } from '../services/payload';
-import { StorageService } from '../services/storage.service';
+import { UserAccountButtonComponent, ThemeService, ModalDialogService, isFreeTierActive } from 'app/core';
+import { UserService, StorageService } from 'app/services';
+import { CreateUserResponse } from 'app/services/payload';
 
 @Component({
   selector: 'app-admin',
@@ -51,14 +50,7 @@ export class AdminComponent implements OnInit {
           this.storageService.storeUser(u);
         },
         error: res => {
-          if (res instanceof HttpErrorResponse && res.status == 401) {
-            this.logout();
-          }
-          if (res instanceof HttpErrorResponse && res.status == 500) {
-            this.dialogService.open({
-              message: "Houve um problema ao conectar com o servidor!",
-            });
-          }
+          this.handleErroRequest(res);
         }
       });
 
@@ -67,11 +59,24 @@ export class AdminComponent implements OnInit {
           this.subscription = sub;
           this.isFreeTierActive = isFreeTierActive(this.subscription);
         },
-        error: () => {
+        error: res => {
+          this.handleErroRequest(res);
         }
       });
     }
   }
+
+    private handleErroRequest(res: any) {
+        if (res instanceof HttpErrorResponse && res.status == 401) {
+            this.logout();
+        }
+        if (res instanceof HttpErrorResponse && (res.status == 500 || res.status === 0)) {
+            this.dialogService.openDefault({
+                message: "Houve um problema ao conectar com o servidor!",
+            });
+            this.router.navigate(["/"]);
+        }
+    }
 
   public logout(): void {
     this.storageService.cleanUser();

@@ -123,7 +123,7 @@ export class ProductListComponent implements OnInit {
   }
 
   onDelete(product: ProductResponse) {
-    this.modalService.open(
+    this.modalService.openDefault(
       {
         message: "Deseja deleta o produto: " + product.name + "?",
         title: "Confirmar",

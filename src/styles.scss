@@ -1,10 +1,18 @@
-
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 .modal {
   background-color: rgba(0, 0, 0, 0.6)
 }
 
-.btn-primary, .btn-success, .btn-secondary, .btn-warning, .btn-danger  {
+.btn-dark,
+.btn-light,
+.btn-primary,
+.btn-success,
+.btn-secondary,
+.btn-warning,
+.btn-danger {
   box-shadow: var(--bs-box-shadow);
 }
