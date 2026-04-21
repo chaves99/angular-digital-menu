@@ -10,20 +10,6 @@ export interface LoginRequest {
   password: string;
 }
 
-export interface CreateProductRequest {
-  name: string;
-  description: string | null | undefined;
-  prices: PricesRequest[];
-  active: boolean;
-  categoryId: number;
-}
-
-export interface PricesRequest {
-  id: number | null;
-  value: number;
-  unit: string;
-}
-
 export interface AddressRequest {
   code?: string;
   city?: string;

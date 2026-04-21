@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { AccountDataComponent } from '@features/account-data/account-data.component';
 import { DashboardComponent } from '@features/dashboard/dashboard.component';
 import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, ScheduleComponent } from '@features/establishment';
-import { ProductComponent, ProductListComponent, ProductRegisterComponent } from '@features/product';
+import { ProductComponent } from '@features/product';
 import { QrcodePageComponent } from '@features/qrcode/qrcode-page.component';
 import { SubscriptionComponent } from '@features/subscription/subscription.component';
 import { UpdatePasswordComponent } from '@features/update-password/update-password.component';
@@ -21,6 +21,7 @@ import {
   TermsOfServiceComponent
 } from './pages';
 import { AdminComponent } from '@features/admin';
+import { CustomizationComponent } from '@features/customization/customization.component';
 
 export const routes: Routes = [
   {
@@ -102,6 +103,10 @@ export const routes: Routes = [
         component: QrcodePageComponent
       },
       {
+        path: 'customize',
+        component: CustomizationComponent
+      },
+      {
         path: 'establishment',
         component: EstablishmentComponent,
         children: [
@@ -131,25 +136,6 @@ export const routes: Routes = [
       {
         path: 'products',
         component: ProductComponent,
-        children: [
-          {
-            path: '',
-            redirectTo: 'list',
-            pathMatch: 'full'
-          },
-          {
-            path: 'list',
-            component: ProductListComponent
-          },
-          {
-            path: 'register',
-            component: ProductRegisterComponent
-          },
-          {
-            path: 'register/:id',
-            component: ProductRegisterComponent
-          }
-        ]
       },
     ]
   }

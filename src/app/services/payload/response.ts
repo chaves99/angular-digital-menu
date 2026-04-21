@@ -29,24 +29,6 @@ export interface CreateUserResponse {
   updatedAt: Date;
 }
 
-export interface ProductResponse {
-  id: number;
-  name: string;
-  description: string;
-  image: string | null;
-  active: boolean;
-  prices: PriceResponse[];
-  updatedAt: Date;
-  createdAt: Date;
-  categoryId: number;
-  categoryName: string;
-}
-
-export interface PriceResponse {
-  id: number | null;
-  value: number;
-  unit: string;
-}
 
 export interface AddressResponse {
   code: string;

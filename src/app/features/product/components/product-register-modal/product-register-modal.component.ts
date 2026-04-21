@@ -1,37 +1,30 @@
-import { DatePipe, Location, NgClass } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe, NgClass } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { CategoryResponse, CategoryService } from '@features/category';
+import { CreateProductRequest, PricesRequest, ProductResponse, ProductService } from '@features/product/product.service';
+import { getImagesUrl, ModalComponent, ModalComponentFunction, SnackBarService } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { Observable } from 'rxjs';
-import { getImagesUrl, SnackBarService, SpinnerComponent } from '../../../core';
-import { CategoryResponse, CategoryService } from '../../../features/category';
-import { ProductService } from '../../../services';
-import {
-  CreateProductRequest,
-  PricesRequest,
-  ProductResponse
-} from '../../../services/payload';
 
 @Component({
-  selector: 'app-product-register',
+  selector: 'app-product-register-modal',
   imports: [
     ReactiveFormsModule,
     CurrencyMaskModule,
     DatePipe,
-    NgClass,
-    SpinnerComponent
+    NgClass
   ],
-  templateUrl: './product-register.component.html'
+  templateUrl: './product-register-modal.component.html',
 })
-export class ProductRegisterComponent implements OnInit {
+export class ProductRegisterModalComponent extends ModalComponent<ProductResponse, boolean> {
+
+  productResponse: ProductResponse | null = null;
+  callbackFunc!: ModalComponentFunction<boolean>;
 
   private readonly productService = inject(ProductService);
   private readonly categoryService = inject(CategoryService);
   private readonly snackBarService = inject(SnackBarService);
-
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly location = inject(Location);
 
   public getImageUrlLocal = getImagesUrl;
 
@@ -44,9 +37,6 @@ export class ProductRegisterComponent implements OnInit {
 
   categories: CategoryResponse[] = [];
 
-  productId: number | null = null;
-  productResponse: ProductResponse | null = null;
-
   private readonly fb = new FormBuilder();
 
   formGroup = this.fb.group({
@@ -57,37 +47,24 @@ export class ProductRegisterComponent implements OnInit {
     categoryId: [0]
   });
 
-  ngOnInit(): void {
+  override init(model: { data?: ProductResponse; callbackFunc: ModalComponentFunction<boolean>; }): void {
+    if (model.data) {
+      this.productResponse = model.data;
+      this.setFormValues(this.productResponse);
+    }
     this.isCategoryOptionLoading = true;
-    this.categoryService.getAll()
-      .subscribe({
-        next: c => {
-          this.categories = c;
-          this.isCategoryOptionLoading = false;
-        },
-        error: () => {
-          this.isCategoryOptionLoading = false;
-        }
-      });
-    this.activatedRoute.params.subscribe(params => {
-      const stringProductId: string | null = params['id'];
-      if (stringProductId !== null) {
-        this.productId = Number(stringProductId);
-        if (this.productId) {
-          this.isLoading = true;
-          this.productService.getById(this.productId).subscribe({
-            next: res => {
-              this.setFormValues(res);
-              this.isLoading = false;
-            },
-            error: () => {
-              this.productId = null;
-              this.isLoading = false;
-            }
-          })
-        }
-      }
+    this.categoryService.getAll().subscribe({
+      next: c => {
+        this.categories = c;
+        this.isCategoryOptionLoading = false;
+      },
+      error: () => this.isCategoryOptionLoading = false
     });
+    this.callbackFunc = model.callbackFunc;
+  }
+
+  onClose(reload?: boolean): void {
+    this.callbackFunc(reload);
   }
 
   public onImageChange(event: any): void {
@@ -121,7 +98,7 @@ export class ProductRegisterComponent implements OnInit {
             this.productService.uploadImage(res.id, formData).subscribe({
               next: () => {
                 this.isSavingLoading = false;
-                this.location.back();
+                this.onClose(true);
               },
               error: () => {
                 this.isSavingLoading = false;
@@ -129,7 +106,7 @@ export class ProductRegisterComponent implements OnInit {
             });
           } else {
             this.isSavingLoading = false;
-            this.location.back();
+            this.onClose(true);
           }
 
         },
@@ -144,9 +121,9 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   public onDeleteImage() {
-    if (this.productId !== null) {
+    if (this.productResponse !== null) {
       this.isDeleteImageLoading = true;
-      this.productService.deleteImage(this.productId).subscribe({
+      this.productService.deleteImage(this.productResponse.id).subscribe({
         next: prod => {
           this.isDeleteImageLoading = false;
           this.setFormValues(prod);
@@ -161,8 +138,8 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   private executeRequest(body: CreateProductRequest): Observable<ProductResponse> {
-    if (this.productId) {
-      return this.productService.update(this.productId, body);
+    if (this.productResponse) {
+      return this.productService.update(this.productResponse.id, body);
     } else {
       return this.productService.create(body);
     }
@@ -174,10 +151,6 @@ export class ProductRegisterComponent implements OnInit {
 
   public get priceControls(): AbstractControl[] {
     return this.prices.controls;
-  }
-
-  public getBack(): void {
-    this.location.back();
   }
 
   public addPrice(): void {
@@ -212,5 +185,4 @@ export class ProductRegisterComponent implements OnInit {
   public get prices(): FormArray {
     return (this.formGroup.get("prices") as FormArray);
   }
-
 }

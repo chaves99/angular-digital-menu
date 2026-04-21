@@ -3,10 +3,10 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <div #scrolling class="bg-body-secondary">
-      <div class="bg-white mx-auto" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
+    <div #scrolling [ngStyle]="theme.background">
+      <div [ngStyle]="theme.mainSection" class="mx-auto" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
-        <div class="container overflow-hidden text-center ">
+        <div class="container overflow-hidden text-center">
           <div class="row gy-3 align-items-center pt-3 justify-content-center">
             @if(menu.info.image !== null) {
               <div class="col-md-4">
@@ -18,7 +18,7 @@
                 {{menu.info.establishmentName}}
               </h2>
               @if (menu.info.description !== null) {
-                <p class="text-body-secondary">
+                <p class="text-body-econdary">
                   {{menu.info.description}}
                 </p>
               }
@@ -27,10 +27,11 @@
         </div>
 
         <!-- ################ CATEGORIES ################ -->
-        <div class="d-flex justify-content-around sticky-top bg-body-tertiary p-3 flex-nowrap overflow-x-scroll">
+        <div [ngStyle]="theme.mainSection"
+          class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll">
           @for(cat of menu.categories; track $index) {
-            <button type="button" (click)="scrollTo(cat.name)"
-              class="btn fw-semibold btn-secondary mx-2 text-nowrap">
+            <button [ngStyle]="theme.secondaryColor" type="button"
+              (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap">
               {{ cat.name }}
             </button>
           }
@@ -54,16 +55,10 @@
         </div>
 
         <!-- ################ ITEMS SECTION ################ -->
-        <div data-bs-smooth-scroll="false" class="container mt-3 pb-5" data-bs-theme="light">
+        <div data-bs-smooth-scroll="false" class="container mt-3 pb-5">
           @for(cat of menuCategories; track cat.id) {
             <h3 id="{{cat.name}}" class="fs-6 mt-4 fw-semibold text-capitalize">{{ cat.name }}</h3>
             @for(product of cat.products; track product.id) {
-              <!-- <a -->
-              <!--   [id]="product.id" -->
-              <!--   [routerLink]="[product.id]" -->
-              <!--   [state]="{product: product, categoryName: cat.name}" -->
-              <!--   class="text-decoration-none text-reset d-flex mb-1 w-100 p-1 gap-2" -->
-              <!-- > -->
               <a
                 (click)="onOpenItem(product, cat)"
                 class="text-decoration-none text-reset d-flex mb-1 w-100 p-1 gap-2"
@@ -102,7 +97,7 @@
         </div>
 
         <!-- ################ FOOTER ################ -->
-        <div class="container-fluid text-bg-secondary py-3 px-4 text-center" >
+        <div [ngStyle]="theme.secondaryColor" class="container-fluid py-3 px-4 text-center" >
 
           <!-- ################ ADDRESS ################ -->
           @if(existAddress()) {

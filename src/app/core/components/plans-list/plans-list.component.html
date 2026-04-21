@@ -23,6 +23,13 @@
           <div class="card text-center mb-4 shadow h-100">
             <div class="card-header py-3">
               <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
+              @if(plan.valueDiscount) {
+                <p class="card-text">
+                  <small class="text-body-secondary">
+                    Desconto de {{ plan.valueDiscount | currency: 'BRL' }}
+                  </small>
+                </p>
+              }
             </div>
             <div class="card-body">
               <h2 class="card-title">
@@ -36,14 +43,25 @@
                   </li>
                 }
               </ul>
+
             </div>
             <div class="card-footer">
-              <button type="button"
-                (click)="onAssign(plan.priceId)"
-                class="shadow w-75 rounded-pill btn btn btn-primary">
-                <i class="bi bi-stripe"></i>
-                Assinar
-              </button>
+              @if(user === null) {
+                <button type="button"
+                  routerLink="/register"
+                  class="w-75 rounded-pill btn btn-primary">
+                  Criar Conta Grátis
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+              } @else {
+                <button type="button"
+                  (click)="onAssign(plan.priceId)"
+                  class="w-75 rounded-pill btn btn-primary">
+                  <!-- <i class="bi bi-stripe"></i> -->
+                  Assinar
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+              }
             </div>
           </div>
         </div>

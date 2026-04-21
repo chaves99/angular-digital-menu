@@ -3,13 +3,13 @@ import { CreateUserResponse } from '../../../services/payload';
 import { StorageService } from '../../../services';
 import { CurrencyPipe } from '@angular/common';
 import { SpinnerComponent } from '../spinner/spinner.component';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SnackBarService } from '../snackbar/snackbar.service';
 import { AvailablePlans, SubscriptionService } from '@features/subscription';
 
 @Component({
   selector: 'app-plans-list',
-  imports: [CurrencyPipe, SpinnerComponent],
+  imports: [CurrencyPipe, SpinnerComponent, RouterLink],
   templateUrl: './plans-list.component.html',
 })
 export class PlansListComponent {

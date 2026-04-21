@@ -1,0 +1,132 @@
+<form class="modal show d-block" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl modal-fullscreen-lg-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="row justify-content-between">
+          <!-- ########### PAGE HEADER ########### -->
+          @if(productResponse) {
+          <div class="d-block">
+            <div>
+              <h5 class="modal-title">Editar Produto</h5>
+              <p class="text-body-secondary fs-6">
+                Criado em: {{productResponse.createdAt| date: 'd/MM/yy, H:mm'}},
+                atualizado em: {{productResponse.updatedAt | date: 'd/MM/yy, H:mm'}}.
+              </p>
+            </div>
+          </div>
+          } @else {
+          <h2 class="modal-title">Criar Produto</h2>
+          }
+        </div>
+        <button (click)="onClose()" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- ####### NAME INPUT ####### -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Nome:</label>
+          <input type="text" class="form-control" id="name" formControlName="name" required>
+        </div>
+
+        <!-- ####### IMAGE INPUT ####### -->
+        <div class="row gap-3">
+          <div class="mb-3 col-auto">
+            <label for="formFile" class="form-label">Imagem do produto</label>
+            <input class="form-control" type="file" id="formFile" (change)="onImageChange($event)">
+          </div>
+          @if(productResponse !== null && productResponse.image !== null) {
+          <div class="col-auto mb-5">
+            <img [src]="getImageUrlLocal(productResponse.image)" style="max-width: 320px;"
+              class="img-thumbnail me-2 mb-2" alt="...">
+
+            <button type="button" (click)="onDeleteImage()" class="align-middle btn btn-sm btn-danger">
+              Excluir
+              @if(isDeleteImageLoading) {
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              } @else {
+              <i class="bi bi-trash"></i>
+              }
+            </button>
+          </div>
+          }
+        </div>
+
+        <div class="border rounded-2 px-3 px-md-5 py-3 mb-3">
+          <div class="d-flex justify-content-between mb-3">
+            <h5 class="d-none d-md-block">
+              Preços
+            </h5>
+            <button class="btn btn-primary" (click)="addPrice()" type="button">
+              Adicionar Preço
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
+
+          <!-- ####### PRICE INPUTS ####### -->
+          @for(price of priceControls; let priceIndex = $index; track priceIndex) {
+          <div class="d-flex row border-bottom mb-3" [formGroup]="getFormGroupAtIndex(priceIndex)">
+            <input type="hidden" id="unit-{{$index}}" formControlName="id">
+            <div class="mb-3 col-5">
+              <label for="unit-{{$index}}" class="form-label">Unidade:</label>
+              <input class="form-control" id="unit-{{$index}}" placeholder="KG, CM, Pequeno" formControlName="unit"
+                required>
+            </div>
+            <div class="mb-3 col-5">
+              <label for="price-{{$index}}" class="form-label">Preço:</label>
+              <input inputmode="numeric" pattern="[0-9]+" currencyMask
+                [options]="{align: 'left', prefix: 'R$ ', thousands: '.', decimal: ','}" class="form-control"
+                id="price-{{$index}}" formControlName="value" required>
+            </div>
+            <div class="mb-3 col position-relative">
+              <button class="btn btn-danger position-absolute bottom-0" type="button" (click)="deletePrice(priceIndex)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          }
+        </div>
+
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="active" formControlName="active" required>
+          <label for="active" class="form-label">Active</label>
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Descrição:</label>
+          <textarea rows="6" class="form-control" id="description" formControlName="description" required></textarea>
+        </div>
+        <div class="mb-3">
+          <label for="categoryId" class="form-label">
+            Categoria:
+          </label>
+          <select class="form-select" formControlName="categoryId">
+            @if(isCategoryOptionLoading) {
+            <option selected>Carregando...</option>
+            } @else {
+            @for(cat of categories; track cat.id) {
+            <option value="{{cat.id}}">{{ cat.name }}</option>
+            }
+            }
+          </select>
+        </div>
+      </div>
+
+      <!-- MODAL FOOTER -->
+      <div class="modal-footer">
+        <!-- <div class="d-flex flex-wrap-reverse row justify-content-end gap-4"> -->
+          <button (click)="onClose()" type="button" class="col-md-2 btn btn-outline-primary">
+            Fechar
+            <!-- <i class="bi bi-x-lg"></i> -->
+          </button>
+          <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
+            Salvar
+            @if(isSavingLoading) {
+            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+            } @else {
+            <i class="bi bi-floppy"></i>
+            }
+          </button>
+        <!-- </div> -->
+      </div>
+    </div>
+  </div>
+</form>

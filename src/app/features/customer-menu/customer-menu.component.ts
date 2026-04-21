@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgOptimizedImage, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DOCUMENT, effect, inject, OnInit, Signal, viewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -15,10 +15,11 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
   templateUrl: 'customer-menu.component.html',
   imports: [
     CurrencyPipe,
+    NgStyle,
     FormsModule,
     NgOptimizedImage,
     SpinnerComponent
-  ]
+  ],
 })
 export class CustomerMenuComponent implements OnInit {
 
@@ -26,6 +27,23 @@ export class CustomerMenuComponent implements OnInit {
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly document = inject(DOCUMENT);
   private readonly modalService = inject(ModalDialogService);
+
+  themes: Theme[] = [
+    // dark
+    {
+      background: { 'background-color': '#212529' },
+      secondaryColor: { 'background-color': '#495057', 'color': '#fff' },
+      mainSection: { 'background-color': '#343a40', 'color': '#fff' }
+    },
+    // light
+    {
+      background: { 'background-color': '#e9ecef' },
+      secondaryColor: { 'background-color': '#6c757d', 'color': '#fff' },
+      mainSection: { 'background-color': '#fff', 'color': '#000' }
+    }
+  ];
+
+  theme: Theme = this.themes[0];
 
   // used to scroll when get back from details
   // see https://angular.love/angular-scroll-position-restoration
@@ -64,7 +82,7 @@ export class CustomerMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.document.documentElement.setAttribute('data-bs-theme', 'light');
+    // this.document.documentElement.setAttribute('data-bs-theme', 'dark');
     this.activatedRoute.params
       .subscribe(param => {
         const urlCode = param['localName'];
@@ -172,3 +190,8 @@ export class CustomerMenuComponent implements OnInit {
   public openTelephone(): void {
   }
 }
+type Theme = {
+  background: { 'background-color': string },
+  secondaryColor: { 'background-color': string, 'color': string },
+  mainSection: { 'background-color': string, 'color': string }
+};

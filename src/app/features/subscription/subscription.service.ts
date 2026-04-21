@@ -68,6 +68,7 @@ export interface AvailablePlans {
   name: string;
   description: string;
   recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+  valueDiscount: number;
 }
 
 type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELED';

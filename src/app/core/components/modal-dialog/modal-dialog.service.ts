@@ -34,8 +34,6 @@ export class ModalDialogService {
     const ref = this.openComponent(params.type);
     const component = ref.instance;
 
-    console.log("openGeneric");
-    console.log(params);
     component.init({
       data: params.data,
       callbackFunc: out => {
