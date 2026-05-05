@@ -1,4 +1,4 @@
-import { CurrencyPipe } from "@angular/common";
+import { CurrencyPipe, NgClass, NgStyle } from "@angular/common";
 import { Component } from "@angular/core";
 import { getImagesUrl, ModalComponent, ModalComponentFunction } from "../../../../core";
 import { MenuCategoryResponse, MenuProductResponse } from "../../../../services/payload";
@@ -7,7 +7,7 @@ import { Theme } from "@features/customer-menu/customer-menu.component";
 @Component({
   selector: 'app-customer-menu-details',
   templateUrl: './customer-menu-item-modal.component.html',
-  imports: [CurrencyPipe]
+  imports: [CurrencyPipe, NgStyle, NgClass]
 })
 export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInput, void> {
 

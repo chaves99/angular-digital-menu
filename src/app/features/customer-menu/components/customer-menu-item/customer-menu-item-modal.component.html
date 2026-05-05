@@ -1,6 +1,8 @@
 <div class="modal d-inline-block show" >
   <div class="modal-dialog modal-dialog-centered modal-fullscreen-lg-down modal-xl">
-    <div class="modal-content rounded-3">
+    <div [ngClass]="state!.theme.type === 'DARK' ? 'text-light' : 'text-dark'"
+      [ngStyle]="{'font-family': state!.theme.font, 'background-color': state!.theme.mainColor}"
+      class="modal-content rounded-3">
       <button class="btn-close position-absolute top-0 bg-light end-0 rounded-pill p-3 m-2"
         type="button" (click)="back()"
         style="z-index: 1"
@@ -14,7 +16,7 @@
           }
 
           <div class="container py-3 ">
-            <small class="text-body-secondary text-capitalize">{{ state.category.name }}</small>
+            <small class="text-capitalize">{{ state.category.name }}</small>
             <h1 class="display-3 fw-semibold">{{ state.product.name }}</h1>
             <p class="" style="white-space: pre-line; "> {{ state.product.description }}</p>
             <div class="mt-5">
@@ -33,7 +35,9 @@
         }
       </div>
       <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="back()">
+        <button
+          [ngStyle]="{'background-color': state!.theme.secondaryColor, 'border-color': state!.theme.secondaryColor}"
+          [ngClass]="state!.theme.type === 'DARK' ? 'btn-dark' : 'btn-light'" class="btn" (click)="back()">
           Voltar
         </button>
       </div>
