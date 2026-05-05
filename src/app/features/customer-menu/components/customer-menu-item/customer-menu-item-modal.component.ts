@@ -2,6 +2,7 @@ import { CurrencyPipe } from "@angular/common";
 import { Component } from "@angular/core";
 import { getImagesUrl, ModalComponent, ModalComponentFunction } from "../../../../core";
 import { MenuCategoryResponse, MenuProductResponse } from "../../../../services/payload";
+import { Theme } from "@features/customer-menu/customer-menu.component";
 
 @Component({
   selector: 'app-customer-menu-details',
@@ -38,4 +39,5 @@ export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInpu
 interface ItemModalInput {
   product: MenuProductResponse,
   category: MenuCategoryResponse
+  theme: Theme
 }

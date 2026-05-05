@@ -3,8 +3,9 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <div #scrolling [ngStyle]="theme.background">
-      <div [ngStyle]="theme.mainSection" class="mx-auto" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
+    <div #scrolling [ngStyle]="{'font-family': theme.font}" class="customer-container" [ngClass]="theme.type === 'DARK' ? 'text-light' : 'text-dark'">
+      <div [ngStyle]="{'background-color': theme.mainColor, 'font-family': theme.font}"
+        class="mx-auto shadow" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
         <div class="container overflow-hidden text-center">
           <div class="row gy-3 align-items-center pt-3 justify-content-center">
@@ -27,10 +28,12 @@
         </div>
 
         <!-- ################ CATEGORIES ################ -->
-        <div [ngStyle]="theme.mainSection"
+        <div style="z-index: 3" [ngStyle]="{'background-color': theme.mainColor}"
           class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll">
           @for(cat of menu.categories; track $index) {
-            <button [ngStyle]="theme.secondaryColor" type="button"
+            <button type="button"
+              [ngClass]="theme.type === 'DARK' ? 'text-light' : 'text-dark'"
+              [ngStyle]="{'background-color': theme.secondaryColor}"
               (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap">
               {{ cat.name }}
             </button>
@@ -39,26 +42,40 @@
 
         <!-- ################ SEARCH ################ -->
         <div class="d-block p-2">
-          <div class="input-group input-group-lg mb-3 mt-2">
+          @if (theme.type === 'DARK') {
+          <div data-bs-theme="dark" class="input-group input-group-lg mb-3 mt-2">
+            <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
+              class="form-control bg-dark" placeholder="Procurar..." name="searchTerm">
+            @if(isSearching) {
+              <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
+                {{isSearching}}
+              </button>
+            }
+          </div>
+          } @else {
+          <div data-bs-theme="light" class="input-group input-group-lg mb-3 mt-2">
             <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
               class="form-control" placeholder="Procurar..." name="searchTerm">
             @if(isSearching) {
               <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
+                {{isSearching}}
                 <i class="bi bi-x-lg"></i>
               </button>
             }
           </div>
+          }
+
         </div>
 
-        <div class="container">
+        <div  class="container">
           <hr>
         </div>
 
         <!-- ################ ITEMS SECTION ################ -->
-        <div data-bs-smooth-scroll="false" class="container mt-3 pb-5">
-          @for(cat of menuCategories; track cat.id) {
+        <div  data-bs-smooth-scroll="false" class="container mt-3 pb-5">
+          @for(cat of menuCategories; track cat.id; let catIndex = $index) {
             <h3 id="{{cat.name}}" class="fs-6 mt-4 fw-semibold text-capitalize">{{ cat.name }}</h3>
-            @for(product of cat.products; track product.id) {
+            @for(product of cat.products; track product.id; let productIndex = $index) {
               <a
                 (click)="onOpenItem(product, cat)"
                 class="text-decoration-none text-reset d-flex mb-1 w-100 p-1 gap-2"
@@ -90,14 +107,16 @@
                   </div>
                 </div>
               </a>
-              <div class="w-100 border-bottom border-1 mb-2">
-              </div>
+              @if (!((productIndex === (cat.products.length - 1)) && (catIndex === (menuCategories.length - 1)))) {
+                <hr>
+              }
             }
           }
         </div>
 
         <!-- ################ FOOTER ################ -->
-        <div [ngStyle]="theme.secondaryColor" class="container-fluid py-3 px-4 text-center" >
+        <div [ngStyle]="{'background-color': theme.secondaryColor}"
+          class="mt-1 container-fluid pt-4 px-4 text-center" >
 
           <!-- ################ ADDRESS ################ -->
           @if(existAddress()) {
@@ -119,7 +138,7 @@
           @if(existSchedule()) {
             <div class="p-6 fw-bold">
               <i class="bi bi-calendar2-day"></i>
-              Horários
+              Horários:
             </div>
             <p class="">
               @for(schedule of menu.schedules; track schedule.id) {
@@ -179,10 +198,16 @@
             </div>
             <hr class="">
           }
-          <div class="mt-5 mb-5">
+          <div class="mt-5 pb-2">
             <a href="https://itimenu.app" target="_blank"
-              class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover link-light">
-              Powered by: <img class="ms-1" ngSrc="logo/full_logo_white.png" width="95" height="30"/>
+              [ngClass]="theme.type === 'DARK' ? 'link-light' : 'link-dark'"
+              class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+              Powered by:
+              @if (theme.type === 'DARK') {
+                <img class="ms-1" ngSrc="logo/full_logo_white.png" width="95" height="30"/>
+              } @else {
+                <img class="ms-1" ngSrc="logo/full_logo_black.png" width="95" height="28"/>
+              }
             </a>
           </div>
         </div>

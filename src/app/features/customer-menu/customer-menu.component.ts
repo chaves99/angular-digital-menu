@@ -1,6 +1,6 @@
-import { CurrencyPipe, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, effect, inject, OnInit, Signal, viewChild } from '@angular/core';
+import { Component, DOCUMENT, effect, inject, input, OnInit, Signal, viewChild, viewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, Scroll } from '@angular/router';
@@ -13,8 +13,10 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
 @Component({
   selector: 'app-customer-menu',
   templateUrl: 'customer-menu.component.html',
+  styleUrl: './customer-menu.component.scss',
   imports: [
     CurrencyPipe,
+    NgClass,
     NgStyle,
     FormsModule,
     NgOptimizedImage,
@@ -23,31 +25,29 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
 })
 export class CustomerMenuComponent implements OnInit {
 
+  urlCustomer = input<string | null>(null);
+  themeInput = input<Theme>(
+    {
+      name: 'Padrão Claro',
+      type: 'LIGHT',
+      mainColor: '#fff',
+      secondaryColor: '#e9ecef',
+      font: null
+    }
+  );
+
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly viewportScroller = inject(ViewportScroller);
   private readonly document = inject(DOCUMENT);
   private readonly modalService = inject(ModalDialogService);
 
-  themes: Theme[] = [
-    // dark
-    {
-      background: { 'background-color': '#212529' },
-      secondaryColor: { 'background-color': '#495057', 'color': '#fff' },
-      mainSection: { 'background-color': '#343a40', 'color': '#fff' }
-    },
-    // light
-    {
-      background: { 'background-color': '#e9ecef' },
-      secondaryColor: { 'background-color': '#6c757d', 'color': '#fff' },
-      mainSection: { 'background-color': '#fff', 'color': '#000' }
-    }
-  ];
-
-  theme: Theme = this.themes[0];
 
   // used to scroll when get back from details
   // see https://angular.love/angular-scroll-position-restoration
   scrollingRef = viewChild<HTMLElement>('scrolling');
+  lineSeparator = viewChildren<HTMLElement>('lineSeparator');
+
+  theme!: Theme;
 
   private readonly menuService = inject(MenuService);
 
@@ -79,33 +79,46 @@ export class CustomerMenuComponent implements OnInit {
       }
     });
 
+    effect(() => {
+      this.theme = this.themeInput();
+      console.log("theme effect");
+      console.log(this.theme);
+    });
   }
 
   ngOnInit(): void {
-    // this.document.documentElement.setAttribute('data-bs-theme', 'dark');
-    this.activatedRoute.params
-      .subscribe(param => {
-        const urlCode = param['localName'];
-        this.isLoading = true;
-        this.menuService.get(urlCode)
-          .subscribe({
-            next: menu => {
-              this.menu = menu;
-              this.menuCategories = menu.categories;
-              this.isLoading = false;
-            },
-            error: res => {
-              this.isLoading = false;
-              if (res && res instanceof HttpErrorResponse) {
-                const errorDetail: ErrorDetailResponse = res.error;
-                if (errorDetail !== null && errorDetail.message !== null) {
-                  this.errorMessage = ERROR_MESSAGES[errorDetail.message];
-                } else {
-                  this.errorMessage = "Erro ao carregar menu!";
-                }
-              }
+    const urlCustomer = this.urlCustomer();
+    if (urlCustomer !== null) {
+      this.loadMenu(urlCustomer);
+    } else {
+      this.activatedRoute.params
+        .subscribe(param => {
+          const urlCode = param['localName'];
+          this.loadMenu(urlCode);
+        });
+    }
+  }
+
+  private loadMenu(urlCode: string): void {
+    this.isLoading = true;
+    this.menuService.get(urlCode)
+      .subscribe({
+        next: menu => {
+          this.menu = menu;
+          this.menuCategories = menu.categories;
+          this.isLoading = false;
+        },
+        error: res => {
+          this.isLoading = false;
+          if (res && res instanceof HttpErrorResponse) {
+            const errorDetail: ErrorDetailResponse = res.error;
+            if (errorDetail !== null && errorDetail.message !== null) {
+              this.errorMessage = ERROR_MESSAGES[errorDetail.message];
+            } else {
+              this.errorMessage = "Erro ao carregar menu!";
             }
-          });
+          }
+        }
       });
   }
 
@@ -127,7 +140,17 @@ export class CustomerMenuComponent implements OnInit {
   }
 
   public onSearch() {
-    if (this.menu && this.searchTerm !== undefined && this.searchTerm.length > 0) {
+    if (this.searchTerm === undefined) {
+      return;
+    }
+
+    if (this.searchTerm.trim() === "") {
+      this.cleanSearch();
+      return;
+    }
+
+
+    if (this.menu) {
       const newList: MenuCategoryResponse[] = [];
       this.menu.categories.filter(cat => {
         const productList: MenuProductResponse[] = [];
@@ -144,8 +167,6 @@ export class CustomerMenuComponent implements OnInit {
       });
       this.menuCategories = newList;
       this.isSearching = true;
-    } else {
-      this.isSearching = false;
     }
   }
 
@@ -180,7 +201,7 @@ export class CustomerMenuComponent implements OnInit {
   onOpenItem(product: MenuProductResponse, category: MenuCategoryResponse) {
     this.modalService.open({
       type: CustomerMenuItemModalComponent,
-      data: { product: product, category: category }
+      data: { product: product, category: category, theme: this.theme }
     });
   }
 
@@ -190,8 +211,11 @@ export class CustomerMenuComponent implements OnInit {
   public openTelephone(): void {
   }
 }
-type Theme = {
-  background: { 'background-color': string },
-  secondaryColor: { 'background-color': string, 'color': string },
-  mainSection: { 'background-color': string, 'color': string }
+
+export type Theme = {
+  name?: string;
+  type: 'DARK' | 'LIGHT',
+  mainColor: string;
+  secondaryColor: string;
+  font: string | null;
 };

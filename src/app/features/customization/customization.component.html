@@ -1,23 +1,91 @@
 <div class="container-fluid py-5">
   <div class="d-flex gap-3 mb-5" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-outline-primary">Fonte</button>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#font-modal">
+      Fonte: {{ selectedTheme.font }}
+    </button>
     <div class="dropdown">
       <button type="button" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-        class="btn btn-outline-primary dropdown-toggle">Cores</button>
-      <div class="dropdown-menu p-3">
-        <p> Test</p>
+        class="btn btn-primary dropdown-toggle">Cores</button>
+      <div class="dropdown-menu p-3" style="z-index: 1000;">
+        <ul class="list-group">
+          @for(theme of themesDefault; track $index) {
+            <li (click)="onSetNewTheme(theme)" class="list-group-item-action list-btn list-group-item" id="$index">{{ theme.name }}</li>
+          }
+          <li class="list-group-item-action list-group-item" data-bs-toggle="modal" data-bs-target="#theme-modal">
+            Customizado
+          </li>
+        </ul>
       </div>
     </div>
-    <button type="button" class="btn btn-outline-primary">Layout</button>
   </div>
 
-  <div id="phone-mockup bg-light-subtle" class="mx-auto border border-2 rounded-4 mt-5" style="width: 290px; height: 440px">
-    <app-customer-menu>
-    </app-customer-menu>
-    <!-- <div class="border m-2 rounded-4" style="height: 40%"> -->
-    <!--   <p class="text-center mt-5 align-middle"> -->
-    <!--     Imagem -->
-    <!--   </p> -->
-    <!-- </div> -->
+  <div class="row justify-content-center">
+    <div class="overflow-auto mx-auto px-0 border-4 border bg-light rounded-4 mt-5 col-auto"
+      style="height: 650px; scrollbar-width: none; width: 440px">
+      <app-customer-menu class="w-100" [themeInput]="selectedTheme" [urlCustomer]="user!.establishmentUrl">
+      </app-customer-menu>
+    </div>
   </div>
+</div>
+
+<!-- ########## FONT MODAL ########## -->
+<div id='font-modal' class="modal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Escolha sua fonte</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @for(type of fonts; track $index) {
+          <p class="">{{ type.type }}:</p>
+          <div class="list-group mb-4">
+            @for(font of type.fonts; track $index) {
+              <button (click)="onSelectFont(font)" data-bs-dismiss="modal"
+                type="button" style="font-family: {{ font }}; font-size: 22px"
+                class="list-group-item list-group-item-action">
+                {{ font }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+        <!-- <button type="button" class="btn btn-primary">Feito</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ########## THEME MODAL ########## -->
+<div id='theme-modal' class="modal" tabindex="-1">
+  <form class="modal-dialog modal-dialog-centered" [formRoot]="customThemeForm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crie Seu Tema</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="" class="form-label">Cor primária</label>
+          <input type="color" [formField]="customThemeForm.mainColor" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+        </div>
+        <div class="mb-3">
+          <label for="" class="form-label">Cor Secundária</label>
+          <input type="color" [formField]="customThemeForm.secondaryColor" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+        </div>
+        <div class="">
+          <select [formField]="customThemeForm.type" class="form-select" aria-label="Default select example">
+            <option value="LIGHT">Claro</option>
+            <option value="DARK">Escuro</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </div>
+  </form>
 </div>
