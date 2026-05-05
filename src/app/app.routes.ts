@@ -67,7 +67,7 @@ export const routes: Routes = [
   },
   {
     path: 'customer-menu/:localName',
-    component: CustomerMenuComponent,
+    loadComponent: () => import("@features/customer-menu/customer-menu.component").then(c => c.CustomerMenuComponent)
   },
   {
     path: 'admin',
