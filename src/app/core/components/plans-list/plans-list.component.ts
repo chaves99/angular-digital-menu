@@ -58,7 +58,7 @@ export class PlansListComponent {
     this.subscriptionService.getPlanUrl(priceId).subscribe({
       next: s => {
         this.isPlanButtonLoading = false;
-        window.location.assign(s);
+        window.open(s, "_blank");
       },
       error: () => {
         this.isPlanButtonLoading = false;
