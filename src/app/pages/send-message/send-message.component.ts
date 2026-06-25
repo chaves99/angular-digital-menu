@@ -28,7 +28,7 @@ export class SendMessageComponent implements OnInit {
       if (value() !== null && value().length > 0) {
         return null;
       }
-      return { kind: 'validation' }
+      return { kind: 'validation', message: "Mensagem é obrigatório!" };
     });
 
     const user = this.user();
@@ -42,22 +42,25 @@ export class SendMessageComponent implements OnInit {
     }
   });
 
-
   isLoading = false;
 
   ngOnInit(): void {
   }
 
   onSend(): void {
-
-    console.log("onSend: valid:" + this.form().valid);
-      this.snackbarService.openError("Preencha todos os campos obrigatórios");
-    if (!this.form().valid) {
-      console.log("onSend");
+    if (!this.form().valid()) {
       this.snackbarService.openError("Preencha todos os campos obrigatórios");
       return;
     }
-    const { email, subject, message } = this.messageBody();
+    const values = this.messageBody();
+    this.emailService.sendUserMessage({ ...values, userEmail: values.email }).subscribe({
+      next: () => {
+        this.snackbarService.openSuccess("Mensagem enviada!");
+      },
+      error: () => {
+        this.snackbarService.openError("Erro ao enviar mensagem!");
+      }
+    });
   }
 
 }

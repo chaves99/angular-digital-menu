@@ -1,0 +1,31 @@
+@if (data) {
+<form (ngSubmit)="onSubmit()" [formGroup]="formGroup" class="modal d-inline-block show">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content shadow-lg">
+
+      <div class="modal-header">
+        <h5 class="modal-title">{{ data.modalTitle }}</h5>
+        <button type="button" class="btn-close" (click)="_onClose()" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="p-3 px-4 mt-2">
+          <label for="input" class="form-label">{{ data.fieldDescription }}</label>
+          <input #fieldInput formControlName="value" type="text" class="form-control"
+            [ngClass]="isValid ? '' : 'is-invalid'" id="input" [placeholder]="data.fieldPlaceholder">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="_onClose()" class="btn btn-secondary">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          {{ data.saveButtonText }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</form>
+}

@@ -1,5 +1,5 @@
 import { Component, OnInit, output } from '@angular/core';
-import { ModalDialogData } from './modal-dialog.service';
+import { ModalDialogData } from './types';
 
 @Component({
   selector: 'app-modal-dialog',

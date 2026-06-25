@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { AccountDataComponent } from '@features/account-data/account-data.component';
+import { AdminComponent } from '@features/admin';
+import { CustomizationComponent } from '@features/customization/customization.component';
 import { DashboardComponent } from '@features/dashboard/dashboard.component';
 import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, ScheduleComponent } from '@features/establishment';
 import { ProductComponent } from '@features/product';
@@ -8,20 +10,17 @@ import { SubscriptionComponent } from '@features/subscription/subscription.compo
 import { UpdatePasswordComponent } from '@features/update-password/update-password.component';
 import { authGuard, loggedUserGuard } from './core';
 import { CategoryComponent } from './features/category/category.component';
-import { CustomerMenuComponent } from './features/customer-menu/customer-menu.component';
 import {
-  LandingComponent,
-  LoginComponent,
-  PageComponent,
-  PasswordRecoveryComponent,
-  PostSaleComponent,
-  PrivacyComponent,
-  RegisterComponent,
-  SendMessageComponent,
-  TermsOfServiceComponent
+    LandingComponent,
+    LoginComponent,
+    PageComponent,
+    PasswordRecoveryComponent,
+    PostSaleComponent,
+    PrivacyComponent,
+    RegisterComponent,
+    SendMessageComponent,
+    TermsOfServiceComponent
 } from './pages';
-import { AdminComponent } from '@features/admin';
-import { CustomizationComponent } from '@features/customization/customization.component';
 
 export const routes: Routes = [
   {

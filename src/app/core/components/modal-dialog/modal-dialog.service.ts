@@ -1,7 +1,9 @@
 import { ComponentType, Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { ComponentRef, inject, Injectable } from "@angular/core";
+import { InputModalData, InputModalDialogComponent } from "./modal-dialog-input.component";
 import { ModalDialogComponent } from "./modal-dialog.component";
+import { ModalComponent, ModalComponentFunction } from "./types";
 
 @Injectable({ providedIn: 'root' })
 export class ModalDialogService {
@@ -22,6 +24,24 @@ export class ModalDialogService {
       this.closeModal()
       if (config.afterClose !== undefined) {
         config.afterClose(value);
+      }
+    });
+  }
+
+  public openDefaultInput(params: {
+    data: InputModalData,
+    callback: ModalComponentFunction<string | null>
+  }): void {
+    const ref = this.openComponent(InputModalDialogComponent);
+    const component = ref.instance;
+
+    component.init({
+      data: params.data,
+      callbackFunc: out => {
+        this.closeModal();
+        if (params.callback) {
+          params.callback(out);
+        }
       }
     });
   }
@@ -62,16 +82,4 @@ export class ModalDialogService {
 
 }
 
-export abstract class ModalComponent<IN, OUT> {
-
-  abstract init(model: { data?: IN, callbackFunc: ModalComponentFunction<OUT> }): void;
-}
-
-export type ModalComponentFunction<OUT> = (r?: OUT) => void;
-
-export interface ModalDialogData {
-  message: string;
-  subMessage?: string;
-  title?: string;
-}
 

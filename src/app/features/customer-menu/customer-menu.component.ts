@@ -1,9 +1,10 @@
 import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, effect, inject, input, OnInit, Signal, viewChild, viewChildren } from '@angular/core';
+import { Component, DOCUMENT, effect, inject, input, model, OnInit, Signal, viewChild, viewChildren } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, Scroll } from '@angular/router';
+import { CustomizationResponse } from '@features/customization/customization.service';
 import { filter, map } from 'rxjs';
 import { getImagesUrl, ModalDialogService, SpinnerComponent } from '../../core';
 import { MenuService } from '../../services';
@@ -26,13 +27,16 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
 export class CustomerMenuComponent implements OnInit {
 
   urlCustomer = input<string | null>(null);
-  themeInput = input<Theme>(
+  themeInput = model<CustomizationResponse>(
     {
+      id: -1,
       name: 'Padrão Claro',
-      type: 'LIGHT',
+      theme: 'LIGHT',
+      active: true,
+      builtin: true,
       mainColor: '#fff',
       secondaryColor: '#e9ecef',
-      font: null
+      font: ''
     }
   );
 
@@ -41,13 +45,12 @@ export class CustomerMenuComponent implements OnInit {
   private readonly document = inject(DOCUMENT);
   private readonly modalService = inject(ModalDialogService);
 
-
   // used to scroll when get back from details
   // see https://angular.love/angular-scroll-position-restoration
   scrollingRef = viewChild<HTMLElement>('scrolling');
   lineSeparator = viewChildren<HTMLElement>('lineSeparator');
 
-  theme!: Theme;
+  contactsCssClasses: string = "fs-6 text-reset text-decoration-none";
 
   private readonly menuService = inject(MenuService);
 
@@ -78,12 +81,6 @@ export class CustomerMenuComponent implements OnInit {
         this.viewportScroller.scrollToPosition(scrollingPosition()!);
       }
     });
-
-    effect(() => {
-      this.theme = this.themeInput();
-      console.log("theme effect");
-      console.log(this.theme);
-    });
   }
 
   ngOnInit(): void {
@@ -107,6 +104,10 @@ export class CustomerMenuComponent implements OnInit {
           this.menu = menu;
           this.menuCategories = menu.categories;
           this.isLoading = false;
+          if (menu.customization) {
+            this.themeInput.set(menu.customization);
+          }
+
         },
         error: res => {
           this.isLoading = false;
@@ -201,7 +202,7 @@ export class CustomerMenuComponent implements OnInit {
   onOpenItem(product: MenuProductResponse, category: MenuCategoryResponse) {
     this.modalService.open({
       type: CustomerMenuItemModalComponent,
-      data: { product: product, category: category, theme: this.theme }
+      data: { product: product, category: category, theme: this.themeInput() }
     });
   }
 
@@ -211,11 +212,3 @@ export class CustomerMenuComponent implements OnInit {
   public openTelephone(): void {
   }
 }
-
-export type Theme = {
-  name?: string;
-  type: 'DARK' | 'LIGHT',
-  mainColor: string;
-  secondaryColor: string;
-  font: string | null;
-};

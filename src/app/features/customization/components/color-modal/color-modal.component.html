@@ -1,0 +1,31 @@
+<div class="modal show d-block modal-fullscreen-md-down" tabindex="-1">
+  <form [formRoot]="themeForm" class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Crie Seu Tema</h5>
+        <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label for="" class="form-label">Cor primária</label>
+          <input [formField]="themeForm.mainColor" type="color" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+        </div>
+        <div class="mb-3">
+          <label for="" class="form-label">Cor Secundária</label>
+          <input [formField]="themeForm.secondaryColor" type="color" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+        </div>
+        <div class="">
+          <label for="" class="form-label">Diga se o seu tema é escuro ou claro:</label>
+          <select [formField]="themeForm.mode" class="form-select" aria-label="Default select example">
+            <option value="LIGHT">Claro</option>
+            <option value="DARK">Escuro</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="onClose()">Fechar</button>
+        <button type="submit" class="btn btn-primary">Aplicar</button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,10 +1,9 @@
-
 @if (errorMessage === null) {
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <div #scrolling [ngStyle]="{'font-family': theme.font}" class="customer-container" [ngClass]="theme.type === 'DARK' ? 'text-light' : 'text-dark'">
-      <div [ngStyle]="{'background-color': theme.mainColor, 'font-family': theme.font}"
+    <div #scrolling [ngStyle]="{'font-family': themeInput().font}" class="customer-container" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+      <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
         class="mx-auto shadow" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
         <div class="container overflow-hidden text-center">
@@ -28,12 +27,12 @@
         </div>
 
         <!-- ################ CATEGORIES ################ -->
-        <div style="z-index: 3" [ngStyle]="{'background-color': theme.mainColor}"
+        <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().mainColor}"
           class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll">
           @for(cat of menu.categories; track $index) {
             <button type="button"
-              [ngClass]="theme.type === 'DARK' ? 'text-light' : 'text-dark'"
-              [ngStyle]="{'background-color': theme.secondaryColor}"
+              [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+              [ngStyle]="{'background-color': themeInput().secondaryColor}"
               (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap">
               {{ cat.name }}
             </button>
@@ -42,7 +41,7 @@
 
         <!-- ################ SEARCH ################ -->
         <div class="d-block p-2">
-          @if (theme.type === 'DARK') {
+          @if (themeInput().theme === 'DARK') {
           <div data-bs-theme="dark" class="input-group input-group-lg mb-3 mt-2">
             <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
               class="form-control bg-dark" placeholder="Procurar..." name="searchTerm">
@@ -64,7 +63,6 @@
             }
           </div>
           }
-
         </div>
 
         <div  class="container">
@@ -96,8 +94,8 @@
 
                   <!-- ################ ITEM DESCRIPTION ################ -->
                   <div
-                    class="text-truncate h-50 w-100"
-                    style="font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                    class="text-truncat h-75 w-100"
+                    style="font-size: 14px; overflow: hidden; text-overflow: ellipsis;">
                     {{product.description}}
                   </div>
 
@@ -115,7 +113,7 @@
         </div>
 
         <!-- ################ FOOTER ################ -->
-        <div [ngStyle]="{'background-color': theme.secondaryColor}"
+        <div [ngStyle]="{'background-color': themeInput().secondaryColor}"
           class="mt-1 container-fluid pt-4 px-4 text-center" >
 
           <!-- ################ ADDRESS ################ -->
@@ -161,49 +159,49 @@
           <!-- ################ CONTACTS ################ -->
           @if(existContacts()) {
               <div class="p-6 fw-bold mb-1">
-                <i class="bi bi-person-lines-fill"></i>
+                <!-- <i class="bi bi-person-lines-fill"></i> -->
                 Contatos:
               </div>
-            <div class="">
+            <div class="row gap-2">
               @if(menu.info.whatsapp !== null) {
-                <p class="fs-6" style="cursor: pointer">
+                <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
                   <i class="bi bi-whatsapp"></i>
                   {{ menu.info.whatsapp }}
-                </p>
+                </a>
               }
               @if(menu.info.phone !== null) {
-                <p class="fs-6" style="cursor: pointer">
+                <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
                   <i class="bi bi-telephone"></i>
                   {{ menu.info.phone }}
-                </p>
+                </a>
               }
               @if(menu.info.instagram !== null) {
-                <p class="fs-6" style="cursor: pointer">
+                <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
                   <i class="bi bi-instagram"></i>
                   {{ menu.info.instagram }}
-                </p>
+                </a>
               }
               @if(menu.info.facebook !== null) {
-                <p class="fs-6" style="cursor: pointer">
+                <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
                   <i class="bi bi-facebook"></i>
                   {{ menu.info.facebook }}
-                </p>
+                </a>
               }
               @if(menu.info.website !== null) {
-                <p class="fs-6 pe-auto" style="cursor: pointer">
+                <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
                   <i class="bi bi-browser-chrome"></i>
                   {{ menu.info.website }}
-                </p>
+                </a>
               }
             </div>
             <hr class="">
           }
           <div class="mt-5 pb-2">
             <a href="https://itimenu.app" target="_blank"
-              [ngClass]="theme.type === 'DARK' ? 'link-light' : 'link-dark'"
+              [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
               class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
               Powered by:
-              @if (theme.type === 'DARK') {
+              @if (themeInput().theme === 'DARK') {
                 <img class="ms-1" ngSrc="logo/full_logo_white.png" width="95" height="30"/>
               } @else {
                 <img class="ms-1" ngSrc="logo/full_logo_black.png" width="95" height="28"/>

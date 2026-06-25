@@ -1,8 +1,8 @@
 import { CurrencyPipe, NgClass, NgStyle } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ElementRef, inject, Renderer2, ViewChild } from "@angular/core";
 import { getImagesUrl, ModalComponent, ModalComponentFunction } from "../../../../core";
 import { MenuCategoryResponse, MenuProductResponse } from "../../../../services/payload";
-import { Theme } from "@features/customer-menu/customer-menu.component";
+import { CustomizationResponse } from "@features/customization/customization.service";
 
 @Component({
   selector: 'app-customer-menu-details',
@@ -15,19 +15,24 @@ export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInpu
 
   state: ItemModalInput | null = null;
 
-  private callback!: ModalComponentFunction<void>;
+  @ViewChild('parentDiv', { static: true }) parentDiv!: ElementRef;
+  private readonly rederer = inject(Renderer2);
 
-  constructor() {
-    super();
-  }
+  private callback!: ModalComponentFunction<void>;
 
   override init(
     model: {
       data?: ItemModalInput | undefined;
       callbackFunc: ModalComponentFunction<void>;
     }): void {
-      this.state = model.data ?? null;
-      this.callback = model.callbackFunc;
+    this.state = model.data ?? null;
+    this.callback = model.callbackFunc;
+
+    if (this.state?.theme.theme === "DARK") {
+      this.rederer.setAttribute(this.parentDiv.nativeElement, 'data-bs-theme', 'dark');
+    } else {
+      this.rederer.setAttribute(this.parentDiv.nativeElement, 'data-bs-theme', 'light');
+    }
 
   }
 
@@ -37,7 +42,7 @@ export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInpu
 }
 
 interface ItemModalInput {
-  product: MenuProductResponse,
-  category: MenuCategoryResponse
-  theme: Theme
+  product: MenuProductResponse;
+  category: MenuCategoryResponse;
+  theme: CustomizationResponse;
 }

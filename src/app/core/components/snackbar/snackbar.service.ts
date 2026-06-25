@@ -1,7 +1,7 @@
 import { Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { inject, Injectable } from "@angular/core";
-import { SnackBarComponent } from "./snackbar.component";
+import { SnackBarComponent, SnackBarType } from "./snackbar.component";
 
 @Injectable({ providedIn: 'root' })
 export class SnackBarService {
@@ -14,14 +14,14 @@ export class SnackBarService {
   // private componentRef: ComponentRef<> | null = null;
 
   public openSuccess(msg: string, duration?: number) {
-    this.open(msg, true, duration);
+    this.open(msg, 'SUCCESS', duration);
   }
 
   public openError(msg: string, duration?: number) {
-    this.open(msg, false, duration);
+    this.open(msg, 'ERROR', duration);
   }
 
-  public open(msg: string, success: boolean, durationMili?: number) {
+  public open(msg: string, type: SnackBarType = 'DEFAULT', durationMili?: number) {
     if (this.overlayRef !== null) {
       this.overlayRef.detach();
     }
@@ -29,7 +29,7 @@ export class SnackBarService {
     this.overlayRef = this.overlay.create();
 
     const componentRef = this.overlayRef.attach(new ComponentPortal<SnackBarComponent>(SnackBarComponent));
-    componentRef.instance.data = { message: msg, success: success };
+    componentRef.instance.data = { message: msg, type: type };
     componentRef.instance.onClose.subscribe(() => this.closeToast());
     setTimeout(
       () => this.closeToast(),

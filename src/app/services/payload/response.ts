@@ -1,3 +1,4 @@
+import { CustomizationResponse } from "@features/customization/customization.service";
 
 export interface Pagination<T> {
   content: T[];
@@ -48,6 +49,7 @@ export interface MenuResponse {
   info: EstablishmentInfoResponse & ContactResponse;
   schedules: ScheduleResponse[];
   categories: MenuCategoryResponse[];
+  customization?: CustomizationResponse;
 }
 
 export interface MenuCategoryResponse {

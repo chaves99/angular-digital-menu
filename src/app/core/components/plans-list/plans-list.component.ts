@@ -54,7 +54,6 @@ export class PlansListComponent {
   }
 
   private openPlanPayment(priceId: string): void {
-    console.log("openPlanPayment: " + priceId);
     this.isPlanButtonLoading = true;
     this.subscriptionService.getPlanUrl(priceId).subscribe({
       next: s => {

@@ -10,15 +10,39 @@ export class CustomizationService {
 
   private readonly url = API_URL + "/customization";
 
-  public get(): Observable<Customization> {
-    return this.http.get<Customization>(this.url);
+  public getAll(): Observable<CustomizationResponse[]> {
+    return this.http.get<CustomizationResponse[]>(this.url);
   }
 
+  public getActive(): Observable<CustomizationResponse> {
+    return this.http.get<CustomizationResponse>(this.url + "/active");
+  }
+
+  public create(body: CustomizationRequest): Observable<CustomizationResponse> {
+    return this.http.post<CustomizationResponse>(this.url, body);
+  }
+
+  public delete(id: number): Observable<CustomizationResponse[]> {
+    return this.http.delete<CustomizationResponse[]>(`${this.url}/${id}`, {
+      responseType: 'json'
+    });
+  }
+
+  public setActive(id: number): Observable<CustomizationResponse[]> {
+    return this.http.put<CustomizationResponse[]>(`${this.url}/${id}/active`, {});
+  }
 }
 
-export interface Customization {
+export interface CustomizationRequest {
+  name: string;
   mainColor: string;
   secondaryColor: string;
-  backgroundColor: string;
-  textColor: string;
+  theme: 'DARK' | 'LIGHT';
+  font: string;
+  active: boolean;
+}
+
+export interface CustomizationResponse extends CustomizationRequest {
+  id: number;
+  builtin: boolean;
 }

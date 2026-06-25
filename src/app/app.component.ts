@@ -24,8 +24,8 @@ export class AppComponent implements OnInit {
 
   addStructuredData() {
     this.meta.addTags([
-      { name: 'description', content: 'Menu Digital QR Code para restaurante, bares, padarias, etc...' },
-      { name: 'keywords', content: 'Menu Digital, Cardápio digital, QR Code, qrcode' }
+      { name: 'description', content: 'Menu Digital com QR Code para restaurante, bares, padarias, etc... Atualize preços e produtos em segundos.' },
+      { name: 'keywords', content: 'Menu Digital, Cardápio digital, QR Code, qrcode, QR code para restaurante, menu rapido' }
     ]);
 
     this.meta.addTags([

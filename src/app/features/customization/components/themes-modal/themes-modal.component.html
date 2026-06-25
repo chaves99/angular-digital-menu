@@ -1,0 +1,49 @@
+<div class="modal show d-block modal-fullscreen-md-down" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Temas Salvos</h5>
+        <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+          @for (theme of builtinThemes; track $index) {
+          <div class="d-flex justify-content-between list-group-item list-group-item-action">
+            {{ theme.name }}
+            <div>
+              @if (theme.active) {
+                <span class="badge text-bg-success rounded-pill me-2">Ativo</span>
+              }
+              <span class="badge text-bg-secondary rounded-pill me-2">Embutido</span>
+              <button  (click)="onClose(theme)" class="btn btn-outline-primary btn-sm">
+                Aplicar
+              </button>
+            </div>
+          </div>
+          }
+
+          <!-- ###### CUSTOM THEME ###### -->
+          @for (theme of savedThemes; track $index) {
+          <div class="d-flex justify-content-between list-group-item list-group-item-action">
+            {{ theme.name }}
+            <div class="">
+              @if (theme.active) {
+                <span class="badge text-bg-success rounded-pill me-2">Ativo</span>
+              }
+              <button  (click)="onClose(theme)" class="btn btn-outline-primary btn-sm me-2">
+                Aplicar
+              </button>
+              <button (click)="onDelete(theme.id, $index)" class="btn btn-outline-danger btn-sm">
+                Excluir
+                @if (deletingLoadingIndex === $index) {
+                  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                }
+              </button>
+            </div>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

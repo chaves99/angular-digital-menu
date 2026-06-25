@@ -3,12 +3,6 @@
     <h2 class=" mb-5">Fale com a gente.</h2>
     <p>Responderemos o mais breve possivel.</p>
     <p>Campos obrigatórios(*)</p>
-    <!-- @if (user !== null) { -->
-    <!-- <div class="mb-3"> -->
-    <!--   <label for="exampleFormControlInput1" class="form-label">E-mail:</label> -->
-    <!--   <input type="email" class="form-control" id="exampleFormControlInput1" [value]="user.email" disabled> -->
-    <!-- </div> -->
-    <!-- } @else { -->
     <div class="mb-3">
       <label for="email" class="form-label">E-mail:*</label>
       <input [formField]="form.email" type="email" class="form-control" id="email" placeholder="name@example.com">
