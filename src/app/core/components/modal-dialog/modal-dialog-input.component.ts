@@ -55,8 +55,9 @@ export class InputModalDialogComponent extends ModalComponent<InputModalData, st
 export interface InputModalData {
   modalTitle: string;
   saveButtonText: string;
-  message: string;
-  fieldDescription: string;
-  fieldPlaceholder: string;
+  message?: string;
+  fieldLabel?: string;
+  fieldPlaceholder?: string;
   fieldValue: string | null;
+  fieldType?: 'text' | 'email' | 'password';
 }

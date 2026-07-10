@@ -141,7 +141,7 @@ export class CustomizationComponent implements OnInit {
       data: {
         message: 'Nome do tema',
         modalTitle: 'Salvar tema',
-        fieldDescription: 'Nome do tema:',
+        fieldLabel: 'Nome do tema:',
         fieldPlaceholder: '',
         fieldValue: null,
         saveButtonText: 'Salvar'

@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { getEstablishmentUrl, SnackBarService } from '../../core';
+import { getEstablishmentUrl, ModalDialogService, SnackBarService } from '../../core';
 import { StorageService, UserService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
 
@@ -16,6 +16,7 @@ export class AccountDataComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly storageService = inject(StorageService);
   private readonly snackbarService = inject(SnackBarService);
+  private readonly modalService = inject(ModalDialogService);
 
   newDescription: string | null = null;
   isLoadingDescCall = false;
@@ -63,6 +64,24 @@ export class AccountDataComponent implements OnInit {
       return false;
     }
     return this.newDescription !== currentDesc;
+  }
+
+  public onDeleteAccount(): void {
+    this.modalService.openDefaultInput({
+      data: {
+        modalTitle: "Exclusão de conta.",
+        message: "Digite sua senha para confirmar a exclusão da sua conta.",
+        fieldLabel: "Senha: ",
+        saveButtonText: "Confirmar",
+        fieldPlaceholder: "Senha",
+        fieldValue: null,
+        fieldType: 'password'
+      },
+      callback: output => {
+        if(output) {
+        }
+      }
+    });
   }
 
 }

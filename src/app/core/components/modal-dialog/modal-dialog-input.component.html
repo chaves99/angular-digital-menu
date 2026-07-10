@@ -10,8 +10,13 @@
 
       <div class="modal-body">
         <div class="p-3 px-4 mt-2">
-          <label for="input" class="form-label">{{ data.fieldDescription }}</label>
-          <input #fieldInput formControlName="value" type="text" class="form-control"
+          @if(data.message) {
+            <p class="mb-2">
+              {{ data.message }}
+            </p>
+          }
+          <label for="input" class="form-label">{{ data.fieldLabel }}</label>
+          <input #fieldInput formControlName="value" [type]="data.fieldType ?? 'text'" class="form-control"
             [ngClass]="isValid ? '' : 'is-invalid'" id="input" [placeholder]="data.fieldPlaceholder">
         </div>
       </div>
