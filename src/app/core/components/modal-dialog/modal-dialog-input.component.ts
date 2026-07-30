@@ -59,4 +59,5 @@ export interface InputModalData {
   fieldDescription: string;
   fieldPlaceholder: string;
   fieldValue: string | null;
+  inputType?: 'text' | 'password' | 'email';
 }

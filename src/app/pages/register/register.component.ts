@@ -19,11 +19,12 @@ import { SnackBarService } from 'app/core';
 })
 export class RegisterComponent {
 
-  private userService = inject(UserService);
+  private readonly userService = inject(UserService);
   private readonly snackbarService = inject(SnackBarService);
-  private storageService = inject(StorageService);
-  private router = inject(Router);
+  private readonly storageService = inject(StorageService);
+  private readonly router = inject(Router);
   public errorMessage: string | null = null;
+  public termsOfServiceError = false;
 
   public isLoading = false;
 
@@ -31,18 +32,19 @@ export class RegisterComponent {
     email: new FormControl('', Validators.email),
     password: new FormControl(),
     establishmentName: new FormControl(),
-    termsAndPrivaceAcceptance: new FormControl(false)
+    termsAndPrivaceAcceptance: new FormControl(false, Validators.required)
   });
 
   public onSubmit(): void {
     this.errorMessage = null;
+    this.termsOfServiceError = false;
     const { email, password, establishmentName, termsAndPrivaceAcceptance } = this.formGroup.value;
 
     if (!termsAndPrivaceAcceptance) {
       this.snackbarService.open("Você precisa aceitar os termos de serviço!");
+      this.termsOfServiceError = true;
       return;
     }
-
 
     if (email && password && establishmentName) {
       this.isLoading = true;
@@ -70,7 +72,6 @@ export class RegisterComponent {
     } else {
       this.snackbarService.openError("Preencha todos os campos!");
     }
-
   }
 
 }

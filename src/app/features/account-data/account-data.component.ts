@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { getEstablishmentUrl, SnackBarService } from '../../core';
+import { Router, RouterLink } from '@angular/router';
+import { getEstablishmentUrl, ModalDialogService, SnackBarService } from '../../core';
 import { StorageService, UserService } from '../../services';
 import { CreateUserResponse } from '../../services/payload';
 
@@ -13,12 +13,16 @@ import { CreateUserResponse } from '../../services/payload';
 })
 export class AccountDataComponent implements OnInit {
 
+  private readonly router = inject(Router);
+
   private readonly userService = inject(UserService);
   private readonly storageService = inject(StorageService);
   private readonly snackbarService = inject(SnackBarService);
+  private readonly modalService = inject(ModalDialogService);
 
   newDescription: string | null = null;
   isLoadingDescCall = false;
+  isLoadingDeleteAccount = false;
 
   user: CreateUserResponse | null = null;
 
@@ -63,6 +67,38 @@ export class AccountDataComponent implements OnInit {
       return false;
     }
     return this.newDescription !== currentDesc;
+  }
+
+  public onDeleteAccount(): void {
+    this.modalService.openDefaultInput({
+      data: {
+        message: 'Após confirmar, todos os seus dados serão excluidos permanentemente.',
+        fieldPlaceholder: '',
+        inputType: 'password',
+        saveButtonText: 'Excluir',
+        modalTitle: 'Excluir Conta',
+        fieldDescription: 'Senha: ',
+        fieldValue: null,
+      },
+      callback: out => {
+        if (out != null) {
+          this.userService.deleteAccount(out).subscribe({
+            next: () => {
+              this.modalService.openDefault({
+                message: "Conta excluida com sucesso!",
+                afterClose: () => {
+                  this.storageService.cleanUser();
+                  this.router.navigateByUrl('/');
+                },
+              });
+            },
+            error: () => {
+              this.snackbarService.openError("Erro ao excluir conta, tente novamente mais tarde.");
+            }
+          });
+        }
+      }
+    });
   }
 
 }

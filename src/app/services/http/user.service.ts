@@ -49,8 +49,14 @@ export class UserService {
     });
   }
 
-  public updateDescription(body: {description: string}): Observable<CreateUserResponse> {
+  public updateDescription(body: { description: string }): Observable<CreateUserResponse> {
     return this.http.put<CreateUserResponse>(`${this.url}/description`, body);
+  }
+
+  public deleteAccount(password: string) {
+    return this.http.delete(this.url, {
+      body: { password: password }
+    });
   }
 
 }

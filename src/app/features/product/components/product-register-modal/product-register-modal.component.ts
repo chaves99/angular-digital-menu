@@ -77,8 +77,8 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
 
     if (name && categoryId && prices) {
       const pricesRequest: PricesRequest[] = prices.map(p => {
-        const p2 = p as { id: number | null, unit: string, value: number, layerId: number };
-        return { id: p2.id, value: p2.value, unit: p2.unit, layerId: p2.layerId };
+        const p2 = p as { id: number | null, unit: string, value: number };
+        return { id: p2.id, value: p2.value, unit: p2.unit };
       }).filter(p => p.value !== null);
 
       const body: CreateProductRequest = {
@@ -102,6 +102,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
               },
               error: () => {
                 this.isSavingLoading = false;
+                this.snackBarService.openError("Erro ao salvar imagem!");
               }
             });
           } else {

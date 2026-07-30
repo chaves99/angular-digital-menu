@@ -29,65 +29,66 @@
       <i class="bi bi-box-arrow-up-right"></i>
     </button>
   </div>
-  <!-- <div class="container"> -->
-    <div class="row pb-5 justify-content-center gap-3">
-      <div class="col-12 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body">
-              <h4 class="card-title">Produtos</h4>
-              @if(isDashboardLoading) {
-                <span class="spinner-border spinner-border" aria-hidden="true"></span>
-              } @else if (dashboardData != null) {
-                <h6 class="card-subtitle mb-2 text-body-secondary">Ativos: {{dashboardData.product.active}}</h6>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Inativos: {{dashboardData.product.inactive}}</h6>
-              }
-          </div>
-          <div class="card-footer">
-            <div class="row gap-3 justify-content-end">
-              <a [routerLink]="['products', 'list']" class="btn col-auto btn-primary btn-sm">
-                Ver Produtos
-              </a>
-              <a [routerLink]="['products', 'register']" class="btn col-auto btn-primary btn-sm">
-                Adicionar Produtos
-              </a>
-            </div>
-          </div>
+  <div class="row pb-5 justify-content-center gap-3">
+    <div class="col-12 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body">
+            <h4 class="card-title">Produtos</h4>
+            @if(isDashboardLoading) {
+              <span class="spinner-border spinner-border" aria-hidden="true"></span>
+            } @else if (dashboardData != null) {
+              <h6 class="card-subtitle mb-2 text-body-secondary">Ativos: {{dashboardData.product.active}}</h6>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Inativos: {{dashboardData.product.inactive}}</h6>
+            }
         </div>
-      </div>
-
-      <div class="col-12 col-lg-4">
-        <div class="card shadow">
-          <div class="card-body">
-              <h4 class="card-title">Categorias</h4>
-              @if(isDashboardLoading) {
-                <span class="spinner-border spinner-border" aria-hidden="true"></span>
-              } @else if (dashboardData != null) {
-                <h6 class="card-subtitle mb-2 text-body-secondary">Ativos: {{dashboardData.category.active}}</h6>
-                <h6 class="card-subtitle mb-2 text-body-secondary">Inativos: {{dashboardData.category.inactive}}</h6>
-              }
-          </div>
-          <div class="card-footer d-flex justify-content-end gap-3">
-            <a [routerLink]="['categories']" class="btn btn-primary btn-sm">
-              Ver Categorias
+        <div class="card-footer">
+          <div class="row gap-3 justify-content-end">
+            <a [routerLink]="['products']" class="btn col-auto btn-primary btn-sm">
+              Ver Produtos
             </a>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="col-12 col-lg-4">
-        <div class="card col-md-auto shadow">
-          <div class="card-body">
-            <h5 class="card-title">Fale com a gente!</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Alguma dificuldade, dúvida ou sugestão?</h6>
-          </div>
-          <div class="card-footer d-flex justify-content-end gap-3">
-              <a [routerLink]="['send-message']" class="btn btn-primary btn-sm">
-                Mandar mensagem
-              </a>
-          </div>
+    <div class="col-12 col-lg-4">
+      <div class="card shadow">
+        <div class="card-body">
+            <h4 class="card-title">Categorias</h4>
+            @if(isDashboardLoading) {
+              <span class="spinner-border spinner-border" aria-hidden="true"></span>
+            } @else if (dashboardData != null) {
+              <h6 class="card-subtitle mb-2 text-body-secondary">Ativos: {{dashboardData.category.active}}</h6>
+              <h6 class="card-subtitle mb-2 text-body-secondary">Inativos: {{dashboardData.category.inactive}}</h6>
+            }
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-3">
+          <a [routerLink]="['categories']" class="btn btn-primary btn-sm">
+            Ver Categorias
+          </a>
         </div>
       </div>
-
     </div>
-  <!-- </div> -->
+
+    <div class="col-12 col-lg-4">
+      <div class="card col-md-auto shadow">
+        <div class="card-body">
+          <h5 class="card-title">Fale com a gente!</h5>
+          <h6 class="card-subtitle mb-2 text-body-secondary">Alguma dificuldade, dúvida ou sugestão?</h6>
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-3">
+            <a [routerLink]="['send-message']" class="btn btn-primary btn-sm">
+              Mandar mensagem
+            </a>
+        </div>
+      </div>
+    </div>
+
+    @if (isFreeTierActive) {
+      <div class="">
+        <app-plans-list>
+        </app-plans-list>
+      </div>
+    }
+    </div>
 </div>

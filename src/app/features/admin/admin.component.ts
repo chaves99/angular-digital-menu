@@ -4,8 +4,8 @@ import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
-import { UserAccountButtonComponent, ThemeService, ModalDialogService, isFreeTierActive } from 'app/core';
-import { UserService, StorageService } from 'app/services';
+import { isFreeTierActive, ModalDialogService, ThemeService, UserAccountButtonComponent } from 'app/core';
+import { StorageService, UserService } from 'app/services';
 import { CreateUserResponse } from 'app/services/payload';
 
 @Component({
@@ -16,7 +16,7 @@ import { CreateUserResponse } from 'app/services/payload';
     RouterLinkActive,
     FormsModule,
     NgClass,
-    UserAccountButtonComponent
+    UserAccountButtonComponent,
   ],
   templateUrl: './admin.component.html',
 })

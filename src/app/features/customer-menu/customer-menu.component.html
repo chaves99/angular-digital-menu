@@ -47,7 +47,7 @@
               class="form-control bg-dark" placeholder="Procurar..." name="searchTerm">
             @if(isSearching) {
               <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
-                {{isSearching}}
+                <i class="bi bi-x-lg"></i>
               </button>
             }
           </div>
@@ -57,7 +57,6 @@
               class="form-control" placeholder="Procurar..." name="searchTerm">
             @if(isSearching) {
               <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
-                {{isSearching}}
                 <i class="bi bi-x-lg"></i>
               </button>
             }

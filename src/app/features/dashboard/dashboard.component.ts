@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { isFreeTierActive, openMenu } from '../../core';
+import { isFreeTierActive, openMenu, PlansListComponent } from '../../core';
 import { DashboardService, StorageService } from '../../services';
 import { DashboardResponse } from '../../services/payload';
 import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
@@ -11,6 +11,7 @@ import { SubscriptionResponse, SubscriptionService } from '@features/subscriptio
   imports: [
     RouterLink,
     DatePipe,
+    PlansListComponent
   ],
   templateUrl: './dashboard.component.html',
 })
@@ -26,7 +27,6 @@ export class DashboardComponent implements OnInit {
 
   subscription: SubscriptionResponse | null = null;
   dashboardData: DashboardResponse | null = null;
-
 
   ngOnInit(): void {
     this.subscriptionService.get().subscribe({
