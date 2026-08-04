@@ -2,9 +2,11 @@
   <div class="btn-toolbar gap-3" role="">
     <div class="btn-group" role="group">
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#font-modal">
+        Fonte
         <i class="bi bi-fonts"></i>
       </button>
       <button type="button" class="btn btn-primary" (click)="onOpenColorModal()">
+        Cores
         <i class="bi bi-palette"></i>
       </button>
     </div>
@@ -21,12 +23,6 @@
           <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
         } @else {
           <i class="bi bi-floppy"></i>
-        }
-      </button>
-      <button class="btn btn-primary" type="button" (click)="onApplyingActive()">
-        Usar tema
-        @if(isApplyingActive) {
-          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
         }
       </button>
     </div>

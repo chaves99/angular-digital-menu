@@ -28,9 +28,6 @@ export class CustomizationService {
     });
   }
 
-  public setActive(id: number): Observable<CustomizationResponse[]> {
-    return this.http.put<CustomizationResponse[]>(`${this.url}/${id}/active`, {});
-  }
 }
 
 export interface CustomizationRequest {

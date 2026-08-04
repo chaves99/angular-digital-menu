@@ -109,65 +109,52 @@ export class CustomizationComponent implements OnInit {
     this.selectedTheme.update(t => {
       return {
         ...t,
+        id: -1,
         font: font
       };
     });
   }
 
-  onApplyingActive(): void {
-    const theme = this.selectedTheme();
-    if (theme.id === -1) {
-      this.snackbarService.openError("Erro! Você deve salvar o tema para poder usar", 4500);
-      return;
-    }
-    this.isApplyingActive = true;
-    this.customizationService.setActive(theme.id)
-      .subscribe({
-        next: res => {
-          this.isApplyingActive = false;
-          this.snackbarService.openSuccess("Seu tema foi aplicado!");
-          this.customThemes = res;
-        },
-        error: () => {
-          this.isApplyingActive = false;
-          this.isSaving = false;
-          this.snackbarService.openError("Erro ao usar tema!");
-        }
-      });
-  }
-
   onSave(): void {
-    this.modalService.openDefaultInput({
-      data: {
-        message: 'Nome do tema',
-        modalTitle: 'Salvar tema',
-        fieldDescription: 'Nome do tema:',
-        fieldPlaceholder: '',
-        fieldValue: null,
-        saveButtonText: 'Salvar'
-      },
-      callback: value => {
-        if (value) {
-          const selectedTheme = this.selectedTheme();
-          if (selectedTheme !== null) {
-            this.isSaving = true;
-            this.customizationService.create({ ...selectedTheme, name: value })
-              .subscribe({
-                next: res => {
-                  this.isSaving = false;
-                  this.snackbarService.openSuccess("Tema cadastrado com sucesso!");
-                  this.customThemes.push(res);
-                  this.selectedTheme.set(res);
-                },
-                error: () => {
-                  this.isSaving = false;
-                  this.snackbarService.openError("Erro ao cadastrar tema!");
-                }
-              });
+    if (this.selectedTheme().id === -1) {
+      this.modalService.openDefaultInput({
+        data: {
+          message: 'Nome do tema',
+          modalTitle: 'Salvar tema',
+          fieldDescription: 'Nome do tema:',
+          fieldPlaceholder: '',
+          fieldValue: null,
+          saveButtonText: 'Salvar'
+        },
+        callback: value => {
+          if (value) {
+            this.saveCustomization(value)
           }
         }
-      }
-    });
+      });
+    } else {
+      this.saveCustomization(this.selectedTheme().name);
+    }
+  }
+
+  public saveCustomization(name: string): void {
+    const selectedTheme = this.selectedTheme();
+    if (selectedTheme !== null) {
+      this.isSaving = true;
+      this.customizationService.create({ ...selectedTheme, name: name })
+        .subscribe({
+          next: res => {
+            this.isSaving = false;
+            this.snackbarService.openSuccess("Tema salvo com sucesso!");
+            this.customThemes.push(res);
+            this.selectedTheme.set(res);
+          },
+          error: () => {
+            this.isSaving = false;
+            this.snackbarService.openError("Erro ao cadastrar tema!");
+          }
+        });
+    }
   }
 
   onOpenColorModal() {
