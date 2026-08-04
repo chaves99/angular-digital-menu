@@ -1,5 +1,5 @@
 <div class="pt-3">
-  @if(isFreeTierActive) {
+  @if(hasSubscriptionActive) {
     <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert">
       <strong>Você esta usando o modo gratuito!</strong>
       @if (subscription !== null && subscription.active !== null) {
@@ -84,7 +84,7 @@
       </div>
     </div>
 
-    @if (isFreeTierActive) {
+    @if (hasSubscriptionActive) {
       <div class="">
         <app-plans-list>
         </app-plans-list>

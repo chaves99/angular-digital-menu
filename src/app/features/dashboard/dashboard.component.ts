@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { isFreeTierActive, openMenu, PlansListComponent } from '../../core';
+import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
+import { openMenu, PlansListComponent } from '../../core';
 import { DashboardService, StorageService } from '../../services';
 import { DashboardResponse } from '../../services/payload';
-import { SubscriptionResponse, SubscriptionService } from '@features/subscription';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly router = inject(Router);
 
-  isFreeTierActive = false;
+  hasSubscriptionActive = false;
   isDashboardLoading = false;
 
   subscription: SubscriptionResponse | null = null;
@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     this.subscriptionService.get().subscribe({
       next: sub => {
         this.subscription = sub;
-        this.isFreeTierActive = isFreeTierActive(this.subscription);
+        this.hasSubscriptionActive = sub.active !== null;
       },
       error: () => {
       }
