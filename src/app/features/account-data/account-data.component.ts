@@ -42,25 +42,6 @@ export class AccountDataComponent implements OnInit {
     this.snackbarService.openSuccess("Copiado com sucesso!")
   }
 
-  public onUpdateDescription(): void {
-    if (this.newDescription !== null) {
-      this.isLoadingDescCall = true;
-      this.userService.updateDescription({ description: this.newDescription })
-        .subscribe({
-          next: (user) => {
-            this.snackbarService.openSuccess("Descrição atualizada com sucesso!");
-            this.storageService.storeUser(user);
-            this.user = user;
-            this.isLoadingDescCall = false;
-          },
-          error: () => {
-            this.snackbarService.openError("Erro ao atualizar!");
-            this.isLoadingDescCall = false;
-          }
-        });
-    }
-  }
-
   public hasDescriptionChange(): boolean {
     const currentDesc = this.user!.establishmentDescription;
     if (this.newDescription !== null && this.newDescription.trim() === "" && currentDesc === null) {

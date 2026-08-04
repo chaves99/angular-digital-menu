@@ -3,3 +3,4 @@ export * from './address/address.component';
 export * from './banner/banner.component';
 export * from './contact/contact.component';
 export * from './schedule/schedule.component';
+export * from './name-description/name-description.component';

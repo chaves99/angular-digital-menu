@@ -19,7 +19,7 @@ export class ScheduleComponent implements OnInit {
   private readonly snackBarService = inject(SnackBarService);
 
   formGroup = new FormGroup({
-    list: new FormArray([])
+    list: new FormArray<FormGroup<ScheduleForm>>([])
   });
 
   isLoading = false;
@@ -28,9 +28,7 @@ export class ScheduleComponent implements OnInit {
     this.isLoading = true;
     this.scheduleService.getAll().subscribe({
       next: schedules => {
-        if (schedules.length == 0) {
-          this.addScheduleToList();
-        } else {
+        if (schedules.length != 0) {
           this.fillForm(schedules);
         }
         this.isLoading = false;
@@ -44,24 +42,29 @@ export class ScheduleComponent implements OnInit {
 
   onSubmit() {
     const { list } = this.formGroup.value;
+    console.log(list);
+    let someInvalid = false;
+
     if (list) {
       const req: ScheduleRequest[] = [];
-      list.forEach(scheduleForm => {
-        const s = scheduleForm as {
-          days: string,
-          openHour: string,
-          closeHour: string,
-          startLaunch: string | null,
-          endLaunch: string | null
-        };
-        req.push({
-          days: s.days,
-          openHour: s.openHour,
-          closeHour: s.closeHour,
-          startLaunch: s.startLaunch,
-          endLaunch: s.endLaunch
-        });
+      list.forEach(s => {
+        if (s.days && s.openHour && s.closeHour) {
+          req.push({
+            days: s.days,
+            openHour: s.openHour,
+            closeHour: s.closeHour,
+            startLaunch: s.startLaunch,
+            endLaunch: s.endLaunch
+          });
+        } else {
+          someInvalid = true;
+        }
       });
+
+      if (someInvalid) {
+        this.snackBarService.openError("Preencha todos os campos obrigatórios");
+        return;
+      }
       this.isLoading = true;
       this.scheduleService.post(req).subscribe({
         next: s => {
@@ -93,8 +96,8 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  addScheduleToList() {
-    const item = new FormGroup({
+  onAddScheduleToList() {
+    const item = new FormGroup<ScheduleForm>({
       days: new FormControl(),
       openHour: new FormControl(),
       closeHour: new FormControl(),
@@ -120,4 +123,12 @@ export class ScheduleComponent implements OnInit {
     return (this.listControl[index] as FormGroup);
   }
 
+}
+
+interface ScheduleForm {
+  days: FormControl<string>;
+  openHour: FormControl<string>;
+  closeHour: FormControl<string>;
+  startLaunch: FormControl<string>;
+  endLaunch: FormControl<string>;
 }

@@ -15,16 +15,16 @@
     @for(schedule of listControl; track $index) {
       <div class="row mb-3 pb-3 gy-2" [formGroup]="getFormGroupAtIndex($index)">
         <div class="col">
-          <label for="days-{{$index}}" class="form-label">Dias:</label>
+          <label for="days-{{$index}}" class="form-label">*Dias:</label>
           <input class="form-control" id="days-{{$index}}" placeholder="Segunda a Sexta" formControlName="days" required>
         </div>
         <div class="w-100"></div>
         <div class="col">
-          <label for="oh-{{$index}}" class="form-label">Horário de abertura:</label>
+          <label for="oh-{{$index}}" class="form-label">*Horário de abertura:</label>
           <input class="form-control" id="oh-{{$index}}" placeholder="10h, 10:30, etc..." formControlName="openHour" required>
         </div>
         <div class="col">
-          <label for="ch-{{$index}}" class="form-label">Horário de fechamento:</label>
+          <label for="ch-{{$index}}" class="form-label">*Horário de fechamento:</label>
           <input class="form-control" id="ch-{{$index}}" placeholder="23h, 23:30, etc..." formControlName="closeHour" required>
         </div>
         <div class="w-100"></div>
@@ -46,7 +46,7 @@
       </div>
     }
     <div class="mt-5 d-flex justify-content-between">
-      <button type="button" class="btn btn-primary" (click)="addScheduleToList()">
+      <button type="button" class="btn btn-primary" (click)="onAddScheduleToList()">
         Adicionar Horários
         <i class="bi bi-plus-circle"></i>
       </button>

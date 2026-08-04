@@ -14,6 +14,10 @@ export class UserService {
     return this.http.post<CreateUserResponse>(this.url, body);
   }
 
+  public update(body: { establishmentName?: string, description?: string }): Observable<CreateUserResponse> {
+    return this.http.put<CreateUserResponse>(`${this.url}`, body);
+  }
+
   public login(body: LoginRequest): Observable<CreateUserResponse> {
     return this.http.post<CreateUserResponse>(this.url + "/login", body);
   }
@@ -47,10 +51,6 @@ export class UserService {
       currentPassword: currentPassword,
       newPassword: newPassword
     });
-  }
-
-  public updateDescription(body: { description: string }): Observable<CreateUserResponse> {
-    return this.http.put<CreateUserResponse>(`${this.url}/description`, body);
   }
 
   public deleteAccount(password: string) {

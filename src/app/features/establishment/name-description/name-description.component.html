@@ -1,0 +1,35 @@
+
+<form class="card" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <h4 class="card-header">
+    Horário
+  </h4>
+
+  <div class="card-body">
+    <div class="container mt-5">
+      <dl class="row">
+        <dt class="col-sm-3 mb-2">Nome do estabelecimento: </dt>
+        <dd class="col-sm-9 mb-3">
+          <div class="mb-3">
+            <input type="email" class="form-control" formControlName="name">
+          </div>
+        </dd>
+
+        <dt class="col-sm-3 mb-2">Descrição do estabelecimento: </dt>
+        <dd class="col-sm-9 mb-3">
+          <div class="mb-3">
+            <textarea type="email" rows="10" class="form-control" formControlName="description"></textarea>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="mt-5 d-flex justify-content-end">
+      <button type="submit"
+        class="btn btn-primary">
+        Salvar
+        @if (isLoading) {
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        }
+      </button>
+    </div>
+  </div>
+</form>

@@ -20,8 +20,8 @@ export interface ScheduleRequest {
   days: string;
   openHour: string;
   closeHour: string;
-  startLaunch: string | null;
-  endLaunch: string | null;
+  startLaunch?: string;
+  endLaunch?: string;
 }
 
 type CancellationFeedback =
