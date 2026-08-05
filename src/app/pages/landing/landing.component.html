@@ -2,10 +2,13 @@
   <div class=" pt-5 m-lg-5 text-center row">
     <div class="col-lg-6">
       <h1 class="display fw-bold text-body-emphasis">
+        <!-- Seu cardápio. Um único QR code. Sempre atualizado. -->
         Cardápio digital com QR Code para restaurantes, bares, lanchonetes e padarias.
       </h1>
       <br>
-      <h4 class="fs-4 mb-5">Atualize preços e produtos em segundos, sem imprimir cardápios novos.</h4>
+      <h4 class="fs-4 mb5">
+        Crie um cardápio digital atraente, atualize-o quando quiser e permita que os clientes o acessem instantaneamente escaneando um QR code.
+      </h4>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
         <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 gap-3">
           Criar Cardápio
@@ -84,19 +87,23 @@
   <div class="row flex-lg-row-reverse align-items-center g-2 py-5">
     <div class="col-lg-6">
       <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Nosso cardápio digital resolve tudo isso.</h1>
-      <p class="lead">Sistema completo com gerenciamento de produtos</p>
-      <ul class="list-group list-group-numbered mb-4">
+      <p class="lead">Sistema completo com gerenciamento de produtos e muito mais.</p>
+      <ul class="list-group list-group-unnumbered mb-4">
         <li class="list-group-item">
-          <!-- <i class="bi bi-check-all"></i> -->
-          Cadastre seus produtos
+          <i class="bi bi-check"></i>
+          Cadastre seus produtos, preços e fotos. Gere seu QR Code. Seus clientes acessam pelo celular
         </li>
         <li class="list-group-item">
-          <!-- <i class="bi bi-check-all"></i> -->
-          Gere seu QR Code
+          <i class="bi bi-check"></i>
+          Organize alimentos e bebidas em seções fáceis de navegar.
         </li>
         <li class="list-group-item">
-          <!-- <i class="bi bi-check-all"></i> -->
-          Seus clientes acessam pelo celular
+          <i class="bi bi-check"></i>
+          Oculte itens esgotados com um clique.
+        </li>
+        <li class="list-group-item">
+          <i class="bi bi-check"></i>
+          Seu cardápio. Um único QR code. Sempre atualizado.
         </li>
       </ul>
     </div>
@@ -114,6 +121,12 @@
 
 <div class="b-example-divider"></div>
 
+<div class="mb-5">
+  <app-plans-list id="prices"></app-plans-list>
+</div>
+
+<div class="b-example-divider"></div>
+
 <!-- ################# FAQ SECTION #################-->
 <div id="faq" class="container">
   <div class="px-sm-5 px-1 py-5 m-md-5">
@@ -125,13 +138,13 @@
       <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
           <div class="fw-bold">Precisa baixar aplicativo?</div>
-          Não
+          Não. Apenas ler o QR Code com a camêra do celular.
         </div>
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-start">
         <div class="ms-2 me-auto">
           <div class="fw-bold">Posso mudar preços quando quiser?</div>
-          Sim
+          Sim. Suas mudanças aparecem imediatamente.
         </div>
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -140,14 +153,26 @@
           Sim
         </div>
       </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Pode adicionar fotos?</div>
+          Sim. Adicione fotos, descrições e preços quando quiser.
+        </div>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Posso ter multiplas categorias?</div>
+          Sim. Organize seu menu do jeito que quiser.
+        </div>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-start">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">Como funciona caso não queria mais?</div>
+          Você pode cancelar quando quiser.
+        </div>
+      </li>
     </ol>
   </div>
-</div>
-
-<div class="b-example-divider"></div>
-
-<div class="mb-5">
-  <app-plans-list id="prices"></app-plans-list>
 </div>
 
 <div class="b-example-divider"></div>

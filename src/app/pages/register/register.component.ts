@@ -1,12 +1,12 @@
+import { NgClass } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { SnackBarService, ThemeService } from 'app/core';
+import { UserService } from '../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse } from '../../services/payload';
 import { StorageService } from '../../services/storage.service';
-import { UserService } from '../../services';
-import { NgClass } from '@angular/common';
-import { SnackBarService } from 'app/core';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +22,7 @@ export class RegisterComponent {
   private readonly userService = inject(UserService);
   private readonly snackbarService = inject(SnackBarService);
   private readonly storageService = inject(StorageService);
+  private readonly themeService = inject(ThemeService);
   private readonly router = inject(Router);
   public errorMessage: string | null = null;
   public termsOfServiceError = false;
@@ -33,6 +34,10 @@ export class RegisterComponent {
     password: new FormControl(),
     establishmentName: new FormControl(),
     termsAndPrivaceAcceptance: new FormControl(false, Validators.required)
+  });
+
+  public isDark = computed<boolean>(() => {
+    return this.themeService.themeSignal() === 'dark';
   });
 
   public onSubmit(): void {
