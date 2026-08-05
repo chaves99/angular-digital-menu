@@ -94,6 +94,10 @@ export class CustomizationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
+    this.fetchCustomizations();
+  }
+
+  private fetchCustomizations() {
     this.customizationService.getAll().subscribe({
       next: res => {
         this.customThemes = res;
@@ -128,16 +132,16 @@ export class CustomizationComponent implements OnInit {
         },
         callback: value => {
           if (value) {
-            this.saveCustomization(value)
+            this.sendCustomizationRequest(value)
           }
         }
       });
     } else {
-      this.saveCustomization(this.selectedTheme().name);
+      this.sendCustomizationRequest(this.selectedTheme().name);
     }
   }
 
-  public saveCustomization(name: string): void {
+  public sendCustomizationRequest(name: string): void {
     const selectedTheme = this.selectedTheme();
     if (selectedTheme !== null) {
       this.isSaving = true;
@@ -146,8 +150,8 @@ export class CustomizationComponent implements OnInit {
           next: res => {
             this.isSaving = false;
             this.snackbarService.openSuccess("Tema salvo com sucesso!");
-            this.customThemes.push(res);
             this.selectedTheme.set(res);
+            this.fetchCustomizations();
           },
           error: () => {
             this.isSaving = false;

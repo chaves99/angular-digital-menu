@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { CustomizationResponse, CustomizationService } from '@features/customization/customization.service';
 import { ModalComponent, ModalComponentFunction, SnackBarService } from 'app/core';
@@ -38,9 +39,13 @@ export class ThemesModalComponent extends ModalComponent<CustomizationResponse[]
         this.snackbarService.openSuccess("Tema excluido!");
         this.setThemes(res);
       },
-      error: () => {
+      error: (res) => {
         this.deletingLoadingIndex = -1;
-        this.snackbarService.openError("Erro ao excluir tema!");
+        if (res instanceof HttpErrorResponse && res.status === 409) {
+          this.snackbarService.openError("Você não pode excluir um tema ativo!");
+        } else {
+          this.snackbarService.openError("Erro ao excluir tema!");
+        }
       }
     });
   }
