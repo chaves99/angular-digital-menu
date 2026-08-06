@@ -71,7 +71,7 @@
         <!-- ################ ITEMS SECTION ################ -->
         <div  data-bs-smooth-scroll="false" class="container mt-3 pb-5">
           @for(cat of menuCategories; track cat.id; let catIndex = $index) {
-            <h3 id="{{cat.name}}" class="fs-6 mt-5 fw-semibold text-capitalize">{{ cat.name }}</h3>
+            <h3 id="{{cat.name}}" class="fs-6 mt-5 fw-bold text-capitalize">{{ cat.name }}</h3>
             @for(product of cat.products; track product.id; let productIndex = $index) {
               <a
                 (click)="onOpenItem(product, cat)"
