@@ -7,7 +7,7 @@
     </button>
   </div>
   <div class="pe-3">
-    <select [(ngModel)]="sizeSelectOption" (change)="selectChange()" style="width: 80px;" id="sizeOption"
+    <select [(ngModel)]="sizeSelectOption" (change)="onSelectChange()" style="width: 80px;" id="sizeOption"
       class="form-select me-3">
       <option value="5">5</option>
       <option value="10">10</option>
@@ -71,7 +71,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" (click)="cleanFilter(true)" class="btn btn-secondary" data-bs-dismiss="modal">
+        <button type="button" (click)="onCleanFilter(true)" class="btn btn-secondary" data-bs-dismiss="modal">
           Limpar
         </button>
         <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">

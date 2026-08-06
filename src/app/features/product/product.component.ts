@@ -57,24 +57,6 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  onEdit(product: ProductResponse | null) {
-    this.modalService.open({
-      type: ProductRegisterModalComponent,
-      data: product,
-      callback: reload => {
-        if(reload) {
-          this.fetchProductList();
-        }
-      }
-    });
-  }
-
-  selectChange() {
-    this.storageService.store(this.SIZE_SELECT_OPTION_STORAGE_KEY, this.sizeSelectOption.toString())
-    this.page = 0;
-    this.fetchProductList();
-  }
-
   public fetchProductList() {
     const { name, categoryId, active } = this.formGroup.value;
     this.isLoading = true;
@@ -98,40 +80,31 @@ export class ProductComponent implements OnInit {
     this.isLoading = false;
   }
 
-  forwardPage(): void {
-    if (this.page >= this.getLastPage()) {
-      return;
-    }
-    this.page++;
-    this.fetchProductList();
+  // ************************************
+  // Methods related to user action
+  // ************************************
+  onCleanFilter(callService: boolean): void {
+    this.formGroup.reset();
+    this.formGroup.controls.active.patchValue(null);
+    if (callService) this.fetchProductList();
   }
 
-  previousPage(): void {
-    if (this.page == 0) {
-      return;
-    }
-    this.page--;
-    this.fetchProductList();
-  }
-
-  lastPage(): void {
-    this.page = this.getLastPage();
-    this.fetchProductList();
-  }
-
-  getLastPage(): number {
-    return (this.paginationResponse!.totalPages - 1);
-  }
-
-  firstPage(): void {
+  onSelectChange() {
+    this.storageService.store(this.SIZE_SELECT_OPTION_STORAGE_KEY, this.sizeSelectOption.toString())
     this.page = 0;
     this.fetchProductList();
   }
 
-  cleanFilter(callService: boolean): void {
-    this.formGroup.reset();
-    this.formGroup.controls.active.patchValue(null);
-    if (callService) this.fetchProductList();
+  onEdit(product: ProductResponse | null) {
+    this.modalService.open({
+      type: ProductRegisterModalComponent,
+      data: product,
+      callback: reload => {
+        if(reload) {
+          this.fetchProductList();
+        }
+      }
+    });
   }
 
   onDelete(product: ProductResponse) {
@@ -164,5 +137,38 @@ export class ProductComponent implements OnInit {
         this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };
       }
     });
+  }
+
+  // ************************************
+  // Methods related to page navigation
+  // ************************************
+  forwardPage(): void {
+    if (this.page >= this.getLastPage()) {
+      return;
+    }
+    this.page++;
+    this.fetchProductList();
+  }
+
+  previousPage(): void {
+    if (this.page == 0) {
+      return;
+    }
+    this.page--;
+    this.fetchProductList();
+  }
+
+  lastPage(): void {
+    this.page = this.getLastPage();
+    this.fetchProductList();
+  }
+
+  getLastPage(): number {
+    return (this.paginationResponse!.totalPages - 1);
+  }
+
+  firstPage(): void {
+    this.page = 0;
+    this.fetchProductList();
   }
 }

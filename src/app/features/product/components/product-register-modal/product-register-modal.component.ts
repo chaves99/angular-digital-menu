@@ -5,6 +5,7 @@ import { CategoryResponse, CategoryService } from '@features/category';
 import { CreateProductRequest, PricesRequest, ProductResponse, ProductService } from '@features/product/product.service';
 import { getImagesUrl, ModalComponent, ModalComponentFunction, SnackBarService } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -25,6 +26,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   private readonly productService = inject(ProductService);
   private readonly categoryService = inject(CategoryService);
   private readonly snackBarService = inject(SnackBarService);
+  private readonly compressImageService = inject(NgxImageCompressService);
 
   public getImageUrlLocal = getImagesUrl;
 
@@ -34,6 +36,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   public isDeleteImageLoading = false;
 
   public selectedImage: File | null = null;
+  public selectedImageBlob: Blob | null = null;
 
   categories: CategoryResponse[] = [];
 
@@ -68,7 +71,28 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   }
 
   public onImageChange(event: any): void {
-    this.selectedImage = event.target.files[0];
+    const file: File = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event: any) => {
+      if (event.target !== null) {
+        const r = event.target.result;
+        this.compressImageService.compressFile(r, -1)
+          .then(compressed => {
+            this.selectedImageBlob = this.base64ToBlob(compressed);
+          });
+      }
+    };
+    reader.readAsDataURL(file);
+  }
+
+  base64ToBlob(base64: string) {
+    const byteString = atob(base64.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'image/jpeg' });
   }
 
   public onSubmit(): void {
@@ -92,9 +116,9 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       this.isSavingLoading = true;
       this.executeRequest(body).subscribe({
         next: res => {
-          if (this.selectedImage !== null) {
+          if (this.selectedImageBlob !== null) {
             const formData = new FormData();
-            formData.append("product_image_file", this.selectedImage, this.selectedImage.name);
+            formData.append("product_image_file", this.selectedImageBlob);
             this.productService.uploadImage(res.id, formData).subscribe({
               next: () => {
                 this.isSavingLoading = false;
