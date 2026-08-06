@@ -27,8 +27,6 @@ export class CustomizationComponent implements OnInit {
 
   wasCustomThemeFormValidated = false;
 
-  customThemes: CustomizationResponse[] = [];
-
   isSaving = false;
   isApplyingActive = false;
 
@@ -94,19 +92,15 @@ export class CustomizationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.storageService.getUser();
-    this.fetchCustomizations();
+    this.fetchCustomization();
   }
 
-  private fetchCustomizations() {
-    this.customizationService.getAll().subscribe({
+  private fetchCustomization() {
+    this.customizationService.getActive().subscribe({
       next: res => {
-        this.customThemes = res;
-        const activeOne = this.customThemes.find(t => t.active);
-        if (activeOne) {
-          this.selectedTheme.set(activeOne);
-        }
+        this.selectedTheme.set(res);
       }
-    });
+    })
   }
 
   onSelectFont(font: string) {
@@ -151,7 +145,7 @@ export class CustomizationComponent implements OnInit {
             this.isSaving = false;
             this.snackbarService.openSuccess("Tema salvo com sucesso!");
             this.selectedTheme.set(res);
-            this.fetchCustomizations();
+            this.fetchCustomization();
           },
           error: () => {
             this.isSaving = false;
@@ -178,7 +172,6 @@ export class CustomizationComponent implements OnInit {
   onOpenThemesModal(): void {
     this.modalService.open({
       type: ThemesModalComponent,
-      data: this.customThemes,
       callback: data => {
         if (data) {
           this.selectedTheme.set(data);

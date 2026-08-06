@@ -6,6 +6,11 @@
         <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+      @if(isLoading) {
+        <div class="mb-5">
+          <app-spinner></app-spinner>
+        </div>
+      } @else {
         <div class="list-group">
           @for (theme of builtinThemes; track $index) {
           <div class="d-flex justify-content-between list-group-item list-group-item-action">
@@ -43,6 +48,7 @@
           </div>
           }
         </div>
+        }
       </div>
     </div>
   </div>

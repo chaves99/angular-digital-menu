@@ -1,29 +1,38 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { CustomizationResponse, CustomizationService } from '@features/customization/customization.service';
-import { ModalComponent, ModalComponentFunction, SnackBarService } from 'app/core';
+import { ModalComponent, ModalComponentFunction, SnackBarService, SpinnerComponent } from 'app/core';
 
 @Component({
   selector: 'app-themes-modal',
-  imports: [],
+  imports: [
+    SpinnerComponent
+  ],
   templateUrl: './themes-modal.component.html',
 })
-export class ThemesModalComponent extends ModalComponent<CustomizationResponse[], CustomizationResponse> {
+export class ThemesModalComponent extends ModalComponent<any, CustomizationResponse> {
 
   private readonly customizationService = inject(CustomizationService);
   private readonly snackbarService = inject(SnackBarService);
 
   deletingLoadingIndex = -1;
 
+  isLoading = false;
+
   savedThemes: CustomizationResponse[] = [];
   builtinThemes: CustomizationResponse[] = [];
 
   callbackFunc!: ModalComponentFunction<CustomizationResponse>;
 
-  override init(model: { data?: CustomizationResponse[]; callbackFunc: ModalComponentFunction<CustomizationResponse>; }): void {
-    if (model.data) {
-      this.setThemes(model.data);
-    }
+  override init(model: { callbackFunc: ModalComponentFunction<CustomizationResponse>; }): void {
+    this.isLoading = true;
+    this.customizationService.getAll().subscribe({
+      next: res => {
+        this.setThemes(res);
+        this.isLoading = false;
+      },
+      error: () => this.onClose(),
+    })
     this.callbackFunc = model.callbackFunc;
   }
 
@@ -56,6 +65,4 @@ export class ThemesModalComponent extends ModalComponent<CustomizationResponse[]
   }
 
 }
-
-
 
