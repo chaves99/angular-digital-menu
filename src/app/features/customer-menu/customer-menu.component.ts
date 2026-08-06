@@ -1,11 +1,9 @@
 import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, effect, inject, input, model, OnInit, Signal, viewChild, viewChildren } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, DOCUMENT, inject, input, model, OnInit, viewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, Scroll } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CustomizationResponse } from '@features/customization/customization.service';
-import { filter, map } from 'rxjs';
 import { getImagesUrl, ModalDialogService, SpinnerComponent } from '../../core';
 import { MenuService } from '../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../services/payload';
@@ -45,9 +43,6 @@ export class CustomerMenuComponent implements OnInit {
   private readonly document = inject(DOCUMENT);
   private readonly modalService = inject(ModalDialogService);
 
-  // used to scroll when get back from details
-  // see https://angular.love/angular-scroll-position-restoration
-  scrollingRef = viewChild<HTMLElement>('scrolling');
   lineSeparator = viewChildren<HTMLElement>('lineSeparator');
 
   contactsCssClasses: string = "fs-6 text-reset text-decoration-none";
@@ -70,17 +65,6 @@ export class CustomerMenuComponent implements OnInit {
   errorMessage: string | null = null;
 
   constructor() {
-    const scrollingPosition: Signal<[number, number] | undefined> = toSignal(
-      inject(Router).events.pipe(
-        filter((event): event is Scroll => event instanceof Scroll),
-        map((event: Scroll) => event.position || [0, 0])
-      ),
-    );
-    effect(() => {
-      if (this.scrollingRef() && scrollingPosition()) {
-        this.viewportScroller.scrollToPosition(scrollingPosition()!);
-      }
-    });
   }
 
   ngOnInit(): void {

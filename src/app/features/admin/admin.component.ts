@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
 
   menuItemClass = "border-bottom list-group-item py-3 px-3 list-group-item-action";
 
-  isFreeTierActive = false;
+  isSubscriptionActive = false;
 
   public user: CreateUserResponse | null = null;
   public subscription: SubscriptionResponse | null = null;
@@ -57,7 +57,7 @@ export class AdminComponent implements OnInit {
       this.subscriptionService.get().subscribe({
         next: sub => {
           this.subscription = sub;
-          this.isFreeTierActive = isFreeTierActive(this.subscription);
+          this.isSubscriptionActive = sub.active !== null;
         },
         error: res => {
           this.handleErroRequest(res);

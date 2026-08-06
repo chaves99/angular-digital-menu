@@ -52,7 +52,9 @@
             <i class="bi bi-box-arrow-in-right"></i>
           </button>
         } @else {
-          <app-user-account-button [user]="user"></app-user-account-button>
+          <div class="d-flex justify-content-end w-100">
+            <app-user-account-button [user]="user"></app-user-account-button>
+          </div>
         }
       </div>
     </div>

@@ -2,7 +2,7 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <div #scrolling [ngStyle]="{'font-family': themeInput().font}" class="customer-container" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+    <div [ngStyle]="{'font-family': themeInput().font}" class="customer-container" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
       <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
         class="mx-auto shadow" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
@@ -71,15 +71,15 @@
         <!-- ################ ITEMS SECTION ################ -->
         <div  data-bs-smooth-scroll="false" class="container mt-3 pb-5">
           @for(cat of menuCategories; track cat.id; let catIndex = $index) {
-            <h3 id="{{cat.name}}" class="fs-6 mt-4 fw-semibold text-capitalize">{{ cat.name }}</h3>
+            <h3 id="{{cat.name}}" class="fs-6 mt-5 fw-semibold text-capitalize">{{ cat.name }}</h3>
             @for(product of cat.products; track product.id; let productIndex = $index) {
               <a
                 (click)="onOpenItem(product, cat)"
-                class="text-decoration-none text-reset d-flex mb-1 w-100 p-1 gap-2"
+                class="text-decoration-none text-reset d-flex w-100 p-1 gap-2"
               >
                 <div class="">
                 @if(product.image !== null) {
-                  <img [src]="getImageUrlLocal(product.image)" style="height: 90px; width: 90px;" class="rounded-3" alt="...">
+                  <img [src]="getImageUrlLocal(product.image)" style="height: 90px; width: 90px;" class="rounded-3" alt="..." />
                 }
                 </div>
 
@@ -94,7 +94,7 @@
                   <!-- ################ ITEM DESCRIPTION ################ -->
                   <div
                     class="text-truncat h-75 w-100"
-                    style="font-size: 14px; overflow: hidden; text-overflow: ellipsis;">
+                    style="font-size: 15px; overflow: hidden; text-overflow: ellipsis;">
                     {{product.description}}
                   </div>
 
@@ -104,9 +104,7 @@
                   </div>
                 </div>
               </a>
-              @if (!((productIndex === (cat.products.length - 1)) && (catIndex === (menuCategories.length - 1)))) {
-                <hr>
-              }
+              <hr class="text-secondary">
             }
           }
         </div>

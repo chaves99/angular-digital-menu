@@ -34,14 +34,18 @@
       <a class="link-secondary text-decoration-none" data-bs-dismiss="offcanvas" routerLink="/admin">
         <h5 class="offcanvas-title" id="offcanvasExampleLabel">
           {{ user!.establishmentName }}
+          @if (isSubscriptionActive) {
           <span class="badge text-bg-success">Ativo</span>
+          } @else {
+          <span class="badge text-bg-danger">Inativo</span>
+          }
         </h5>
       </a>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body d-flex align-items-start flex-column">
       <div class="w-100">
-        @if(isFreeTierActive) {
+        @if(!isSubscriptionActive) {
           <div class="d-flex mb-5 justify-content-center">
             <a data-bs-dismiss="offcanvas" [routerLink]="['subscription']"
               class="w-75 mx-auto mt-3 btn btn-success">
