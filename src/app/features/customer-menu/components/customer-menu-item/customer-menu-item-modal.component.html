@@ -3,7 +3,7 @@
     <div [ngClass]="state!.theme.theme === 'DARK' ? 'text-light' : 'text-dark'"
       [ngStyle]="{'font-family': state!.theme.font, 'background-color': state!.theme.mainColor}"
       class="modal-content rounded-3">
-      <button class="btn-close position-absolute top-0 end-0 rounded-pill p-3 m-2"
+      <button class="btn-close position-absolute top-0 end-0 rounded-pill bg-light p-3 m-2"
         type="button" (click)="back()"
         style="z-index: 1;"
         aria-label="Close"></button>
