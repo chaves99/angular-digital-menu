@@ -6,8 +6,8 @@
       <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
         class="mx-auto shadow" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
-        <div class="container overflow-hidden text-center">
-          <div class="row gy-3 align-items-center pt-3 justify-content-center">
+        <div class="container overflow-hidden">
+          <div class="row gy-3 align-items-center pt-3 justify-content-center text-center">
             @if(menu.info.image !== null) {
               <div class="col-md-4">
                 <img [src]="getImageUrlLocal(menu.info.image)" class="img-fluid w-100 rounded-3" alt="..." priority>
@@ -22,6 +22,83 @@
                   {{menu.info.description}}
                 </p>
               }
+            </div>
+          </div>
+          <!-- ################ MORE INFO ACCORDION ################ -->
+          <div class="accordion p-1" [ngStyle]="{'background-color': themeInput().mainColor}"
+            [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+            <div class="accordion-item" [ngStyle]="{'background-color': themeInput().mainColor}"
+              [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+              <h2 class="accordion-header">
+                <button class="accordion-button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseOne"
+                   [ngStyle]="{'background-color': themeInput().mainColor}" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+                  Mais informações
+                </button>
+              </h2>
+              <div id="collapseOne" class="accordion-collapse " data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                  @if(existSchedule()) {
+                    <div class="p-6 fw-bold">
+                      <i class="bi bi-calendar2-day"></i>
+                      Horários:
+                    </div>
+                    <p class="">
+                      @for(schedule of menu.schedules; track schedule.id) {
+                        <!-- <i class="bi bi-geo-alt-fill"></i> -->
+                        {{schedule.days}}
+                        <br>
+                        {{schedule.openHour}}
+                        @if (schedule.startLaunch && schedule.endLaunch) {
+                          - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
+                        } @else {
+                          -
+                        }
+                        {{schedule.closeHour}}
+                        <br>
+                      }
+                    </p>
+                    <hr class="" />
+                  }
+                @if(existContacts()) {
+                  <div class="p-6 fw-bold mb-1">
+                    Contatos:
+                  </div>
+                  <div class="row gap-2">
+                    @if(menu.info.whatsapp !== null) {
+                      <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
+                        <i class="bi bi-whatsapp"></i>
+                        {{ menu.info.whatsapp }}
+                      </a>
+                    }
+                    @if(menu.info.phone !== null) {
+                      <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
+                        <i class="bi bi-telephone"></i>
+                        {{ menu.info.phone }}
+                      </a>
+                    }
+                    @if(menu.info.instagram !== null) {
+                      <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
+                        <i class="bi bi-instagram"></i>
+                        {{ menu.info.instagram }}
+                      </a>
+                    }
+                    @if(menu.info.facebook !== null) {
+                      <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
+                        <i class="bi bi-facebook"></i>
+                        {{ menu.info.facebook }}
+                      </a>
+                    }
+                    @if(menu.info.website !== null) {
+                      <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
+                        <i class="bi bi-browser-chrome"></i>
+                        {{ menu.info.website }}
+                      </a>
+                    }
+                  </div>
+                }
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -69,7 +146,7 @@
         </div>
 
         <!-- ################ ITEMS SECTION ################ -->
-        <div  data-bs-smooth-scroll="false" class="container mt-3 pb-5">
+        <div  data-bs-smooth-scroll="false" class="container mt-3 pb-1">
           @for(cat of menuCategories; track cat.id; let catIndex = $index) {
             <h3 id="{{cat.name}}" class="fs-6 mt-5 fw-bold text-capitalize">{{ cat.name }}</h3>
             @for(product of cat.products; track product.id; let productIndex = $index) {
@@ -104,7 +181,7 @@
                   </div>
                 </div>
               </a>
-              <hr class="text-secondary">
+              <hr class="text-secondary" />
             }
           }
         </div>
@@ -126,74 +203,10 @@
               - {{ menu.info.addressCode }}
               }
             </p>
-            <hr>
+            <hr />
           }
 
-          <!-- ################ SCHEDULE ################ -->
-          @if(existSchedule()) {
-            <div class="p-6 fw-bold">
-              <i class="bi bi-calendar2-day"></i>
-              Horários:
-            </div>
-            <p class="">
-              @for(schedule of menu.schedules; track schedule.id) {
-                <!-- <i class="bi bi-geo-alt-fill"></i> -->
-                {{schedule.days}}
-                <br>
-                {{schedule.openHour}}
-                @if (schedule.startLaunch && schedule.endLaunch) {
-                  - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
-                } @else {
-                  -
-                }
-                {{schedule.closeHour}}
-                <br>
-              }
-            </p>
-            <hr class="">
-          }
-
-          <!-- ################ CONTACTS ################ -->
-          @if(existContacts()) {
-              <div class="p-6 fw-bold mb-1">
-                <!-- <i class="bi bi-person-lines-fill"></i> -->
-                Contatos:
-              </div>
-            <div class="row gap-2">
-              @if(menu.info.whatsapp !== null) {
-                <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
-                  <i class="bi bi-whatsapp"></i>
-                  {{ menu.info.whatsapp }}
-                </a>
-              }
-              @if(menu.info.phone !== null) {
-                <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
-                  <i class="bi bi-telephone"></i>
-                  {{ menu.info.phone }}
-                </a>
-              }
-              @if(menu.info.instagram !== null) {
-                <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
-                  <i class="bi bi-instagram"></i>
-                  {{ menu.info.instagram }}
-                </a>
-              }
-              @if(menu.info.facebook !== null) {
-                <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
-                  <i class="bi bi-facebook"></i>
-                  {{ menu.info.facebook }}
-                </a>
-              }
-              @if(menu.info.website !== null) {
-                <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
-                  <i class="bi bi-browser-chrome"></i>
-                  {{ menu.info.website }}
-                </a>
-              }
-            </div>
-            <hr class="">
-          }
-          <div class="mt-5 pb-2">
+          <div class="mt-2 pb-2">
             <a href="https://itimenu.app" target="_blank"
               [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
               class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
