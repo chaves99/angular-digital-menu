@@ -1,4 +1,4 @@
-import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle, ViewportScroller } from '@angular/common';
+import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, DOCUMENT, inject, input, model, OnInit, viewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -39,7 +39,6 @@ export class CustomerMenuComponent implements OnInit {
   );
 
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly viewportScroller = inject(ViewportScroller);
   private readonly document = inject(DOCUMENT);
   private readonly modalService = inject(ModalDialogService);
 

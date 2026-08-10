@@ -60,43 +60,60 @@
                     </p>
                     <hr class="" />
                   }
-                @if(existContacts()) {
-                  <div class="p-6 fw-bold mb-1">
-                    Contatos:
-                  </div>
-                  <div class="row gap-2">
-                    @if(menu.info.whatsapp !== null) {
-                      <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
-                        <i class="bi bi-whatsapp"></i>
-                        {{ menu.info.whatsapp }}
-                      </a>
-                    }
-                    @if(menu.info.phone !== null) {
-                      <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
-                        <i class="bi bi-telephone"></i>
-                        {{ menu.info.phone }}
-                      </a>
-                    }
-                    @if(menu.info.instagram !== null) {
-                      <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
-                        <i class="bi bi-instagram"></i>
-                        {{ menu.info.instagram }}
-                      </a>
-                    }
-                    @if(menu.info.facebook !== null) {
-                      <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
-                        <i class="bi bi-facebook"></i>
-                        {{ menu.info.facebook }}
-                      </a>
-                    }
-                    @if(menu.info.website !== null) {
-                      <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
-                        <i class="bi bi-browser-chrome"></i>
-                        {{ menu.info.website }}
-                      </a>
-                    }
-                  </div>
-                }
+                  @if(existContacts()) {
+                    <div class="p-6 fw-bold mb-1">
+                      Contatos:
+                    </div>
+                    <div class="row gap-2">
+                      @if(menu.info.whatsapp !== null) {
+                        <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
+                          <i class="bi bi-whatsapp"></i>
+                          {{ menu.info.whatsapp }}
+                        </a>
+                      }
+                      @if(menu.info.phone !== null) {
+                        <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
+                          <i class="bi bi-telephone"></i>
+                          {{ menu.info.phone }}
+                        </a>
+                      }
+                      @if(menu.info.instagram !== null) {
+                        <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
+                          <i class="bi bi-instagram"></i>
+                          {{ menu.info.instagram }}
+                        </a>
+                      }
+                      @if(menu.info.facebook !== null) {
+                        <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
+                          <i class="bi bi-facebook"></i>
+                          {{ menu.info.facebook }}
+                        </a>
+                      }
+                      @if(menu.info.website !== null) {
+                        <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
+                          <i class="bi bi-browser-chrome"></i>
+                          {{ menu.info.website }}
+                        </a>
+                      }
+                    </div>
+                    <hr class="" />
+                  }
+
+                  <!-- ################ ADDRESS ################ -->
+                  @if(existAddress()) {
+                    <div class="p-6 fw-bold">
+                      <i class="bi bi-geo-alt-fill"></i>
+                      Endereço:
+                    </div>
+                    <p class="">
+                      {{ menu.info.addressLine }}
+                      {{ menu.info.city }}
+                      @if (menu.info.addressCode) {
+                      - {{ menu.info.addressCode }}
+                      }
+                    </p>
+                    <hr />
+                  }
                 </div>
               </div>
             </div>
@@ -189,22 +206,6 @@
         <!-- ################ FOOTER ################ -->
         <div [ngStyle]="{'background-color': themeInput().secondaryColor}"
           class="mt-1 container-fluid pt-4 px-4 text-center" >
-
-          <!-- ################ ADDRESS ################ -->
-          @if(existAddress()) {
-            <div class="p-6 fw-bold">
-              <i class="bi bi-geo-alt-fill"></i>
-              Endereço:
-            </div>
-            <p class="">
-              {{ menu.info.addressLine }}
-              {{ menu.info.city }}
-              @if (menu.info.addressCode) {
-              - {{ menu.info.addressCode }}
-              }
-            </p>
-            <hr />
-          }
 
           <div class="mt-2 pb-2">
             <a href="https://itimenu.app" target="_blank"

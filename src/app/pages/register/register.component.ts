@@ -33,7 +33,6 @@ export class RegisterComponent {
     email: new FormControl('', Validators.email),
     password: new FormControl(),
     establishmentName: new FormControl(),
-    termsAndPrivaceAcceptance: new FormControl(false, Validators.required)
   });
 
   public isDark = computed<boolean>(() => {
@@ -43,13 +42,7 @@ export class RegisterComponent {
   public onSubmit(): void {
     this.errorMessage = null;
     this.termsOfServiceError = false;
-    const { email, password, establishmentName, termsAndPrivaceAcceptance } = this.formGroup.value;
-
-    if (!termsAndPrivaceAcceptance) {
-      this.snackbarService.open("Você precisa aceitar os termos de serviço!");
-      this.termsOfServiceError = true;
-      return;
-    }
+    const { email, password, establishmentName } = this.formGroup.value;
 
     if (email && password && establishmentName) {
       this.isLoading = true;
