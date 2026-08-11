@@ -3,7 +3,7 @@ import { AccountDataComponent } from '@features/account-data/account-data.compon
 import { AdminComponent } from '@features/admin';
 import { CustomizationComponent } from '@features/customization/customization.component';
 import { DashboardComponent } from '@features/dashboard/dashboard.component';
-import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, NameDescriptionComponent, ScheduleComponent } from '@features/establishment';
+import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, NameDescriptionComponent, ScheduleComponent, WifiComponent } from '@features/establishment';
 import { ProductComponent } from '@features/product';
 import { QrcodePageComponent } from '@features/qrcode/qrcode-page.component';
 import { SubscriptionComponent } from '@features/subscription/subscription.component';
@@ -133,6 +133,10 @@ export const routes: Routes = [
           {
             path: 'name-description',
             component: NameDescriptionComponent
+          },
+          {
+            path: 'wifi',
+            component: WifiComponent
           }
         ]
       },

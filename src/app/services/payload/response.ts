@@ -24,6 +24,8 @@ export interface CreateUserResponse {
   establishmentUrl: string;
   establishmentDescription: string | null;
   subscription: string;
+  wifiName?: string;
+  wifiPassword?: string;
   // subscriptionStatus: SubscriptionStatus;
   image: string | null;
   createdAt: Date;
@@ -76,6 +78,8 @@ export interface EstablishmentInfoResponse {
   id: number;
   establishmentName: string;
   description: string | null;
+  wifiName: string | null;
+  wifiPassword: string | null;
   image: string;
   addressLine: string | null;
   addressCode: string | null;

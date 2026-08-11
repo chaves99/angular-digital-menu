@@ -1,23 +1,22 @@
-
 <form class="card" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <h4 class="card-header">
-    Nome e Descrição
+    Wi-Fi
   </h4>
 
   <div class="card-body">
     <div class="container mt-5">
       <dl class="row">
-        <dt class="col-sm-3 mb-2">Nome do estabelecimento: </dt>
+        <dt class="col-sm-3 mb-2">Nome: </dt>
         <dd class="col-sm-9 mb-3">
           <div class="mb-3">
-            <input type="email" class="form-control" formControlName="name">
+            <input class="form-control" formControlName="name">
           </div>
         </dd>
 
-        <dt class="col-sm-3 mb-2">Descrição do estabelecimento: </dt>
+        <dt class="col-sm-3 mb-2">Senha: </dt>
         <dd class="col-sm-9 mb-3">
           <div class="mb-3">
-            <textarea type="email" rows="10" class="form-control" formControlName="description"></textarea>
+            <input class="form-control" formControlName="password" />
           </div>
         </dd>
       </dl>

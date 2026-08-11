@@ -53,6 +53,10 @@ export class UserService {
     });
   }
 
+  public updateWifi(body: {name?: string, password?: string}): Observable<CreateUserResponse> {
+    return this.http.put<CreateUserResponse>(`${this.url}/wifi`, body);
+  }
+
   public deleteAccount(password: string) {
     return this.http.delete(this.url, {
       body: { password: password }

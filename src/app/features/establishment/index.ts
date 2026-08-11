@@ -4,3 +4,4 @@ export * from './banner/banner.component';
 export * from './contact/contact.component';
 export * from './schedule/schedule.component';
 export * from './name-description/name-description.component';
+export * from './wifi/wifi.component';

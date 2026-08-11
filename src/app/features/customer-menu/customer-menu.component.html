@@ -2,7 +2,10 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <div [ngStyle]="{'font-family': themeInput().font}" class="customer-container" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+    <div class="customer-container"
+      [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
+      [ngStyle]="{'font-family': themeInput().font}"
+      [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
       <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
         class="mx-auto shadow" style="max-width: 620px;" data-bs-spy="scroll" data-bs-target="sticky-top" >
 
@@ -25,19 +28,34 @@
             </div>
           </div>
           <!-- ################ MORE INFO ACCORDION ################ -->
-          <div class="accordion p-1" [ngStyle]="{'background-color': themeInput().mainColor}"
-            [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
-            <div class="accordion-item" [ngStyle]="{'background-color': themeInput().mainColor}"
-              [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
-              <h2 class="accordion-header">
-                <button class="accordion-button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseOne"
-                   [ngStyle]="{'background-color': themeInput().mainColor}" [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
+          <div class="accordion">
+            <div class="accordion-item">
+              <div class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
+                  data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
                   Mais informações
                 </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse " data-bs-parent="#accordionExample">
+              </div>
+              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
+
+                  <!-- ################ WIFI ################ -->
+                  @if(menu.info.wifiName !== null && menu.info.wifiName.length > 0
+                    && menu.info.wifiPassword !== null && menu.info.wifiPassword.length > 0) {
+                    <div class="p-6 fw-bold">
+                      <i class="bi bi-calendar2-day"></i>
+                      Wi-Fi:
+                    </div>
+                    <p>
+                      Nome: {{ menu.info.wifiName }}
+                      <br/>
+                      Senha: {{ menu.info.wifiPassword }}
+                    </p>
+                    <hr class="" />
+                  }
+
+                  <!-- ################ CONTACTS ################ -->
                   @if(existSchedule()) {
                     <div class="p-6 fw-bold">
                       <i class="bi bi-calendar2-day"></i>
@@ -60,6 +78,8 @@
                     </p>
                     <hr class="" />
                   }
+
+                  <!-- ################ CONTACTS ################ -->
                   @if(existContacts()) {
                     <div class="p-6 fw-bold mb-1">
                       Contatos:
