@@ -56,6 +56,12 @@ export class SendMessageComponent implements OnInit {
     this.emailService.sendUserMessage({ ...values, userEmail: values.email }).subscribe({
       next: () => {
         this.snackbarService.openSuccess("Mensagem enviada!");
+        const u = this.user();
+        if (u !== null) {
+          this.form().reset({ subject: '', message: '', email: u.email });
+        } else {
+          this.form().reset({ subject: '', message: '', email: '' });
+        }
       },
       error: () => {
         this.snackbarService.openError("Erro ao enviar mensagem!");
