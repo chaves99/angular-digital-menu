@@ -16,59 +16,73 @@
   <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
     <h1 class="display-5 fw-normal text-body-emphasis">Planos Disponiveis</h1>
   </div>
-  <div class="container">
-    <div class="row justify-content-center overflow-x-hidden">
-      @for (plan of availablePlans; track $index) {
-        <div class="col-auto pb-3">
-          <div class="card text-center mb-4 shadow h-100">
-            <div class="card-header py-3">
-              <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
-              @if(plan.valueDiscount) {
-                <p class="card-text">
-                  <small class="text-body-secondary">
-                    Desconto de {{ plan.valueDiscount | currency: 'BRL' }}
-                  </small>
-                </p>
-              }
-            </div>
-            <div class="card-body">
-              <h2 class="card-title">
-                {{ plan.value | currency: 'BRL' }}
-                <small class="text-body-secondary fw-light">/{{getPeriodText(plan)}}</small>
-              </h2>
-              <ul class="list-unstyled lh-lg mt-1 mb-1">
-                @for(desc of plan.description.split('<break>'); track $index) {
-                  <li class="">
-                    {{ desc }}
-                  </li>
-                }
-              </ul>
 
-            </div>
-            <div class="card-footer">
-              @if(user === null) {
-                <button type="button"
-                  routerLink="/register"
-                  class="w-75 rounded-pill btn btn-primary">
-                  Criar Conta Grátis
-                  <i class="bi bi-box-arrow-up-right"></i>
-                </button>
-              } @else {
-                <button type="button"
-                  (click)="onAssign(plan.priceId)"
-                  class="w-75 rounded-pill btn btn-primary">
-                  <!-- <i class="bi bi-stripe"></i> -->
-                  Assinar
-                  @if (isPlanButtonLoading) {
-                  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                  } @else {
-                  <i class="bi bi-box-arrow-up-right"></i>
+  <!-- ########### RECURRENCY RADIO BUTTON ########### -->
+  <div class="d-flex justify-content-center mb-3">
+    <div class="form-check">
+      <input class="btn-check" type="radio" name="radioDefault" id="radioDefault1" checked>
+      <label class="btn btn-lg btn-outline-primary" (click)="onRadioButtonRecurringChange('MONTH')" for="radioDefault1">
+        Mensal
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="btn-check" type="radio" name="radioDefault" id="radioDefault2">
+      <label class="btn btn-lg btn-outline-primary" (click)="onRadioButtonRecurringChange('YEAR')" for="radioDefault2">
+        Anual
+      </label>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row justify-content-center">
+      @for (plan of availablePlans; track $index) {
+        @for(price of getCurrentPrice(plan); track price.priceId) {
+          <div class="col-auto pb-3">
+            <div class="card text-center mb-4 shadow h-100">
+              <div class="card-header py-3">
+                <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
+                ({{getPeriodTextTitle(price)}})
+                @if (price.savingValue) {
+                  <h6 class="card-subtitle mb-2 mt-2 text-body-secondary">Economize {{ price.savingValue | currency: 'BRL' }}</h6>
+                }
+              </div>
+              <div class="card-body">
+                <h2 class="card-title">
+                  {{ price.value | currency: 'BRL' }}
+                  <small class="text-body-secondary fwlight">/{{getPeriodText(price)}}</small>
+                </h2>
+                <ul class="list-unstyled lh-lg mt-1 mb-1">
+                  @for(desc of plan.description; track $index) {
+                    <li class="">
+                      {{ desc }}
+                    </li>
                   }
-                </button>
-              }
+                </ul>
+              </div>
+              <div class="card-footer">
+                @if(user === null) {
+                  <button type="button"
+                    routerLink="/register"
+                    class="w-75 rounded-pill btn btn-primary">
+                    Criar Conta Grátis
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </button>
+                } @else {
+                  <button type="button"
+                    (click)="onAssign(price.priceId)"
+                    class="w-75 rounded-pill btn btn-primary">
+                    Assinar
+                    @if (isPlanButtonLoading) {
+                      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    } @else {
+                      <i class="bi bi-box-arrow-up-right"></i>
+                    }
+                  </button>
+                }
+              </div>
             </div>
           </div>
-        </div>
+        }
       }
     </div>
   </div>

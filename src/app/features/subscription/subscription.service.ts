@@ -63,12 +63,19 @@ export interface SubscriptionDetails {
 }
 
 export interface AvailablePlans {
+  productId: number;
+  name: string[];
+  description: string[];
+  priceOptions: PlanPriceOption[];
+}
+
+export type PriceRecurringInterval = 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
+
+export interface PlanPriceOption {
   priceId: string;
   value: number;
-  name: string;
-  description: string;
-  recurringInterval: 'DAY' | 'WEEK' | 'MONTH' | 'YEAR';
-  valueDiscount: number;
+  recurring: PriceRecurringInterval;
+  savingValue?: number;
 }
 
 type SubscriptionStatus = 'ACTIVE' | 'PAYMENT_FAILED' | 'CANCELED';

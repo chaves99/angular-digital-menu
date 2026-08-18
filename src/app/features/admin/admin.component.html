@@ -29,15 +29,19 @@
     </div>
   </nav>
 
-  <div class="offcanvas offcanvas-fixed offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas offcanvas-fixed offcanvas-start" data-offset="true" tabindex="-1" id="offcanvasExample">
     <div class="offcanvas-header">
       <a class="link-secondary text-decoration-none" data-bs-dismiss="offcanvas" routerLink="/admin">
-        <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-          {{ user!.establishmentName }}
+        <h5 class="offcanvas-title">
+          {{ user.establishmentName }}
           @if (isSubscriptionActive) {
-          <span class="badge text-bg-success">Ativo</span>
+            @if (subscription!.active != null && subscription!.active.freeTier) {
+              <span class="badge text-bg-success">Free Tier Ativo</span>
+            } @else {
+              <span class="badge text-bg-success">Ativo</span>
+            }
           } @else {
-          <span class="badge text-bg-danger">Inativo</span>
+            <span class="badge text-bg-danger">Inativo</span>
           }
         </h5>
       </a>
@@ -61,16 +65,14 @@
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             [class]="menuItemClass">
-            <!-- <i class="bi bi-upc"></i> -->
-            <!-- <i class="bi bi-eye"></i> -->
-            <i class="bi bi-diagram-3"></i>
+            <i class="bi bi-fork-knife"></i>
             Produtos
           </a>
           <a [routerLink]="['categories']"
             data-bs-dismiss="offcanvas"
             routerLinkActive="active"
             [class]="menuItemClass">
-            <i class="bi bi-table"></i>
+            <i class="bi bi-diagram-3"></i>
             Categorias
           </a>
           <a [routerLink]="['establishment', 'address']"

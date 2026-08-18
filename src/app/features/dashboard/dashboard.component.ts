@@ -32,7 +32,7 @@ export class DashboardComponent implements OnInit {
     this.subscriptionService.get().subscribe({
       next: sub => {
         this.subscription = sub;
-        this.hasSubscriptionActive = sub.active !== null;
+        this.hasSubscriptionActive = sub.active !== null && !sub.active.freeTier;
       },
       error: () => {
       }

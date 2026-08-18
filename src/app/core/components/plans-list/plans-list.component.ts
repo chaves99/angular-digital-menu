@@ -1,11 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { CreateUserResponse } from '../../../services/payload';
-import { StorageService } from '../../../services';
 import { CurrencyPipe } from '@angular/common';
-import { SpinnerComponent } from '../spinner/spinner.component';
+import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { AvailablePlans, PlanPriceOption, PriceRecurringInterval, SubscriptionService } from '@features/subscription';
+import { StorageService } from '../../../services';
+import { CreateUserResponse } from '../../../services/payload';
 import { SnackBarService } from '../snackbar/snackbar.service';
-import { AvailablePlans, SubscriptionService } from '@features/subscription';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'app-plans-list',
@@ -20,6 +20,8 @@ export class PlansListComponent {
   private readonly snackbarService = inject(SnackBarService);
 
   availablePlans: AvailablePlans[] = [];
+
+  plansRecurringState = signal<PriceRecurringInterval>('MONTH');
 
   user: CreateUserResponse | null = null;
 
@@ -44,12 +46,21 @@ export class PlansListComponent {
     });
   }
 
-  getPeriodText(plan: AvailablePlans): string {
-    switch (plan.recurringInterval) {
+  getPeriodText(price: PlanPriceOption): string {
+    switch (price.recurring) {
       case 'DAY': return "Dia";
       case 'WEEK': return "Semana";
       case 'MONTH': return "Mês";
       case 'YEAR': return "Ano";
+    }
+  }
+
+  getPeriodTextTitle(price: PlanPriceOption): string {
+    switch (price.recurring) {
+      case 'DAY': return "Diário";
+      case 'WEEK': return "Semanal";
+      case 'MONTH': return "Mensal";
+      case 'YEAR': return "Anual";
     }
   }
 
@@ -77,5 +88,17 @@ export class PlansListComponent {
       return;
     }
     this.openPlanPayment(planId);
+  }
+
+  public onRadioButtonRecurringChange(type: PriceRecurringInterval) {
+    this.plansRecurringState.set(type);
+  }
+
+  public hasDiscount(price: PlanPriceOption): boolean {
+    return price.savingValue !== undefined;
+  }
+
+  public getCurrentPrice(plan: AvailablePlans): PlanPriceOption[] {
+    return plan.priceOptions.filter(p => p.recurring === this.plansRecurringState());
   }
 }

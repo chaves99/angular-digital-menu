@@ -28,6 +28,7 @@
             </div>
           </div>
           <!-- ################ MORE INFO ACCORDION ################ -->
+          @if(shouldShowAccordionInfo()) {
           <div class="accordion">
             <div class="accordion-item">
               <div class="accordion-header">
@@ -92,19 +93,19 @@
                         </a>
                       }
                       @if(menu.info.phone !== null) {
-                        <a [class]="contactsCssClasses" href="tel://{{menu.info.phone}}" target="_blank">
+                        <a [class]="contactsCssClasses" href="tel:{{menu.info.phone}}" target="_blank">
                           <i class="bi bi-telephone"></i>
                           {{ menu.info.phone }}
                         </a>
                       }
                       @if(menu.info.instagram !== null) {
-                        <a [class]="contactsCssClasses" href="instagram://user?username={{menu.info.instagram}}" target="_blank">
+                        <a [class]="contactsCssClasses" href="https://www.instagram.com/{{menu.info.instagram}}" target="_blank">
                           <i class="bi bi-instagram"></i>
-                          {{ menu.info.instagram }}
+                          @{{ menu.info.instagram }}
                         </a>
                       }
                       @if(menu.info.facebook !== null) {
-                        <a [class]="contactsCssClasses" href="fb://page/{{menu.info.facebook}}" target="_blank">
+                        <a [class]="contactsCssClasses" href="https://www.facebook.com/{{menu.info.facebook}}" target="_blank">
                           <i class="bi bi-facebook"></i>
                           {{ menu.info.facebook }}
                         </a>
@@ -137,7 +138,8 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> <!-- END ACCORDION -->
+          }
         </div>
 
         <!-- ################ CATEGORIES ################ -->

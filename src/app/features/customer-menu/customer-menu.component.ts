@@ -189,6 +189,11 @@ export class CustomerMenuComponent implements OnInit {
     });
   }
 
+
+  shouldShowAccordionInfo(): boolean {
+    return this.existContacts() || this.existAddress() || this.existSchedule();
+  }
+
   public openContactLink(link: string): void {
   }
 
