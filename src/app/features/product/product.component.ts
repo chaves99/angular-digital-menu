@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormControl } from '@angular/forms';
 import { CategoryService, CategoryResponse } from '@features/category';
@@ -14,7 +14,8 @@ import { ProductService, ProductResponse } from './product.service';
     NgClass,
     ReactiveFormsModule,
     FormsModule,
-    SpinnerComponent
+    SpinnerComponent,
+    DatePipe
   ],
   templateUrl: './product.component.html'
 })

@@ -27,6 +27,8 @@ export class RegisterComponent {
   public errorMessage: string | null = null;
   public termsOfServiceError = false;
 
+  themeSignal = this.themeService.themeSignal;
+
   public isLoading = false;
 
   formGroup = new FormGroup({

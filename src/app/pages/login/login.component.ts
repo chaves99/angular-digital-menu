@@ -21,6 +21,8 @@ export class LoginComponent {
   private readonly router = inject(Router);
   private readonly themeService = inject(ThemeService);
 
+  themeSignal = this.themeService.themeSignal;
+
   isLoading = false;
 
   invalidEmail = false;

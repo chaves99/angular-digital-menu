@@ -103,7 +103,7 @@
           <th scope="col">Nome</th>
           <th scope="col">Ativo</th>
           <th scope="col">Categoria</th>
-          <!-- <th scope="col">Criado Em</th> -->
+          <th scope="col">Criado Em</th>
           <!-- <th scope="col">Atualizado Em</th> -->
           <th colspan="3" scope="col"></th>
         </tr>
@@ -120,31 +120,61 @@
             }
           </td>
           <td>{{ product.categoryName }}</td>
-          <!-- <td>{{ product.createdAt | date: 'd/M/yy, H:mm' }}</td> -->
+          <td>{{ product.createdAt | date: 'd/M/yy, H:mm' }}</td>
           <!-- <td>{{ product.updatedAt| date: 'd/M/yy, H:mm' }}</td> -->
           <td>
-            <button (click)="onEdit(product)" class="btn btn-success">
-              Editar
-            </button>
+            <div class="dropdown">
+              <button data-bs-toggle="dropdown" class="btn btn-lg">
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <button (click)="onEdit(product)" class="dropdown-item p-3">
+                    Editar
+                    <i class="bi bi-pen"></i>
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item p-3" [ngClass]="product.active ? 'btn-danger' : 'btn-primary'"
+                    (click)="onToggleActive(product)">
+                    @if(product.active) {
+                    Inativar
+                    } @else {
+                    Ativar
+                    }
+                    @if(isActiveButtonLoading.status && isActiveButtonLoading.productId === product.id) {
+                      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                    }@else {
+                    }
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item p-3" (click)="onDelete(product)">
+                    Excluir
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </td>
-          <td>
-            <button class="btn" [ngClass]="product.active ? 'btn-danger' : 'btn-primary'"
-              (click)="onToggleActive(product)">
-              @if(product.active) {
-              Inativar
-              } @else {
-              Ativar
-              }
-              @if(isActiveButtonLoading.status && isActiveButtonLoading.productId === product.id) {
-                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-              }
-            </button>
-          </td>
-          <td>
-            <button class="btn btn-danger" (click)="onDelete(product)">
-              Excluir
-            </button>
-          </td>
+          <!-- <td> -->
+          <!--   <button class="btn" [ngClass]="product.active ? 'btn-danger' : 'btn-primary'" -->
+          <!--     (click)="onToggleActive(product)"> -->
+          <!--     @if(product.active) { -->
+          <!--     Inativar -->
+          <!--     } @else { -->
+          <!--     Ativar -->
+          <!--     } -->
+          <!--     @if(isActiveButtonLoading.status && isActiveButtonLoading.productId === product.id) { -->
+          <!--       <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> -->
+          <!--     } -->
+          <!--   </button> -->
+          <!-- </td> -->
+          <!-- <td> -->
+          <!--   <button class="btn btn-danger" (click)="onDelete(product)"> -->
+          <!--     Excluir -->
+          <!--   </button> -->
+          <!-- </td> -->
         </tr>
         }
       </tbody>

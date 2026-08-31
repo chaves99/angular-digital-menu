@@ -1,8 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { disabled, email, form, FormField, required, validate } from '@angular/forms/signals';
-import { EmailService, StorageService } from '../../services';
-import { SnackBarService, ThemeService } from '../../core';
 import { NgClass } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { disabled, email, form, FormField, validate } from '@angular/forms/signals';
+import { SnackBarService, ThemeService } from '../../core';
+import { EmailService, StorageService } from '../../services';
 
 @Component({
   selector: 'app-contact',

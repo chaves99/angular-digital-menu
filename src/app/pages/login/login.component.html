@@ -8,7 +8,7 @@
       }
     </div>
     <div class="col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
-      <div class="mt-2 p-3 border rounded">
+      <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-light'" class="mt-2 p-3 border rounded shadow-sm">
         <h3 class="mb-3 text-center fs-3">Acessar</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email:</label>

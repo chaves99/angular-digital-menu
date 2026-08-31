@@ -1,5 +1,4 @@
 <form class="container" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <div class="container">
     <div class="row">
       <div class="d-flex justify-content-center my-5">
         @if(isDark()) {
@@ -14,7 +13,7 @@
           <li class="">Cancele a qualquer momento.</li>
         </ul>
       </div>
-      <div class="col-xl-8 offset-xl-2 mt-2 p-3 border rounded shadow">
+      <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-light'" class="col-xl-8 offset-xl-2 mt-2 p-3 border rounded shadow">
         <h3 class="mb-3 text-center fs-3">Cadastro</h3>
         <div class="mb-3">
           <label for="email" class="form-label">Email:</label>
@@ -50,5 +49,4 @@
         </div>
       </div>
     </div>
-  </div>
 </form>
