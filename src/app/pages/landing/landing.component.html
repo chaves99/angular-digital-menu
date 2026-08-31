@@ -33,7 +33,7 @@
 <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-secondary-subtle'" class="border-top py-5 px-2">
   <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light'" class="container px-4 py-5 border rounded-3 shadow" id="icon-grid">
     <h2 class="pb-2 border-bottom">Você também passa por isso?</h2>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5 px-md-5">
       <div class="col d-flex border-end align-items-start">
         <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" fill="currentColor"
           class="bi bi-calendar2-week text-body-secondary flex-shrink-0 me-3" viewBox="0 0 16 16">
@@ -71,7 +71,7 @@
           <h4 class="mb-0 fs-5 text-body-emphasis">Cliente esperando enquanto o garçom explica o cardápio</h4>
         </div>
       </div>
-      <div class="col d-flex align-items-start">
+      <div class="col d-flex align-items-start border-end">
         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-3"
           width="1.75em" height="1.75em" viewBox="0 0 16 16">
           <path
@@ -95,7 +95,7 @@
     <div class="pt-5">
         <h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Nosso cardápio digital resolve tudo isso.</h1>
     </div>
-    <div class="row flex-lg-row-reverse">
+    <div class="row flex-lg-row-reverse px-md-5">
       <div class="col-lg-8">
         <p class="lead">Sistema completo com gerenciamento de produtos e muito mais.</p>
         <ul class="list-group list-group-unnumbered mb-4">
@@ -116,12 +116,12 @@
             Seu cardápio. Um único QR code. Sempre atualizado.
           </li>
         </ul>
-        <!-- <div class="d-flex justify-content-center"> -->
+        <div class="d-flex justify-content-center">
           <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 me-md-2">
             Testar Grátis
             <i class="bi bi-arrow-up-right-square"></i>
           </button>
-        <!-- </div> -->
+        </div>
       </div>
       <div class="col-10 col-sm-8 col-lg-4 mx-auto">
         <img ngSrc="phone_left.png" height="300" width="300" class="d-block mx-lg-auto img-fluid" priority>
