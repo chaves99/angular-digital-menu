@@ -1,193 +1,199 @@
-<div class="container">
-  <div class=" pt-5 m-lg-5 text-center row">
-    <div class="col-lg-6">
-      <h1 class="display fw-bold text-body-emphasis">
-        <!-- Seu cardápio. Um único QR code. Sempre atualizado. -->
-        Cardápio digital com QR Code para restaurantes, bares, lanchonetes e padarias.
-      </h1>
-      <br>
-      <h4 class="fs-4 mb5">
-        Crie um cardápio digital atraente, atualize-o quando quiser e permita que os clientes o acessem instantaneamente escaneando um QR code.
-      </h4>
-      <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-5">
-        <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 gap-3">
-          Criar Cardápio Grátis
-        </button>
-        <a href="https://itimenu.app/customer-menu/Q3DSSXnR0N82zC2GAn5P" target="_blank"
-          class="btn rounded-pill shadow btn-outline-primary shadow-sm btn-lg px-4 gap-3">
-          Ver Exemplo
-          <i class="bi bi-box-arrow-up-right"></i>
-        </a>
+<div class="first-hero-container bg-image border"
+  style="background-image: url('landing_page2.png');">
+  <div class="container px-3 py-3">
+    <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light'" class="shadow-lg rounded-3 p-3 pt-5 m-lg-5 text-center row">
+      <div class="col-lg-6">
+        <h1 class="display fw-bold text-body-emphasis">
+          Seu cardápio. Um único QR code. Sempre atualizado.
+          <!-- Cardápio digital com QR Code para restaurantes, bares, lanchonetes e padarias. -->
+        </h1>
+        <br>
+        <h4 class="fs-4 mb5">
+          Crie um cardápio digital atraente, atualize-o quando quiser e permita que os clientes o acessem instantaneamente escaneando um QR code.
+        </h4>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-5">
+          <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 gap-3">
+            Criar Cardápio Grátis
+          </button>
+          <a href="https://itimenu.app/customer-menu/Q3DSSXnR0N82zC2GAn5P" target="_blank"
+            class="btn rounded-pill shadow-lg btn-outline-primary shadow btn-lg px-4 gap-3">
+            Ver Exemplo
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </div>
       </div>
-    </div>
-    <div class="container mt-2 mt-md-0 px-md-5 col-lg-6 justify-content-center align-items-center">
-      <img [ngSrc]="'phone_portrait.png'" height="100" width="250" class="img-fluid" priority>
+      <div class="container mt-2 mt-md-0 px-md-5 col-lg-6 justify-content-center align-items-center">
+        <img [ngSrc]="'phone_portrait.png'" height="120" width="270" class="img-fluid shado" priority>
+      </div>
     </div>
   </div>
 </div>
-
-<div class="b-example-divider"></div>
 
 <!-- ################# PAIN SECTION #################-->
-<div class="container px-4 py-5" id="icon-grid">
-  <h2 class="pb-2 border-bottom">Você também passa por isso?</h2>
-  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
-    <div class="col d-flex align-items-start">
-      <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" fill="currentColor"
-        class="bi bi-calendar2-week text-body-secondary flex-shrink-0 me-3" viewBox="0 0 16 16">
-        <path
-          d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z" />
-        <path
-          d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
-      </svg>
-      <div>
-        <h4 class="mb-0 fs-5 text-body-emphasis">Preços mudam e o cardápio fica desatualizado</h4>
+<div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-secondary-subtle'" class="border-top py-5 px-2">
+  <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light'" class="container px-4 py-5 border rounded-3 shadow" id="icon-grid">
+    <h2 class="pb-2 border-bottom">Você também passa por isso?</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5">
+      <div class="col d-flex border-end align-items-start">
+        <svg xmlns="http://www.w3.org/2000/svg" width="1.75em" height="1.75em" fill="currentColor"
+          class="bi bi-calendar2-week text-body-secondary flex-shrink-0 me-3" viewBox="0 0 16 16">
+          <path
+            d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z" />
+          <path
+            d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5z" />
+        </svg>
+        <div>
+          <h4 class="mb-0 fs-5 text-body-emphasis">Preços mudam e o cardápio fica desatualizado</h4>
+        </div>
       </div>
-    </div>
-    <div class="col d-flex align-items-start">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-        class="bi bi-cash-cointext-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"
-        viewBox="0 0 16 16">
-        <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
-        <path
-          d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
-        <path
-          d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
-        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
-      </svg>
-      <div>
-        <h4 class="mb-0 fs-5 text-body-emphasis">Gastos constantes com impressão</h4>
+      <div class="col d-flex border-end align-items-start">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+          class="bi bi-cash-cointext-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0" />
+          <path
+            d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z" />
+          <path
+            d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z" />
+          <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567" />
+        </svg>
+        <div>
+          <h4 class="mb-0 fs-5 text-body-emphasis">Gastos constantes com impressão</h4>
+        </div>
       </div>
-    </div>
-    <div class="col d-flex align-items-start">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-hourglass-split flex-shrink-0 me-3"
-        width="1.75em" height="1.75em" viewBox="0 0 16 16">
-        <path
-          d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
-      </svg>
-      <div>
-        <h4 class="mb-0 fs-5 text-body-emphasis">Cliente esperando enquanto o garçom explica o cardápio</h4>
+      <div class="col d-flex align-items-start border-end">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-hourglass-split flex-shrink-0 me-3"
+          width="1.75em" height="1.75em" viewBox="0 0 16 16">
+          <path
+            d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z" />
+        </svg>
+        <div>
+          <h4 class="mb-0 fs-5 text-body-emphasis">Cliente esperando enquanto o garçom explica o cardápio</h4>
+        </div>
       </div>
-    </div>
-    <div class="col d-flex align-items-start">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-3"
-        width="1.75em" height="1.75em" viewBox="0 0 16 16">
-        <path
-          d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
-        <path
-          d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
-      </svg>
-      <div>
-        <h4 class="mb-0 fs-5 text-body-emphasis">Cardápio rasgado, sujo ou perdido</h4>
+      <div class="col d-flex align-items-start">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-exclamation-triangle flex-shrink-0 me-3"
+          width="1.75em" height="1.75em" viewBox="0 0 16 16">
+          <path
+            d="M7.938 2.016A.13.13 0 0 1 8.002 2a.13.13 0 0 1 .063.016.15.15 0 0 1 .054.057l6.857 11.667c.036.06.035.124.002.183a.2.2 0 0 1-.054.06.1.1 0 0 1-.066.017H1.146a.1.1 0 0 1-.066-.017.2.2 0 0 1-.054-.06.18.18 0 0 1 .002-.183L7.884 2.073a.15.15 0 0 1 .054-.057m1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767z" />
+          <path
+            d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0z" />
+        </svg>
+        <div>
+          <h4 class="mb-0 fs-5 text-body-emphasis">Cardápio rasgado, sujo ou perdido</h4>
+        </div>
       </div>
     </div>
   </div>
 </div>
-
-<div class="b-example-divider"></div>
 
 <!-- ################# PROBLEM SOLVING SECTION #################-->
-<div class="container">
-  <div class="row flex-lg-row-reverse align-items-center g-2 py-5">
-    <div class="col-lg-6">
-      <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Nosso cardápio digital resolve tudo isso.</h1>
-      <p class="lead">Sistema completo com gerenciamento de produtos e muito mais.</p>
-      <ul class="list-group list-group-unnumbered mb-4">
-        <li class="list-group-item">
-          <i class="bi bi-check"></i>
-          Cadastre seus produtos, preços e fotos. Gere seu QR Code. Seus clientes acessam pelo celular
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-check"></i>
-          Organize alimentos e bebidas em seções fáceis de navegar.
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-check"></i>
-          Oculte itens esgotados com um clique.
-        </li>
-        <li class="list-group-item">
-          <i class="bi bi-check"></i>
-          Seu cardápio. Um único QR code. Sempre atualizado.
-        </li>
-      </ul>
+<div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-secondary-subtle border-secondary-subtle'"
+  class="border-top py-5 px-2">
+  <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light-subtle'"
+    class="container border rounded-3 shadow">
+    <div class="pt-5">
+        <h1 class="text-center display-5 fw-bold text-body-emphasis lh-1 mb-4">Nosso cardápio digital resolve tudo isso.</h1>
     </div>
-    <div class="col-10 col-sm-8 col-lg-6 mx-auto">
-      <img ngSrc="phone_left.png" height="350" width="350" class="d-block mx-lg-auto img-fluid" priority>
+    <div class="row flex-lg-row-reverse">
+      <div class="col-lg-8">
+        <p class="lead">Sistema completo com gerenciamento de produtos e muito mais.</p>
+        <ul class="list-group list-group-unnumbered mb-4">
+          <li class="list-group-item p-3">
+            <i class="bi bi-check"></i>
+            Cadastre seus produtos, preços e fotos. Gere seu QR Code. Seus clientes acessam pelo celular
+          </li>
+          <li class="list-group-item p-3">
+            <i class="bi bi-check"></i>
+            Organize alimentos e bebidas em seções fáceis de navegar.
+          </li>
+          <li class="list-group-item p-3">
+            <i class="bi bi-check"></i>
+            Oculte itens esgotados com um clique.
+          </li>
+          <li class="list-group-item p-3">
+            <i class="bi bi-check"></i>
+            Seu cardápio. Um único QR code. Sempre atualizado.
+          </li>
+        </ul>
+        <!-- <div class="d-flex justify-content-center"> -->
+          <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 me-md-2">
+            Testar Grátis
+            <i class="bi bi-arrow-up-right-square"></i>
+          </button>
+        <!-- </div> -->
+      </div>
+      <div class="col-10 col-sm-8 col-lg-4 mx-auto">
+        <img ngSrc="phone_left.png" height="300" width="300" class="d-block mx-lg-auto img-fluid" priority>
+      </div>
     </div>
-  </div>
-  <div class="d-grid gap-2 mb-5 justify-content-center d-md-flex">
-    <button [routerLink]="['register']" type="button" class="btn rounded-pill shadow btn-primary btn-lg px-4 me-md-2">
-      Testar Grátis
-      <i class="bi bi-arrow-up-right-square"></i>
-    </button>
   </div>
 </div>
 
-<div class="b-example-divider"></div>
-
-<div class="mb-5">
-  <app-plans-list id="prices"></app-plans-list>
+<div class="border-top py-5 px-2"
+  [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-secondary-subtle border-secondary-subtle'">
+  <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light-subtle'" class="container pt-3 pb-3 border rounded-3 shadow">
+    <app-plans-list id="prices"></app-plans-list>
+  </div>
 </div>
-
-<div class="b-example-divider"></div>
 
 <!-- ################# FAQ SECTION #################-->
-<div id="faq" class="container">
-  <div class="px-sm-5 px-1 py-5 m-md-5">
-    <h2 class="display-4 fw-normal text-body-emphasis">
-      Dúvidas
-    </h2>
-    <br>
-    <ol class="list-group list-group-numbered">
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Precisa baixar aplicativo?</div>
-          Não. Apenas ler o QR Code com a camêra do celular.
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Posso mudar preços quando quiser?</div>
-          Sim. Suas mudanças aparecem imediatamente.
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Funciona em celular antigo?</div>
-          Sim
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Pode adicionar fotos?</div>
-          Sim. Adicione fotos, descrições e preços quando quiser.
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Posso ter multiplas categorias?</div>
-          Sim. Organize seu menu do jeito que quiser.
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Como funciona o acesso gratuito?</div>
-          Ao se cadastrar você ganha 20 dias para usar gratuitamente sem precisar cadastrar nenhum cartão,
-          ao final desse periodo você ainda tem acesso a plataforma, porem seus clientes não podem acessar o menu.
-        </div>
-      </li>
-      <li class="list-group-item d-flex justify-content-between align-items-start">
-        <div class="ms-2 me-auto">
-          <div class="fw-bold">Como funciona para cancelar a assinatura?</div>
-          Você pode cancelar a assinatura quando quiser, e continuar utilizando a plataforma(cadastrar, editar produtos categorias...),
-          porem se a assinatura estiver cancelada você volta para a mesma etapa de quando encerra o acesso gratuito.
-        </div>
-      </li>
-    </ol>
+<div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-secondary-subtle border-secondary-subtle'" class="border-top py-5 px-2">
+  <div  [ngClass]="themeSignal() === 'dark' ? 'bg-dark' : 'bg-light-subtle'" id="faq" class="container border rounded-3 shadow">
+    <div class="px-sm-5 px- m-md-5">
+      <h2 class="display-4 fw-normal text-body-emphasis">
+        Dúvidas
+      </h2>
+      <br>
+      <ol class="list-group list-group-numbered">
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Precisa baixar aplicativo?</div>
+            Não. Apenas ler o QR Code com a camêra do celular.
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Posso mudar preços quando quiser?</div>
+            Sim. Suas mudanças aparecem imediatamente.
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Funciona em celular antigo?</div>
+            Sim
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Pode adicionar fotos?</div>
+            Sim. Adicione fotos, descrições e preços quando quiser.
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Posso ter multiplas categorias?</div>
+            Sim. Organize seu menu do jeito que quiser.
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Como funciona o acesso gratuito?</div>
+            Ao se cadastrar você ganha 20 dias para usar gratuitamente sem precisar cadastrar nenhum cartão,
+            ao final desse periodo você ainda tem acesso a plataforma, porem seus clientes não podem acessar o menu.
+          </div>
+        </li>
+        <li class="list-group-item p-4 d-flex justify-content-between align-items-start">
+          <div class="ms-2 me-auto">
+            <div class="fw-bold">Como funciona para cancelar a assinatura?</div>
+            Você pode cancelar a assinatura quando quiser, e continuar utilizando a plataforma(cadastrar, editar produtos categorias...),
+            porem se a assinatura estiver cancelada você volta para a mesma etapa de quando encerra o acesso gratuito.
+          </div>
+        </li>
+      </ol>
+    </div>
   </div>
 </div>
-
-<div class="b-example-divider"></div>
 
 <!-- ################# FOOTER SECTION #################-->
 <div class="container">

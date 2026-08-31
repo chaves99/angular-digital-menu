@@ -1,18 +1,28 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { disabled, email, form, FormField, required, validate } from '@angular/forms/signals';
 import { EmailService, StorageService } from '../../services';
-import { SnackBarService } from '../../core';
+import { SnackBarService, ThemeService } from '../../core';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
-  imports: [FormField],
-  templateUrl: './send-message.component.html'
+  imports: [FormField, NgClass],
+  templateUrl: './send-message.component.html',
+  styles: `
+    :host {
+      display: block;
+      margin-top: 0px;
+      padding: 0px;
+    }
+  `
 })
 export class SendMessageComponent implements OnInit {
 
   private readonly storageService = inject(StorageService);
   private readonly emailService = inject(EmailService);
   private readonly snackbarService = inject(SnackBarService);
+
+  themeSignal = inject(ThemeService).themeSignal;
 
   messageBody = signal({
     email: '',

@@ -1,6 +1,7 @@
-<div class="container py-5 ">
-  <div class="mx-auto" style="max-width: 600px;">
-    <h2 class=" mb-5">Fale com a gente.</h2>
+<div class="pb-5">
+  <div [ngClass]="themeSignal() === 'dark' ? 'bg-dark-subtle' : 'bg-light'"
+    class="mx-auto py-4 px-3 px-md-5 rounded-3 border shadow mt-5" style="max-width: 600px;">
+    <h2 class=" mb-3">Fale com a gente. <i class="bi bi-send-check"></i></h2>
     <p>Responderemos o mais breve possivel.</p>
     <p>Campos obrigatórios(*)</p>
     <div class="mb-3">

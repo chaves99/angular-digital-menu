@@ -1,11 +1,11 @@
-import { Location, NgOptimizedImage } from '@angular/common';
+import { Location, NgClass, NgOptimizedImage } from '@angular/common';
 import { afterEveryRender, Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { PlansListComponent } from '../../core';
+import { PlansListComponent, ThemeService } from '../../core';
 
 @Component({
   selector: 'app-landing',
-  imports: [RouterLink, NgOptimizedImage, PlansListComponent],
+  imports: [RouterLink, NgOptimizedImage, PlansListComponent, NgClass],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
@@ -13,6 +13,7 @@ export class LandingComponent {
 
   private activatedRoute = inject(ActivatedRoute);
   private location = inject(Location);
+  themeSignal = inject(ThemeService).themeSignal;
 
   constructor() {
     afterEveryRender({
