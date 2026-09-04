@@ -1,10 +1,10 @@
 import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, inject, input, model, OnInit, viewChildren } from '@angular/core';
+import { Component, DOCUMENT, HostListener, inject, input, model, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomizationResponse } from '@features/customization/customization.service';
-import { getImagesUrl, ModalDialogService, SpinnerComponent } from '../../core';
+import { getImagesUrl, ModalDialogService, SpinnerComponent, WINDOW } from '../../core';
 import { MenuService } from '../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../services/payload';
 import { CustomerMenuItemModalComponent } from './components/customer-menu-item/customer-menu-item-modal.component';
@@ -19,10 +19,12 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
     NgStyle,
     FormsModule,
     NgOptimizedImage,
-    SpinnerComponent
-  ],
+    SpinnerComponent,
+  ]
 })
 export class CustomerMenuComponent implements OnInit {
+
+  scrollUpButtonHidden = true;
 
   urlCustomer = input<string | null>(null);
   themeInput = model<CustomizationResponse>(
@@ -40,9 +42,8 @@ export class CustomerMenuComponent implements OnInit {
 
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly document = inject(DOCUMENT);
+  window = inject(WINDOW);
   private readonly modalService = inject(ModalDialogService);
-
-  lineSeparator = viewChildren<HTMLElement>('lineSeparator');
 
   contactsCssClasses: string = "fs-6 text-reset text-decoration-none";
 
@@ -76,6 +77,17 @@ export class CustomerMenuComponent implements OnInit {
           const urlCode = param['localName'];
           this.loadMenu(urlCode);
         });
+    }
+  }
+
+  @HostListener('document:scroll', ['$event'])
+  public onScroll(event: any): void {
+    if (this.window.scrollY >= (this.document.documentElement.scrollHeight - this.window.innerHeight - 150)) {
+      console.log("showButton")
+      this.scrollUpButtonHidden = false;
+    } else {
+      console.log("hiddenButton")
+      this.scrollUpButtonHidden = true;
     }
   }
 
@@ -192,11 +204,5 @@ export class CustomerMenuComponent implements OnInit {
 
   shouldShowAccordionInfo(): boolean {
     return this.existContacts() || this.existAddress() || this.existSchedule();
-  }
-
-  public openContactLink(link: string): void {
-  }
-
-  public openTelephone(): void {
   }
 }
