@@ -21,6 +21,7 @@ import {
     SendMessageComponent,
     TermsOfServiceComponent
 } from './pages';
+import { EmailUnsubscribeComponent } from '@features/email-unsubscribe/email-unsubscribe.component';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,10 @@ export const routes: Routes = [
       {
         path: 'terms',
         component: TermsOfServiceComponent
+      },
+      {
+        path: 'email-unsubscribe',
+        component: EmailUnsubscribeComponent
       },
       {
         path: 'login',

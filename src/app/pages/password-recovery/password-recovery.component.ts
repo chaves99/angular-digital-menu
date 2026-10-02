@@ -165,6 +165,7 @@ export class PasswordRecoveryComponent implements OnInit {
               message: "Senha atualizada com sucesso!",
               afterClose: () => {
                 this.router.navigateByUrl("/login");
+                this.phase = 'EMAIL';
               }
             })
           },
