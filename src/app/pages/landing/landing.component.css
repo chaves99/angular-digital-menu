@@ -8,8 +8,41 @@
 }
 
 .first-hero-container {
-  ;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.hero {
+  background:
+    radial-gradient(circle at 10% 10%, rgba(var(--bs-primary-rgb), .18), transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(var(--bs-info-rgb), .12), transparent 45%),
+    var(--bs-body-bg);
+}
+
+.hero-img {
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .25));
+  max-height: 520px;
+}
+
+.icon-circle {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card {
+  transition: transform .2s, box-shadow .2s;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--bs-box-shadow) !important;
+}
+
+.cta {
+  background: linear-gradient(135deg, var(--bs-primary), var(--bs-indigo, #6610f2));
 }
