@@ -57,9 +57,16 @@ export class QrcodePageComponent implements OnInit {
   }
 
   onSendEmail(): void {
-    this.modalService.openDefault({
-      message: `Enviar QR Code para: ${this.user?.email}?`,
-      afterClose: result => {
+    this.modalService.openDefaultInput({
+      data: {
+        fieldValue: this.user!.email,
+        fieldDescription: 'E-mail: ',
+        message: 'Enviar QR Code para: ',
+        modalTitle: 'Enviar QR Code',
+        saveButtonText: 'Enviar',
+        fieldPlaceholder: 'Ex: user@mail.com'
+      },
+      callback: result => {
         if (result) {
           const parentElement = this.qrCodeElement.nativeElement.querySelector('canvas').toDataURL('image/png')
           if (parentElement) {
