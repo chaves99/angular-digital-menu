@@ -11,6 +11,7 @@
       </button>
     </div>
     <div class="customer-container"
+      [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"
       [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
       <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
