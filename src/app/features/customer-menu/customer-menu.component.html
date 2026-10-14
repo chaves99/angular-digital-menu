@@ -4,7 +4,7 @@
   } @else if(menu !== undefined){
     <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
       <button [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
-        class="btn btn-lg rounded-3" (click)="window.scrollTo({top: 0})">
+        class="btn btn-lg rounded-3" (click)="window.scrollTo({ top: 0 })">
         <i class="bi bi-arrow-up"></i>
       </button>
     </div>

@@ -82,11 +82,9 @@ export class CustomerMenuComponent implements OnInit {
 
   @HostListener('document:scroll', ['$event'])
   public onScroll(event: any): void {
-    if (this.window.scrollY >= (this.document.documentElement.scrollHeight - this.window.innerHeight - 150)) {
-      console.log("showButton")
+    if (this.window.scrollY >= (this.document.documentElement.scrollHeight - this.window.innerHeight - 550)) {
       this.scrollUpButtonHidden = false;
     } else {
-      console.log("hiddenButton")
       this.scrollUpButtonHidden = true;
     }
   }

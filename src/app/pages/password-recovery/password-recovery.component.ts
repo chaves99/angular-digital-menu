@@ -103,7 +103,7 @@ export class PasswordRecoveryComponent implements OnInit {
     }
 
     this.userService.validateToken(recoveryAttempt.email, token.value).subscribe({
-      next: res => {
+      next: () => {
         this.phase = 'PASSWORD';
         const attempt = this.getAttempt();
         if (attempt !== null) {
