@@ -2,14 +2,15 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
+    <!-- SCROLL UP BUTTON -->
     <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
-      <button [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
-        class="btn btn-lg rounded-3" (click)="window.scrollTo({ top: 0 })">
+      <button
+        [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
+        class="btn btn-lg rounded-3 shadow" (click)="window.scrollTo({ top: 0 })">
         <i class="bi bi-arrow-up"></i>
       </button>
     </div>
     <div class="customer-container"
-      [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"
       [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
       <div [ngStyle]="{'background-color': themeInput().mainColor, 'font-family': themeInput().font}"
@@ -233,17 +234,17 @@
 
         <!-- ################ FOOTER ################ -->
         <div [ngStyle]="{'background-color': themeInput().secondaryColor}"
-          class="mt-1 container-fluid pt-4 px-4 text-center" >
+          class="mt-1 container-fluid pt-5 px-4 text-center" >
 
-          <div class="mt-2 pb-2">
+          <div class="mt-2 pb-4">
             <a href="https://itimenu.app" target="_blank"
               [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
-              class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+              class="fs-6 link-underline link-underline-opacity-0 link-underline-opacity-50-hover">
               Powered by:
               @if (themeInput().theme === 'DARK') {
-                <img class="ms-1" ngSrc="logo/full_logo_white.png" width="95" height="30"/>
+                <img class="ms-1" ngSrc="logo/full_logo_white.png" width="85" height="26"/>
               } @else {
-                <img class="ms-1" ngSrc="logo/full_logo_black.png" width="95" height="28"/>
+                <img class="ms-1" ngSrc="logo/full_logo_black.png" width="85" height="25"/>
               }
             </a>
           </div>
