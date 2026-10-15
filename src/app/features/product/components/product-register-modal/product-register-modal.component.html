@@ -51,7 +51,7 @@
           }
         </div>
 
-        <div class="border rounded-2 px-3 px-md-5 py-3 mb-3">
+        <div class="border rounded-2 px-3 py-3 mb-3">
           <div class="d-flex justify-content-between mb-3">
             <h5 class="d-none d-md-block">
               Preços
@@ -68,7 +68,7 @@
             <input type="hidden" id="unit-{{$index}}" formControlName="id">
             <div class="mb-3 col-5">
               <label for="unit-{{$index}}" class="form-label">Unidade:</label>
-              <input class="form-control" id="unit-{{$index}}" placeholder="KG, CM, Pequeno" formControlName="unit"
+              <input class="form-control" id="unit-{{$index}}" placeholder="1 KG, 30 CM, Pequeno" formControlName="unit"
                 required>
             </div>
             <div class="mb-3 col-5">
@@ -88,14 +88,19 @@
           }
         </div>
 
+        <!-- ACTIVE CHECKBOX -->
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="active" formControlName="active" required>
           <label for="active" class="form-label">Active</label>
         </div>
+
+        <!-- DESCRIPTION INPUT -->
         <div class="mb-3">
           <label for="description" class="form-label">Descrição:</label>
           <textarea rows="6" class="form-control" id="description" formControlName="description" required></textarea>
         </div>
+
+        <!-- CATEGORY INPUT -->
         <div class="mb-3">
           <label for="categoryId" class="form-label">
             Categoria:
@@ -109,6 +114,23 @@
             }
             }
           </select>
+        </div>
+
+        <div class="border rounded pt-2">
+          <div class="d-flex ms-3 py-2 borde align-items-center">
+            <span class="fs-3">
+              Tags
+            </span>
+            <button type="button" class="btn btn-outline-secondary ms-2 p-0">
+              <i class="bi bi-question fs-3"></i>
+            </button>
+          </div>
+          @for(tag of tagsList; track $index) {
+            <div class="form-check-inline m-2">
+              <input type="checkbox" class="btn-check" [id]="$index" autocomplete="off">
+              <label class="btn btn-outline-primary" [for]="$index">{{ tag }}</label><br>
+            </div>
+          }
         </div>
       </div>
 

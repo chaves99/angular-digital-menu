@@ -1,12 +1,12 @@
-import { DatePipe, NgClass } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormGroup, FormControl } from '@angular/forms';
-import { CategoryService, CategoryResponse } from '@features/category';
-import { SpinnerComponent, ModalDialogService, SnackBarService } from 'app/core';
+import { DatePipe, isPlatformBrowser, NgClass } from '@angular/common';
+import { Component, inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoryResponse, CategoryService } from '@features/category';
+import { ModalDialogService, SnackBarService, SpinnerComponent } from 'app/core';
 import { StorageService } from 'app/services';
 import { Pagination } from 'app/services/payload';
 import { ProductRegisterModalComponent } from './components/product-register-modal/product-register-modal.component';
-import { ProductService, ProductResponse } from './product.service';
+import { ProductResponse, ProductService } from './product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -26,6 +26,8 @@ export class ProductComponent implements OnInit {
   private readonly modalService = inject(ModalDialogService);
   private readonly storageService = inject(StorageService);
   private readonly snackbarService = inject(SnackBarService);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+
 
   isLoading = false;
   isActiveButtonLoading: {
@@ -56,6 +58,15 @@ export class ProductComponent implements OnInit {
     this.categoryService.getAll().subscribe({
       next: res => this.categories = res
     });
+    if (this.isBrowser) {
+      console.log('applying function');
+      import('bootstrap').then(bootstrap => {
+        const popoverElements = document.querySelectorAll('[data-bs-toggle="popover"]');
+        console.log(popoverElements);
+        const popoverList = [...popoverElements].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+        console.log(popoverList);
+      });
+    }
   }
 
   public fetchProductList() {
@@ -101,7 +112,7 @@ export class ProductComponent implements OnInit {
       type: ProductRegisterModalComponent,
       data: product,
       callback: reload => {
-        if(reload) {
+        if (reload) {
           this.fetchProductList();
         }
       }

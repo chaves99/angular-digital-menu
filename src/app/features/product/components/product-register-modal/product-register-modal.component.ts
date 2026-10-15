@@ -30,6 +30,8 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
 
   public getImageUrlLocal = getImagesUrl;
 
+  tagsList: string[] = ["Fish", "Soy Oil", "Gluten", "Spicy"];
+
   public isLoading = false;
   public isCategoryOptionLoading = false;
   public isSavingLoading = false;
