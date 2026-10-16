@@ -3,13 +3,15 @@
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
     <!-- SCROLL UP BUTTON -->
-    <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
-      <button
-        [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
-        class="btn btn-lg rounded-3 shadow" (click)="window.scrollTo({ top: 0 })">
-        <i class="bi bi-arrow-up"></i>
-      </button>
-    </div>
+    @if (!isCustomizationPage) {
+      <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
+        <button
+          [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
+          class="btn btn-lg rounded-3 shadow" (click)="window.scrollTo({ top: 0 })">
+          <i class="bi bi-arrow-up"></i>
+        </button>
+      </div>
+    }
     <div class="customer-container"
       [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"

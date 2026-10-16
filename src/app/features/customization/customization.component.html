@@ -31,7 +31,9 @@
   <div class="row justify-content-center">
     <div class="overflow-auto mx-auto px-0 border-4 border bg-light rounded-4 mt-5 col-auto"
       style="height: 650px; scrollbar-width: none; width: 440px">
-      <app-customer-menu class="w-100" [themeInput]="selectedTheme()" [urlCustomer]="user!.establishmentUrl">
+      <app-customer-menu class="w-100"
+        [themeInput]="selectedTheme()"
+        [urlCustomerInput]="user!.establishmentUrl">
       </app-customer-menu>
     </div>
   </div>

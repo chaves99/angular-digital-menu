@@ -26,7 +26,12 @@ export class CustomerMenuComponent implements OnInit {
 
   scrollUpButtonHidden = true;
 
-  urlCustomer = input<string | null>(null);
+  // Used in the customization page
+  // to render the proper user menu
+  urlCustomerInput = input<string | null>(null);
+
+  isCustomizationPage = false;
+
   themeInput = model<CustomizationResponse>(
     {
       id: -1,
@@ -36,7 +41,7 @@ export class CustomerMenuComponent implements OnInit {
       builtin: true,
       mainColor: '#fff',
       secondaryColor: '#e9ecef',
-      font: ''
+      font: '',
     }
   );
 
@@ -68,9 +73,10 @@ export class CustomerMenuComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const urlCustomer = this.urlCustomer();
+    const urlCustomer = this.urlCustomerInput();
     if (urlCustomer !== null) {
       this.loadMenu(urlCustomer);
+      this.isCustomizationPage = true;
     } else {
       this.activatedRoute.params
         .subscribe(param => {
@@ -82,7 +88,8 @@ export class CustomerMenuComponent implements OnInit {
 
   @HostListener('document:scroll', ['$event'])
   public onScroll(event: any): void {
-    if (this.window.scrollY >= (this.document.documentElement.scrollHeight - this.window.innerHeight - 1050)) {
+    if (this.window.scrollY >=
+      (this.document.documentElement.scrollHeight - this.window.innerHeight - 550)) {
       this.scrollUpButtonHidden = false;
     } else {
       this.scrollUpButtonHidden = true;

@@ -42,7 +42,6 @@ export class ScheduleComponent implements OnInit {
 
   onSubmit() {
     const { list } = this.formGroup.value;
-    console.log(list);
     let someInvalid = false;
 
     if (list) {
