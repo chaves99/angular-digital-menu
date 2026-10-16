@@ -74,6 +74,7 @@ export class LoginComponent {
             error: () => {
               this.showError = true;
               this.isLoading = false;
+              this.formGroup.controls.password.setValue('');
             }
           });
       }

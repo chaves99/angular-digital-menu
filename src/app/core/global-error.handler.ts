@@ -12,8 +12,6 @@ export class GlobalErrorHandler implements ErrorHandler {
   private readonly snackBarService = inject(SnackBarService);
 
   handleError(error: any) {
-    console.log(error);
-
     if (error instanceof HttpErrorResponse && (error.status == 401 || error.status == 0)) {
       this.storageService.cleanUser();
       this.snackBarService.openError("Erro ao conectar no servidor");
