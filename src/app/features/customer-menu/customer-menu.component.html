@@ -6,8 +6,10 @@
     @if (!isCustomizationPage) {
       <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
         <button
-          [ngStyle]="{'background-color': themeInput().mainColor, 'border': `1px solid ${themeInput().secondaryColor}`}"
-          class="btn btn-lg rounded-3 shadow" (click)="window.scrollTo({ top: 0 })">
+          class="btn btn-lg rounded-3 shadow"
+          [ngStyle]="scrollUpButtonStyle()"
+          [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+          (click)="window.scrollTo({ top: 0 })">
           <i class="bi bi-arrow-up"></i>
         </button>
       </div>
@@ -37,14 +39,15 @@
               }
             </div>
           </div>
+
           <!-- ################ MORE INFO ACCORDION ################ -->
           @if(shouldShowAccordionInfo()) {
-          <div class="accordion">
+          <div class="accordion" [ngStyle]="moreInfoAccordionStyle()">
             <div class="accordion-item">
               <div class="accordion-header">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                   [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
-                  data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseTwo">
+                  data-bs-target="#collapseOne">
                   Mais informações
                 </button>
               </div>
@@ -150,7 +153,7 @@
             </div>
           </div> <!-- END ACCORDION -->
           }
-        </div>
+        </div> <!-- END HEADER -->
 
         <!-- ################ CATEGORIES ################ -->
         <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().mainColor}"

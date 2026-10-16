@@ -1,6 +1,6 @@
 import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DOCUMENT, HostListener, inject, input, model, OnInit } from '@angular/core';
+import { Component, computed, DOCUMENT, HostListener, inject, input, model, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomizationResponse } from '@features/customization/customization.service';
@@ -69,8 +69,32 @@ export class CustomerMenuComponent implements OnInit {
 
   errorMessage: string | null = null;
 
-  constructor() {
-  }
+
+  scrollUpButtonStyle = computed(() => {
+    return {
+      'background-color': this.themeInput().mainColor,
+      'border': `1px solid ${this.themeInput().secondaryColor}`
+    }
+  });
+
+  moreInfoAccordionStyle = computed(() => {
+    return {
+      '--bs-accordion-btn-bg': this.themeInput().secondaryColor,
+      '--bs-accordion-btn-active-bg': this.themeInput().secondaryColor,
+      '--bs-accordion-btn-focus-box-shadow': this.themeInput().secondaryColor,
+      '--bs-accordion-btn-focus-border-color': this.themeInput().secondaryColor,
+      '--bs-accordion-btn-color': this.themeInput().theme === 'LIGHT' ? 'black' : 'white',
+
+      '--bs-accordion-border-color': this.themeInput().secondaryColor,
+      // '--bs-accordion-bg': this.themeInput().secondaryColor,
+
+      '--bs-accordion-active-bg': this.themeInput().secondaryColor,
+      '--bs-accordion-active-bg-color': this.themeInput().secondaryColor,
+      '--bs-accordion-active-color': this.themeInput().theme === 'LIGHT' ? 'black' : 'white',
+
+      // '--bs-accordion-btn-icon': 'var(--bs-accordion-btn-icon)'
+    }
+  });
 
   ngOnInit(): void {
     const urlCustomer = this.urlCustomerInput();
