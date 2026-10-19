@@ -1,21 +1,19 @@
-import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ReactiveFormsModule, FormsModule, FormGroup, FormControl } from '@angular/forms';
-import { CategoryService, CategoryResponse } from '@features/category';
-import { SpinnerComponent, ModalDialogService, SnackBarService } from 'app/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CategoryResponse, CategoryService } from '@features/category';
+import { ModalDialogService, SnackBarService, SpinnerComponent } from 'app/core';
 import { StorageService } from 'app/services';
 import { Pagination } from 'app/services/payload';
 import { ProductRegisterModalComponent } from './components/product-register-modal/product-register-modal.component';
-import { ProductService, ProductResponse } from './product.service';
+import { ProductTagsModalComponent } from './components/product-tags-modal/product-tags-modal-component';
+import { ProductResponse, ProductService } from './product.service';
 
 @Component({
   selector: 'app-product-list',
   imports: [
-    NgClass,
     ReactiveFormsModule,
     FormsModule,
     SpinnerComponent,
-    DatePipe
   ],
   templateUrl: './product.component.html'
 })
@@ -101,10 +99,16 @@ export class ProductComponent implements OnInit {
       type: ProductRegisterModalComponent,
       data: product,
       callback: reload => {
-        if(reload) {
+        if (reload) {
           this.fetchProductList();
         }
       }
+    });
+  }
+
+  onOpenTagModal() {
+    this.modalService.open({
+      type: ProductTagsModalComponent,
     });
   }
 

@@ -14,7 +14,7 @@
         </button>
       </div>
     }
-    <div class="customer-container"
+    <div
       [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"
       [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'">
@@ -146,7 +146,7 @@
                       - {{ menu.info.addressCode }}
                       }
                     </p>
-                    <hr />
+                    <hr/>
                   }
                 </div>
               </div>
@@ -157,12 +157,12 @@
 
         <!-- ################ CATEGORIES ################ -->
         <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().mainColor}"
-          class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll">
+          class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll shadow-sm">
           @for(cat of menu.categories; track $index) {
             <button type="button"
               [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
-              [ngStyle]="{'background-color': themeInput().secondaryColor}"
-              (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap">
+              [ngStyle]="{'background-color': themeInput().secondaryColor, 'border-color': themeInput().secondaryColor}"
+              (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap shadow-sm">
               {{ cat.name }}
             </button>
           }
@@ -170,27 +170,18 @@
 
         <!-- ################ SEARCH ################ -->
         <div class="d-block p-2">
-          @if (themeInput().theme === 'DARK') {
-          <div data-bs-theme="dark" class="input-group input-group-lg mb-3 mt-2">
-            <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
-              class="form-control bg-dark" placeholder="Procurar..." name="searchTerm">
+          <div [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
+            class="input-group input-group-lg mb-3 mt-2">
+            <input (keyup)="onSearch()"
+              [(ngModel)]="searchTerm" type="text"
+              [ngStyle]="searchFormStyle()"
+              class="form-control focus-ring" placeholder="Procurar..." name="searchTerm">
             @if(isSearching) {
-              <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
+              <button type="button" (click)="cleanSearch()" class="btn btn-danger" >
                 <i class="bi bi-x-lg"></i>
               </button>
             }
           </div>
-          } @else {
-          <div data-bs-theme="light" class="input-group input-group-lg mb-3 mt-2">
-            <input (keyup)="onSearch()" [(ngModel)]="searchTerm" type="text"
-              class="form-control" placeholder="Procurar..." name="searchTerm">
-            @if(isSearching) {
-              <button type="button" (click)="cleanSearch()" class="btn btn-outline-danger" >
-                <i class="bi bi-x-lg"></i>
-              </button>
-            }
-          </div>
-          }
         </div>
 
         <div  class="container">
@@ -207,9 +198,9 @@
                 class="text-decoration-none text-reset d-flex w-100 p-1 gap-2"
               >
                 <div class="">
-                @if(product.image !== null) {
-                  <img [src]="getImageUrlLocal(product.image)" style="height: 90px; width: 90px;" class="rounded-3" alt="..." />
-                }
+                  @if(product.image !== null) {
+                    <img [src]="getImageUrlLocal(product.image)" style="height: 95px; width: 95px;" class="rounded-3" alt="..." />
+                  }
                 </div>
 
                 <!-- ################ ITEM INFO SECTION ################ -->
@@ -222,9 +213,21 @@
 
                   <!-- ################ ITEM DESCRIPTION ################ -->
                   <div
-                    class="text-truncat h-75 w-100"
+                    class="w-100"
                     style="font-size: 15px; overflow: hidden; text-overflow: ellipsis;">
                     {{product.description}}
+                  </div>
+
+                  <!-- ################ TAGS ################ -->
+                  <div class=" m-auto ">
+                    @for (tag of product.tags; track tag.id) {
+                      <span style="font-size: 0.88rem;"
+                        [ngStyle]="{'border-color': themeInput().secondaryColor}"
+                        [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+                        class="badge border border-2 me-1 mb-1">
+                        {{ tag.name }}
+                      </span>
+                    }
                   </div>
 
                   <!-- ################ ITEM PRICE ################ -->
@@ -233,7 +236,7 @@
                   </div>
                 </div>
               </a>
-              <hr class="text-secondary" />
+              <hr />
             }
           }
         </div>

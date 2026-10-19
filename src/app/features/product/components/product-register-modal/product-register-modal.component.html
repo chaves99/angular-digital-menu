@@ -51,7 +51,7 @@
           }
         </div>
 
-        <div class="border rounded-2 px-3 px-md-5 py-3 mb-3">
+        <div class="border rounded-2 px-3 py-3 mb-3">
           <div class="d-flex justify-content-between mb-3">
             <h5 class="d-none d-md-block">
               Preços
@@ -68,7 +68,7 @@
             <input type="hidden" id="unit-{{$index}}" formControlName="id">
             <div class="mb-3 col-5">
               <label for="unit-{{$index}}" class="form-label">Unidade:</label>
-              <input class="form-control" id="unit-{{$index}}" placeholder="KG, CM, Pequeno" formControlName="unit"
+              <input class="form-control" id="unit-{{$index}}" placeholder="1 KG, 30 CM, Pequeno" formControlName="unit"
                 required>
             </div>
             <div class="mb-3 col-5">
@@ -88,14 +88,19 @@
           }
         </div>
 
+        <!-- ACTIVE CHECKBOX -->
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="active" formControlName="active" required>
           <label for="active" class="form-label">Active</label>
         </div>
+
+        <!-- DESCRIPTION INPUT -->
         <div class="mb-3">
           <label for="description" class="form-label">Descrição:</label>
           <textarea rows="6" class="form-control" id="description" formControlName="description" required></textarea>
         </div>
+
+        <!-- CATEGORY INPUT -->
         <div class="mb-3">
           <label for="categoryId" class="form-label">
             Categoria:
@@ -110,24 +115,47 @@
             }
           </select>
         </div>
+
+        <div class="border rounded pt-2">
+          <div class="d-flex ms-3 py-2 borde align-items-center">
+            <span class="fs-3">
+              Etiquetas
+            </span>
+          </div>
+          @if (!isLoadingTags) {
+            @for(tag of tagsList; track tag.id) {
+              <div class="form-check-inline m-2">
+                <button class="btn" type="button"
+                  [ngClass]="tag.added ? 'btn-outline-success' : 'btn-outline-secondary'"
+                  (click)="tag.added = !tag.added">
+                  {{ tag.name }}
+                  @if (tag.added) {
+                    <i class="bi bi-check2-all"></i>
+                  }
+                </button>
+              </div>
+            }
+          } @else {
+            <div class="py-5">
+              <app-spinner></app-spinner>
+            </div>
+          }
+        </div>
       </div>
 
       <!-- MODAL FOOTER -->
       <div class="modal-footer">
-        <!-- <div class="d-flex flex-wrap-reverse row justify-content-end gap-4"> -->
-          <button (click)="onClose()" type="button" class="col-md-2 btn btn-outline-primary">
-            Fechar
-            <!-- <i class="bi bi-x-lg"></i> -->
-          </button>
-          <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
-            Salvar
-            @if(isSavingLoading) {
-            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            } @else {
-            <i class="bi bi-floppy"></i>
-            }
-          </button>
-        <!-- </div> -->
+        <button (click)="onClose()" type="button" class="col-md-2 btn btn-secondary shadow">
+          Fechar
+        </button>
+        <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
+          Salvar
+          @if(isSavingLoading) {
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          } @else {
+          <i class="bi bi-floppy"></i>
+          }
+        </button>
       </div>
     </div>
   </div>

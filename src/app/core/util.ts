@@ -1,6 +1,6 @@
 import { Router } from '@angular/router';
-import { environment } from '../../environments/environment';
 import { SubscriptionResponse } from '@features/subscription';
+import { environment } from '../../environments/environment';
 
 export function getEstablishmentUrl(urlToken: string) {
   return environment.APP_URL + '/customer-menu/' + urlToken;

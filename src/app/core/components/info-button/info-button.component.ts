@@ -2,7 +2,9 @@ import { Component, input, OnInit } from "@angular/core";
 
 @Component({
   selector: 'app-info-button',
-  templateUrl: './info-button.component.html'
+  templateUrl: './info-button.component.html',
+  imports: [
+  ]
 })
 export class InfoButtonComponent implements OnInit {
 

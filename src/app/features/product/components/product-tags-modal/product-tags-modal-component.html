@@ -1,0 +1,58 @@
+
+<div class="modal d-inline-block show" >
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          Etiquetas Nutricionais
+        </h5>
+        <button (click)="onClose()" type="button" class="btn-close" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group mb-3">
+          <input [(ngModel)]="createInput"
+            (keydown.enter)="onCreate()"
+            type="text" class="form-control shadow"
+            placeholder="Lactose, Glúten, Crustáceo, Ovo, etc...">
+          <button class="btn btn-primary" type="button"
+            (click)="onCreate()">
+            Criar
+            <i class="bi bi-plus-lg"></i>
+          </button>
+        </div>
+        <hr/>
+        <div class="d-flex justify-content-between align-items-center order py-1 mb-2">
+          <h5 class="me-2"> Etiquetas: </h5>
+          <app-info-button
+            title="Como funciona: "
+            [paragraphs]="tagsInfoDescription"
+            ></app-info-button>
+        </div>
+        @if (tagsResource.isLoading()) {
+          <app-spinner></app-spinner>
+        } @else {
+          <ul class="list-group mb-4">
+            @for(tag of tagsResource.value(); track $index) {
+              <li class="list-group-item mb-2 border border-1 rounded shadow-sm">
+                <div class="d-flex justify-content-between">
+                  <span class="fs-5">{{ tag.name }}</span>
+                  <button type="button" (click)="onDelete(tag.id)" class="btn btn-sm btn-danger">
+                    Excluir
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+              </li>
+            } @empty {
+              <p class="text-center fs-5 mt-4 mb-4">Nenhuma tag cadastrada!</p>
+            }
+          </ul>
+        }
+      </div>
+      <div class="modal-footer">
+        <button (click)="onClose()" type="button" class="btn btn-secondary shadow">
+          Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

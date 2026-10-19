@@ -66,17 +66,17 @@ export class AdminComponent implements OnInit {
     }
   }
 
-    private handleErroRequest(res: any) {
-        if (res instanceof HttpErrorResponse && res.status == 401) {
-            this.logout();
-        }
-        if (res instanceof HttpErrorResponse && (res.status == 500 || res.status === 0)) {
-            this.dialogService.openDefault({
-                message: "Houve um problema ao conectar com o servidor!",
-            });
-            this.router.navigate(["/"]);
-        }
+  private handleErroRequest(res: any) {
+    if (res instanceof HttpErrorResponse && res.status == 401) {
+      this.logout();
     }
+    if (res instanceof HttpErrorResponse && (res.status == 500 || res.status === 0)) {
+      this.dialogService.openDefault({
+        message: "Houve um problema ao conectar com o servidor!",
+      });
+      this.router.navigate(["/"]);
+    }
+  }
 
   public logout(): void {
     this.storageService.cleanUser();
