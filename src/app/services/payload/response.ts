@@ -66,6 +66,12 @@ export interface MenuProductResponse {
   description: string;
   image: string;
   prices: MenuPriceResponse[];
+  tags: TagsResponse[];
+}
+
+export interface TagsResponse {
+  id: number;
+  name: string;
 }
 
 export interface MenuPriceResponse {

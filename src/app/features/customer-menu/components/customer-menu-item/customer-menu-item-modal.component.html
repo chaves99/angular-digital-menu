@@ -18,12 +18,21 @@
           <div class="container py-3 ">
             <small class="text-capitalize">{{ state.category.name }}</small>
             <h1 class="display-3 fw-semibold">{{ state.product.name }}</h1>
-            <p class="" style="white-space: pre-line; "> {{ state.product.description }}</p>
+            @for (tag of state.product.tags; track tag.id) {
+              <span style="font-size: 0.88rem;"
+                [ngStyle]="{'border-color': state.theme.secondaryColor}"
+                [ngClass]="state.theme.theme === 'DARK' ? 'text-light' : 'text-dark'"
+                class="badge border border-2 me-1 mb-1">
+                {{ tag.name }}
+              </span>
+            }
+
+            <p class="mt-2" style="white-space: pre-line; "> {{ state.product.description }}</p>
             <div class="mt-5">
               @for(price of state.product.prices; track price.id) {
               <p class="">
                 @if (price.unit !== null && price.unit.length > 0) {
-                {{ price.unit }} -
+                  {{ price.unit }} -
                 }
                 {{ price.value | currency: 'BRL'}}
               </p>

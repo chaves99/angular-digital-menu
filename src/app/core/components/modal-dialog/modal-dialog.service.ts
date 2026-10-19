@@ -17,6 +17,7 @@ export class ModalDialogService {
     title?: string,
     afterClose?: (v?: boolean) => void
   }) {
+    console.log("open modal");
     const component = this.openComponent(ModalDialogComponent).instance;
     component.data = { ...config };
 

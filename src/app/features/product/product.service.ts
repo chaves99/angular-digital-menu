@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { Pagination } from "app/services/payload";
 import { Observable } from "rxjs";
+import { TagsResponse } from "./tags.service";
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -76,6 +77,7 @@ export interface ProductResponse {
   createdAt: Date;
   categoryId: number;
   categoryName: string;
+  tags: TagsResponse[];
 }
 
 export interface PriceResponse {
@@ -91,6 +93,7 @@ export interface CreateProductRequest {
   prices: PricesRequest[];
   active: boolean;
   categoryId: number;
+  tagsIds: number[];
 }
 
 export interface PricesRequest {

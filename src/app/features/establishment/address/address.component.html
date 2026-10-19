@@ -1,5 +1,7 @@
 @if(isLoading) {
-<app-spinner></app-spinner>
+  <div class="mt-5">
+    <app-spinner></app-spinner>
+  </div>
 } @else {
 <div class="mt-0">
   <form class="card" [formGroup]="addressFormGroup" (ngSubmit)="onSubmit()">

@@ -77,6 +77,13 @@ export class CustomerMenuComponent implements OnInit {
     }
   });
 
+  searchFormStyle = computed(() => {
+    return {
+      '--bs-focus-ring-color': this.themeInput().secondaryColor,
+      'border': `1px solid ${this.themeInput().secondaryColor}`
+    };
+  })
+
   moreInfoAccordionStyle = computed(() => {
     return {
       '--bs-accordion-btn-bg': this.themeInput().secondaryColor,
@@ -86,13 +93,10 @@ export class CustomerMenuComponent implements OnInit {
       '--bs-accordion-btn-color': this.themeInput().theme === 'LIGHT' ? 'black' : 'white',
 
       '--bs-accordion-border-color': this.themeInput().secondaryColor,
-      // '--bs-accordion-bg': this.themeInput().secondaryColor,
 
       '--bs-accordion-active-bg': this.themeInput().secondaryColor,
       '--bs-accordion-active-bg-color': this.themeInput().secondaryColor,
       '--bs-accordion-active-color': this.themeInput().theme === 'LIGHT' ? 'black' : 'white',
-
-      // '--bs-accordion-btn-icon': 'var(--bs-accordion-btn-icon)'
     }
   });
 

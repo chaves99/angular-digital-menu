@@ -119,16 +119,25 @@
         <div class="border rounded pt-2">
           <div class="d-flex ms-3 py-2 borde align-items-center">
             <span class="fs-3">
-              Tags
+              Etiquetas
             </span>
-            <button type="button" class="btn btn-outline-secondary ms-2 p-0">
-              <i class="bi bi-question fs-3"></i>
-            </button>
           </div>
-          @for(tag of tagsList; track $index) {
-            <div class="form-check-inline m-2">
-              <input type="checkbox" class="btn-check" [id]="$index" autocomplete="off">
-              <label class="btn btn-outline-primary" [for]="$index">{{ tag }}</label><br>
+          @if (!isLoadingTags) {
+            @for(tag of tagsList; track tag.id) {
+              <div class="form-check-inline m-2">
+                <button class="btn" type="button"
+                  [ngClass]="tag.added ? 'btn-outline-success' : 'btn-outline-secondary'"
+                  (click)="tag.added = !tag.added">
+                  {{ tag.name }}
+                  @if (tag.added) {
+                    <i class="bi bi-check2-all"></i>
+                  }
+                </button>
+              </div>
+            }
+          } @else {
+            <div class="py-5">
+              <app-spinner></app-spinner>
             </div>
           }
         </div>
@@ -136,20 +145,17 @@
 
       <!-- MODAL FOOTER -->
       <div class="modal-footer">
-        <!-- <div class="d-flex flex-wrap-reverse row justify-content-end gap-4"> -->
-          <button (click)="onClose()" type="button" class="col-md-2 btn btn-outline-primary">
-            Fechar
-            <!-- <i class="bi bi-x-lg"></i> -->
-          </button>
-          <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
-            Salvar
-            @if(isSavingLoading) {
-            <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-            } @else {
-            <i class="bi bi-floppy"></i>
-            }
-          </button>
-        <!-- </div> -->
+        <button (click)="onClose()" type="button" class="col-md-2 btn btn-secondary shadow">
+          Fechar
+        </button>
+        <button class="col-md-2 btn btn-primary" type="submit" [ngClass]="isSavingLoading ? 'enabled' : ''">
+          Salvar
+          @if(isSavingLoading) {
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          } @else {
+          <i class="bi bi-floppy"></i>
+          }
+        </button>
       </div>
     </div>
   </div>

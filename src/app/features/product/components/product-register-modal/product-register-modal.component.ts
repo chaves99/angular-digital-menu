@@ -1,9 +1,10 @@
 import { DatePipe, NgClass } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CategoryResponse, CategoryService } from '@features/category';
 import { CreateProductRequest, PricesRequest, ProductResponse, ProductService } from '@features/product/product.service';
-import { getImagesUrl, ModalComponent, ModalComponentFunction, SnackBarService } from 'app/core';
+import { TagsService } from '@features/product/tags.service';
+import { getImagesUrl, ModalComponent, ModalComponentFunction, SnackBarService, SpinnerComponent } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
@@ -14,7 +15,8 @@ import { Observable } from 'rxjs';
     ReactiveFormsModule,
     CurrencyMaskModule,
     DatePipe,
-    NgClass
+    NgClass,
+    SpinnerComponent
   ],
   templateUrl: './product-register-modal.component.html',
 })
@@ -27,10 +29,16 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   private readonly categoryService = inject(CategoryService);
   private readonly snackBarService = inject(SnackBarService);
   private readonly compressImageService = inject(NgxImageCompressService);
+  tagsService = inject(TagsService);
 
   public getImageUrlLocal = getImagesUrl;
 
-  tagsList: string[] = ["Fish", "Soy Oil", "Gluten", "Spicy"];
+  isLoadingTags = false;
+  tagsList: {
+    id: number,
+    name: string,
+    added: boolean,
+  }[] = [];
 
   public isLoading = false;
   public isCategoryOptionLoading = false;
@@ -53,6 +61,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   });
 
   override init(model: { data?: ProductResponse; callbackFunc: ModalComponentFunction<boolean>; }): void {
+    console.log(model.data);
     if (model.data) {
       this.productResponse = model.data;
       this.setFormValues(this.productResponse);
@@ -66,6 +75,19 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       error: () => this.isCategoryOptionLoading = false
     });
     this.callbackFunc = model.callbackFunc;
+
+    this.isLoadingTags = true;
+    this.tagsService.getAll().subscribe({
+      next: tags => {
+        this.tagsList = tags.map(t => {
+          const added = (this.productResponse !== null && this.productResponse.tags.filter(tRes => tRes.id === t.id).length > 0);
+          return { id: t.id, name: t.name, added: added };
+        });
+        this.isLoadingTags = false;
+
+      },
+      error: () => this.isLoadingTags = false,
+    });
   }
 
   onClose(reload?: boolean): void {
@@ -112,7 +134,8 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
         description: description,
         prices: pricesRequest,
         active: active,
-        categoryId: categoryId
+        categoryId: categoryId,
+        tagsIds: this.tagsList.filter(t => t.added).map(t => t.id)
       };
 
       this.isSavingLoading = true;
