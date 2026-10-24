@@ -25,7 +25,6 @@
     </div>
   </div>
 } @else {
-
   <!-- ########### RECURRENCY RADIO BUTTON ########### -->
   <div class="d-flex justify-content-center mb-3">
     <div class="form-check">
@@ -42,57 +41,56 @@
     </div>
   </div>
 
-  <div class="container">
-    <div class="row justify-content-center">
-      @for (plan of availablePlans; track $index) {
-        @for(price of getCurrentPrice(plan); track price.priceId) {
-          <div class="col-auto pb-3">
-            <div class="card text-center mb-4 shadow h-100">
-              <div class="card-header py-3">
-                <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
-                ({{getPeriodTextTitle(price)}})
-                @if (price.savingValue) {
-                  <h6 class="card-subtitle mb-2 mt-2 text-body-secondary">Economize {{ price.savingValue | currency: 'BRL' }}</h6>
-                }
-              </div>
-              <div class="card-body">
-                <h2 class="card-title">
-                  {{ price.value | currency: 'BRL' }}
-                  <small class="text-body-secondary fwlight">/{{getPeriodText(price)}}</small>
-                </h2>
-                <ul class="list-unstyled lh-lg mt-1 mb-1">
-                  @for(desc of plan.description; track $index) {
-                    <li class="">
-                      {{ desc }}
-                    </li>
-                  }
-                </ul>
-              </div>
-              <div class="card-footer">
-                @if(user === null) {
-                  <button type="button"
-                    routerLink="/register"
-                    class="w-75 rounded-pill btn btn-primary">
-                    Criar Conta Grátis
-                    <i class="bi bi-box-arrow-up-right"></i>
-                  </button>
-                } @else {
-                  <button type="button"
-                    (click)="onAssign(price.priceId)"
-                    class="w-75 rounded-pill btn btn-primary">
-                    Assinar
-                    @if (isPlanButtonLoading) {
-                      <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-                    } @else {
-                      <i class="bi bi-box-arrow-up-right"></i>
-                    }
-                  </button>
-                }
-              </div>
-            </div>
+  <div class="d-flex justify-content-center">
+    @for (plan of availablePlans; track $index) {
+      @for(price of getCurrentPrice(plan); track price.priceId) {
+        <div class="card mb-4 shadow h-100" style="max-width: 400px;">
+          <div class="card-header text-center py-3">
+            <h4 class="my-0 fw-normal">{{ plan.name }}</h4>
+            ({{getPeriodTextTitle(price)}})
+            @if (price.savingValue) {
+              <h6 class="card-subtitle mb-2 mt-2 text-body-secondary">
+                Economize {{ price.savingValue | currency: 'BRL' }}
+              </h6>
+            }
           </div>
-        }
+          <div class="card-body">
+            <h2 class="card-title text-center">
+              {{ price.value | currency: 'BRL' }}
+              <small class="text-body-secondary fwlight">/{{getPeriodText(price)}}</small>
+            </h2>
+            <ul class="list-unstyled lh-lg mt-1 mb-1">
+              @for(desc of plan.description; track $index) {
+                <li class="">
+                  <i class="bi bi-check2"></i>
+                  {{ desc }}
+                </li>
+              }
+            </ul>
+          </div>
+          <div class="card-footer text-center">
+            @if(user === null) {
+              <button type="button"
+                routerLink="/register"
+                class="w-75 rounded-pill btn btn-primary">
+                Criar Conta Grátis
+                <i class="bi bi-box-arrow-up-right"></i>
+              </button>
+            } @else {
+              <button type="button"
+                (click)="onAssign(price.priceId)"
+                class="w-75 rounded-pill btn btn-primary">
+                Assinar
+                @if (isPlanButtonLoading) {
+                  <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                } @else {
+                  <i class="bi bi-box-arrow-up-right"></i>
+                }
+              </button>
+            }
+          </div>
+        </div>
       }
-    </div>
+    }
   </div>
 }
