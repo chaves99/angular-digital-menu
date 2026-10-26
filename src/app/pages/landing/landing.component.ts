@@ -37,7 +37,7 @@ export class LandingComponent {
     { q: 'Pode adicionar fotos?', a: 'Sim. Adicione fotos, descrições e preços quando quiser.' },
     { q: 'Posso ter múltiplas categorias?', a: 'Sim. Organize seu menu do jeito que quiser.' },
     { q: 'Como funciona o acesso gratuito?', a: 'Ao se cadastrar você ganha 20 dias para usar gratuitamente, sem cadastrar cartão. Ao final desse período você ainda tem acesso à plataforma, porém seus clientes não podem acessar o menu.' },
-    { q: 'Como funciona o cancelamento?', a: 'Você pode cancelar quando quiser e continuar usando a plataforma (cadastrar e editar produtos, categorias...). Porém, com a assinatura cancelada, você volta à mesma situação do fim do período gratuito.' },
+    { q: 'Como funciona o cancelamento?', a: 'Você pode cancelar quando quiser e continuar usando a plataforma (cadastrar e editar produtos, categorias, imagens...). Porém, com a assinatura cancelada, nenhum dos seus clientes tera acesso ao menu.' },
   ];
 
   private activatedRoute = inject(ActivatedRoute);
