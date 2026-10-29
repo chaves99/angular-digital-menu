@@ -17,7 +17,6 @@ export class InputModalDialogComponent extends ModalComponent<InputModalData, st
   myInput!: ElementRef;
 
   data: InputModalData | null = null;
-  callback!: ModalComponentFunction<string>;
 
   formGroup = new FormGroup({
     value: new FormControl<string | null>(null)
@@ -31,9 +30,8 @@ export class InputModalDialogComponent extends ModalComponent<InputModalData, st
     this.myInput.nativeElement.focus();
   }
 
-  override init(model: { data?: InputModalData | undefined; callbackFunc: ModalComponentFunction<string>; }): void {
-    this.data = model.data ?? null;
-    this.callback = model.callbackFunc;
+  override initData(data?: InputModalData): void {
+    this.data = data ?? null;
   }
 
   onSubmit(): void {
@@ -43,11 +41,7 @@ export class InputModalDialogComponent extends ModalComponent<InputModalData, st
       this.isValid = false;
       return;
     }
-    this.callback(value);
-  }
-
-  _onClose(): void {
-    this.callback();
+    this.onClose(value);
   }
 
 }

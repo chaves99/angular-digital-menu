@@ -1,10 +1,10 @@
 import { DatePipe, NgClass } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CategoryResponse, CategoryService } from '@features/category';
 import { CreateProductRequest, PricesRequest, ProductResponse, ProductService } from '@features/product/product.service';
 import { TagsService } from '@features/product/tags.service';
-import { getImagesUrl, ModalComponent, ModalComponentFunction, SnackBarService, SpinnerComponent } from 'app/core';
+import { getImagesUrl, ModalComponent, SnackBarService, SpinnerComponent } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { Observable } from 'rxjs';
@@ -23,7 +23,6 @@ import { Observable } from 'rxjs';
 export class ProductRegisterModalComponent extends ModalComponent<ProductResponse, boolean> {
 
   productResponse: ProductResponse | null = null;
-  callbackFunc!: ModalComponentFunction<boolean>;
 
   private readonly productService = inject(ProductService);
   private readonly categoryService = inject(CategoryService);
@@ -60,10 +59,9 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
     categoryId: [0]
   });
 
-  override init(model: { data?: ProductResponse; callbackFunc: ModalComponentFunction<boolean>; }): void {
-    console.log(model.data);
-    if (model.data) {
-      this.productResponse = model.data;
+  override initData(data?: ProductResponse): void {
+    if (data) {
+      this.productResponse = data;
       this.setFormValues(this.productResponse);
     }
     this.isCategoryOptionLoading = true;
@@ -74,7 +72,6 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       },
       error: () => this.isCategoryOptionLoading = false
     });
-    this.callbackFunc = model.callbackFunc;
 
     this.isLoadingTags = true;
     this.tagsService.getAll().subscribe({
@@ -88,10 +85,6 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       },
       error: () => this.isLoadingTags = false,
     });
-  }
-
-  onClose(reload?: boolean): void {
-    this.callbackFunc(reload);
   }
 
   public onImageChange(event: any): void {

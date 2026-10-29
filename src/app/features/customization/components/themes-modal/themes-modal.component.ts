@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { CustomizationResponse, CustomizationService } from '@features/customization/customization.service';
-import { ModalComponent, ModalComponentFunction, SnackBarService, SpinnerComponent } from 'app/core';
+import { ModalComponent, SnackBarService, SpinnerComponent } from 'app/core';
 
 @Component({
   selector: 'app-themes-modal',
@@ -22,9 +22,7 @@ export class ThemesModalComponent extends ModalComponent<any, CustomizationRespo
   savedThemes: CustomizationResponse[] = [];
   builtinThemes: CustomizationResponse[] = [];
 
-  callbackFunc!: ModalComponentFunction<CustomizationResponse>;
-
-  override init(model: { callbackFunc: ModalComponentFunction<CustomizationResponse>; }): void {
+  override initData(): void {
     this.isLoading = true;
     this.customizationService.getAll().subscribe({
       next: res => {
@@ -33,11 +31,6 @@ export class ThemesModalComponent extends ModalComponent<any, CustomizationRespo
       },
       error: () => this.onClose(),
     })
-    this.callbackFunc = model.callbackFunc;
-  }
-
-  onClose(theme?: CustomizationResponse) {
-    this.callbackFunc(theme);
   }
 
   onDelete(id: number, index: number): void {

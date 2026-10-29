@@ -1,0 +1,117 @@
+<div class="modal show d-block" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- ################ MODAL CONTENT ################ -->
+    <div class="modal-content border-3"
+      [attr.data-bs-theme]="menu.customization.theme === 'DARK' ? 'dark' : 'light'"
+      [ngClass]="menu.customization.theme === 'DARK' ? 'text-light' : 'text-dark'"
+      [ngStyle]="modalContentStyle()"
+      >
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Mais Informacões</h5>
+          <button class="btn-close position-absolute top-0 end-0 rounded-pill p-3 m-2 bg-light"
+            type="button"
+            (click)="onClose()"
+            aria-label="Close">
+          </button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <!-- ################ WIFI ################ -->
+          @if(menu.info.wifiName !== null && menu.info.wifiName.length > 0
+            && menu.info.wifiPassword !== null && menu.info.wifiPassword.length > 0) {
+            <div class="p-6 fw-bold">
+              <i class="bi bi-calendar2-day"></i>
+              Wi-Fi:
+            </div>
+            <p>
+              Nome: {{ menu.info.wifiName }}
+              <br/>
+              Senha: {{ menu.info.wifiPassword }}
+            </p>
+            <hr [ngStyle]="{'border-color': menu.customization.secondaryColor}" />
+          }
+
+          <!-- ################ CONTACTS ################ -->
+          @if(existSchedule()) {
+            <div class="p-6 fw-bold">
+              <i class="bi bi-calendar2-day"></i>
+              Horários:
+            </div>
+            <p class="">
+              @for(schedule of menu.schedules; track schedule.id) {
+                {{schedule.days}}
+                <br />
+                {{schedule.openHour}}
+                @if (schedule.startLaunch && schedule.endLaunch) {
+                  - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
+                } @else {
+                  -
+                }
+                {{schedule.closeHour}}
+                <br />
+              }
+            </p>
+            <hr [ngStyle]="{'border-color': menu.customization.secondaryColor}" />
+          }
+
+          <!-- ################ CONTACTS ################ -->
+          @if(existContacts()) {
+            <div class="p-6 fw-bold mb-1">
+              Contatos:
+            </div>
+            <div class="row gap-2">
+              @if(menu.info.whatsapp !== null) {
+                <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
+                  <i class="bi bi-whatsapp"></i>
+                  {{ menu.info.whatsapp }}
+                </a>
+              }
+              @if(menu.info.phone !== null) {
+                <a [class]="contactsCssClasses" href="tel:{{menu.info.phone}}" target="_blank">
+                  <i class="bi bi-telephone"></i>
+                  {{ menu.info.phone }}
+                </a>
+              }
+              @if(menu.info.instagram !== null) {
+                <a [class]="contactsCssClasses" href="https://www.instagram.com/{{menu.info.instagram}}" target="_blank">
+                  <i class="bi bi-instagram"></i>
+                  @{{ menu.info.instagram }}
+                </a>
+              }
+              @if(menu.info.facebook !== null) {
+                <a [class]="contactsCssClasses" href="https://www.facebook.com/{{menu.info.facebook}}" target="_blank">
+                  <i class="bi bi-facebook"></i>
+                  {{ menu.info.facebook }}
+                </a>
+              }
+              @if(menu.info.website !== null) {
+                <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
+                  <i class="bi bi-browser-chrome"></i>
+                  {{ menu.info.website }}
+                </a>
+              }
+            </div>
+            <hr [ngStyle]="{'border-color': menu.customization.secondaryColor}" />
+          }
+
+          <!-- ################ ADDRESS ################ -->
+          @if(existAddress()) {
+            <div class="p-6 fw-bold">
+              <i class="bi bi-geo-alt-fill"></i>
+              Endereço:
+            </div>
+            <p class="">
+              {{ menu.info.addressLine }}
+              {{ menu.info.city }}
+              @if (menu.info.addressCode) {
+              - {{ menu.info.addressCode }}
+              }
+            </p>
+            <hr [ngStyle]="{'border-color': menu.customization.secondaryColor}" />
+          }
+        </div>
+      </div>
+    </div> <!-- MODAL CONTENT -->
+  </div>
+</div>

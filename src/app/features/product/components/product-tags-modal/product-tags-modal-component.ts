@@ -25,8 +25,6 @@ export class ProductTagsModalComponent extends ModalComponent<any, any> {
   private readonly snackbarService = inject(SnackBarService);
   private readonly modalService = inject(ModalDialogService);
 
-  callbackFunc!: ModalComponentFunction<boolean>;
-
   tagsResource = this.tagsService.tagsResource();
 
   createInput = '';
@@ -36,10 +34,7 @@ export class ProductTagsModalComponent extends ModalComponent<any, any> {
     ''
   ];
 
-  override init(model: { data?: any; callbackFunc: ModalComponentFunction<any>; }): void {
-    if (model.callbackFunc) {
-      this.callbackFunc = model.callbackFunc;
-    }
+  override initData(data?: any): void {
   }
 
   onCreate() {
@@ -74,7 +69,4 @@ export class ProductTagsModalComponent extends ModalComponent<any, any> {
     });
   }
 
-  onClose(): void {
-    this.callbackFunc();
-  }
 }

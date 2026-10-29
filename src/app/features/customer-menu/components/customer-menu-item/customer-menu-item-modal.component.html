@@ -4,7 +4,7 @@
       [ngStyle]="{'font-family': state!.theme.font, 'background-color': state!.theme.mainColor}"
       class="modal-content rounded-3">
       <button class="btn-close position-absolute top-0 end-0 rounded-pill bg-light p-3 m-2"
-        type="button" (click)="back()"
+        type="button" (click)="onClose()"
         style="z-index: 1;"
         aria-label="Close"></button>
       <div class="modal-body p-0">
@@ -20,7 +20,7 @@
             <h1 class="display-3 fw-semibold">{{ state.product.name }}</h1>
             @for (tag of state.product.tags; track tag.id) {
               <span style="font-size: 0.88rem;"
-                [ngStyle]="{'border-color': state.theme.secondaryColor}"
+                [ngStyle]="{'border-color': state.theme.secondaryColor, '--bs-border-color': state.theme.secondaryColor}"
                 [ngClass]="state.theme.theme === 'DARK' ? 'text-light' : 'text-dark'"
                 class="badge border border-2 me-1 mb-1">
                 {{ tag.name }}
@@ -45,10 +45,14 @@
       </div>
       <div class="modal-footer">
         <button
-          [ngStyle]="{'background-color': state!.theme.secondaryColor, 'border-color': state!.theme.secondaryColor}"
-          [ngClass]="state!.theme. theme" class="btn" (click)="back()">
+          [attr.data-bs-theme]="state!.theme.theme === 'DARK' ? 'dark' : 'light'"
+          [ngStyle]="{'background-color': state.theme.mainColor, 'border-color': state.theme.secondaryColor}"
+          [ngClass]="state.theme.theme === 'DARK' ? 'text-light' : 'text-dark'"
+          class="btn border-2" (click)="onClose()">
           Voltar
         </button>
+          <!-- [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'" -->
+          <!-- [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().secondaryColor}" -->
       </div>
     </div>
   </div>

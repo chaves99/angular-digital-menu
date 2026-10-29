@@ -18,26 +18,8 @@ export class SubscriptionDetailModalComponent extends ModalComponent<Subscriptio
   ngOnInit(): void {
   }
 
-  override init(
-    model: {
-      data?: SubscriptionDetails | undefined;
-      callbackFunc: ModalComponentFunction<void>;
-    }): void {
-      this.data = model.data ?? null;
-      this.callback = model.callbackFunc;
-
-  }
-
-  // override handleData(data: SubscriptionDetails): void {
-  //     this.data = data;
-  // }
-  //
-  // override onClose(callback: ModalComponentFunction<void>): void {
-  //     this.callback = callback;
-  // }
-
-  _onClose(): void {
-    this.callback();
+  override initData(data?: SubscriptionDetails): void {
+    this.data = data ?? null;
   }
 
 }

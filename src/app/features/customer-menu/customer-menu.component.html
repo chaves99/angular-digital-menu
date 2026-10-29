@@ -2,18 +2,6 @@
   @if (isLoading) {
     <app-spinner></app-spinner>
   } @else if(menu !== undefined){
-    <!-- SCROLL UP BUTTON -->
-    @if (!isCustomizationPage) {
-      <div [hidden]="scrollUpButtonHidden" class="position-fixed bottom-0 end-0 mb-3 me-3 z-3">
-        <button
-          class="btn btn-lg rounded-3 shadow"
-          [ngStyle]="scrollUpButtonStyle()"
-          [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
-          (click)="window.scrollTo({ top: 0 })">
-          <i class="bi bi-arrow-up"></i>
-        </button>
-      </div>
-    }
     <div
       [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"
@@ -38,130 +26,30 @@
                 </p>
               }
             </div>
-          </div>
 
-          <!-- ################ MORE INFO ACCORDION ################ -->
-          @if(shouldShowAccordionInfo()) {
-          <div class="accordion mt-2" [ngStyle]="moreInfoAccordionStyle()">
-            <div class="accordion-item">
-              <div class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
-                  data-bs-target="#collapseOne">
+            <!-- ################ MORE INFO BUTTON ################ -->
+            @if(shouldShowMoreInfoButton()) {
+              <div class="mb-3">
+                <button type="button"
+                  class="btn shadow-sm fw-semibold border-2"
+                  [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+                  [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().secondaryColor}"
+                  (click)="onOpenMoreInfoModal()">
                   Mais informações
+                  <i class="bi bi-plus-lg"></i>
                 </button>
               </div>
-              <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-
-                  <!-- ################ WIFI ################ -->
-                  @if(menu.info.wifiName !== null && menu.info.wifiName.length > 0
-                    && menu.info.wifiPassword !== null && menu.info.wifiPassword.length > 0) {
-                    <div class="p-6 fw-bold">
-                      <i class="bi bi-calendar2-day"></i>
-                      Wi-Fi:
-                    </div>
-                    <p>
-                      Nome: {{ menu.info.wifiName }}
-                      <br/>
-                      Senha: {{ menu.info.wifiPassword }}
-                    </p>
-                    <hr class="" />
-                  }
-
-                  <!-- ################ CONTACTS ################ -->
-                  @if(existSchedule()) {
-                    <div class="p-6 fw-bold">
-                      <i class="bi bi-calendar2-day"></i>
-                      Horários:
-                    </div>
-                    <p class="">
-                      @for(schedule of menu.schedules; track schedule.id) {
-                        <!-- <i class="bi bi-geo-alt-fill"></i> -->
-                        {{schedule.days}}
-                        <br>
-                        {{schedule.openHour}}
-                        @if (schedule.startLaunch && schedule.endLaunch) {
-                          - {{schedule.startLaunch}} / {{schedule.endLaunch}} -
-                        } @else {
-                          -
-                        }
-                        {{schedule.closeHour}}
-                        <br>
-                      }
-                    </p>
-                    <hr class="" />
-                  }
-
-                  <!-- ################ CONTACTS ################ -->
-                  @if(existContacts()) {
-                    <div class="p-6 fw-bold mb-1">
-                      Contatos:
-                    </div>
-                    <div class="row gap-2">
-                      @if(menu.info.whatsapp !== null) {
-                        <a [class]="contactsCssClasses" href="whatsapp://send?phone={{menu.info.whatsapp}}" target="_blank">
-                          <i class="bi bi-whatsapp"></i>
-                          {{ menu.info.whatsapp }}
-                        </a>
-                      }
-                      @if(menu.info.phone !== null) {
-                        <a [class]="contactsCssClasses" href="tel:{{menu.info.phone}}" target="_blank">
-                          <i class="bi bi-telephone"></i>
-                          {{ menu.info.phone }}
-                        </a>
-                      }
-                      @if(menu.info.instagram !== null) {
-                        <a [class]="contactsCssClasses" href="https://www.instagram.com/{{menu.info.instagram}}" target="_blank">
-                          <i class="bi bi-instagram"></i>
-                          @{{ menu.info.instagram }}
-                        </a>
-                      }
-                      @if(menu.info.facebook !== null) {
-                        <a [class]="contactsCssClasses" href="https://www.facebook.com/{{menu.info.facebook}}" target="_blank">
-                          <i class="bi bi-facebook"></i>
-                          {{ menu.info.facebook }}
-                        </a>
-                      }
-                      @if(menu.info.website !== null) {
-                        <a [class]="contactsCssClasses" href="https://{{menu.info.website}}" target="_blank">
-                          <i class="bi bi-browser-chrome"></i>
-                          {{ menu.info.website }}
-                        </a>
-                      }
-                    </div>
-                    <hr class="" />
-                  }
-
-                  <!-- ################ ADDRESS ################ -->
-                  @if(existAddress()) {
-                    <div class="p-6 fw-bold">
-                      <i class="bi bi-geo-alt-fill"></i>
-                      Endereço:
-                    </div>
-                    <p class="">
-                      {{ menu.info.addressLine }}
-                      {{ menu.info.city }}
-                      @if (menu.info.addressCode) {
-                      - {{ menu.info.addressCode }}
-                      }
-                    </p>
-                    <hr/>
-                  }
-                </div>
-              </div>
-            </div>
-          </div> <!-- END ACCORDION -->
-          }
-        </div> <!-- END HEADER -->
+            }
+          </div>
+        </div>
 
         <!-- ################ CATEGORIES ################ -->
-        <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().mainColor}"
-          class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll shadow-sm">
+        <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().secondaryColor}"
+          class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll shadow">
           @for(cat of menu.categories; track $index) {
             <button type="button"
               [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
-              [ngStyle]="{'background-color': themeInput().secondaryColor, 'border-color': themeInput().secondaryColor}"
+              [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().mainColor}"
               (click)="scrollTo(cat.name)" class="btn fw-semibold mx-2 text-nowrap shadow-sm">
               {{ cat.name }}
             </button>
@@ -185,7 +73,7 @@
         </div>
 
         <div  class="container">
-          <hr>
+          <hr />
         </div>
 
         <!-- ################ ITEMS SECTION ################ -->
@@ -222,7 +110,7 @@
                   <div class=" m-auto ">
                     @for (tag of product.tags; track tag.id) {
                       <span style="font-size: 0.88rem;"
-                        [ngStyle]="{'border-color': themeInput().secondaryColor}"
+                        [ngStyle]="{'--bs-border-color': themeInput().secondaryColor}"
                         [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
                         class="badge border border-2 me-1 mb-1">
                         {{ tag.name }}
@@ -241,22 +129,27 @@
           }
         </div>
 
+        <!-- ################ SCROLL UP BUTTON ################ -->
+        <div class="mt-3  d-flex justify-content-center">
+          <button type="button"
+            class="btn shadow-sm fw-semibold border-2"
+            [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+            [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().secondaryColor}"
+            (click)="window.scrollTo({ top: 0 })">
+              Voltar ao topo
+              <i class="bi bi-arrow-up"></i>
+          </button>
+        </div>
+
         <!-- ################ FOOTER ################ -->
         <div [ngStyle]="{'background-color': themeInput().secondaryColor}"
-          class="mt-1 container-fluid pt-5 px-4 text-center" >
-
-          <div class="mt-2 pb-4">
-            <a href="https://itimenu.app" target="_blank"
-              [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
-              class="fs-6 link-underline link-underline-opacity-0 link-underline-opacity-50-hover">
-              Powered by:
-              @if (themeInput().theme === 'DARK') {
-                <img class="ms-1" ngSrc="logo/full_logo_white.png" width="85" height="26"/>
-              } @else {
-                <img class="ms-1" ngSrc="logo/full_logo_black.png" width="85" height="25"/>
-              }
-            </a>
-          </div>
+          class="mt-4 container-fluid pt-5 pb-3 text-center" >
+          <a href="https://itimenu.app" target="_blank"
+            [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
+            [ngStyle]="{'background-color': themeInput().mainColor}"
+            class="btn btn-sm shadow-sm">
+            Powered by: ItiMenu <i class="bi bi-box-arrow-up-right"></i>
+          </a>
         </div>
       </div>
     </div>

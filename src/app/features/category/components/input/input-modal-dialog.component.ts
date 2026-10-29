@@ -1,7 +1,7 @@
 import { NgClass } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ModalComponent, ModalComponentFunction } from '../../../../core';
+import { ModalComponent } from '../../../../core';
 
 @Component({
   selector: 'app-modal-dialog',
@@ -17,7 +17,6 @@ export class InputModalDialogComponent extends ModalComponent<string, string> im
   myInput!: ElementRef;
 
   data: string | null = null;
-  callback!: ModalComponentFunction<string>;
 
   formGroup = new FormGroup({
     value: new FormControl<string | null>(null)
@@ -31,9 +30,8 @@ export class InputModalDialogComponent extends ModalComponent<string, string> im
     }
   }
 
-  override init(model: { data?: string | undefined; callbackFunc: ModalComponentFunction<string>; }): void {
-    this.data = model.data ?? null;
-    this.callback = model.callbackFunc;
+  override initData(data?: string): void {
+    this.data = data ?? null;
   }
 
   onSubmit(): void {
@@ -43,11 +41,7 @@ export class InputModalDialogComponent extends ModalComponent<string, string> im
       this.isValid = false;
       return;
     }
-    this.callback(value);
-  }
-
-  _onClose(): void {
-    this.callback();
+    super.onClose(value);
   }
 
 }

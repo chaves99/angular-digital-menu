@@ -51,7 +51,7 @@ export interface MenuResponse {
   info: EstablishmentInfoResponse & ContactResponse;
   schedules: ScheduleResponse[];
   categories: MenuCategoryResponse[];
-  customization?: CustomizationResponse;
+  customization: CustomizationResponse;
 }
 
 export interface MenuCategoryResponse {

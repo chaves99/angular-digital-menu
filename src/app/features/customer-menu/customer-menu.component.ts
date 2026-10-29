@@ -1,6 +1,6 @@
-import { CurrencyPipe, NgClass, NgOptimizedImage, NgStyle } from '@angular/common';
+import { CurrencyPipe, NgClass, NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, DOCUMENT, HostListener, inject, input, model, OnInit } from '@angular/core';
+import { Component, computed, DOCUMENT, inject, input, model, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomizationResponse } from '@features/customization/customization.service';
@@ -8,6 +8,7 @@ import { getImagesUrl, ModalDialogService, SpinnerComponent, WINDOW } from '../.
 import { MenuService } from '../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../services/payload';
 import { CustomerMenuItemModalComponent } from './components/customer-menu-item/customer-menu-item-modal.component';
+import { MoreInfoMenuModalComponent } from './components/more-info-menu-modal/more-info-menu-modal';
 
 @Component({
   selector: 'app-customer-menu',
@@ -18,7 +19,6 @@ import { CustomerMenuItemModalComponent } from './components/customer-menu-item/
     NgClass,
     NgStyle,
     FormsModule,
-    NgOptimizedImage,
     SpinnerComponent,
   ]
 })
@@ -29,8 +29,6 @@ export class CustomerMenuComponent implements OnInit {
   // Used in the customization page
   // to render the proper user menu
   urlCustomerInput = input<string | null>(null);
-
-  isCustomizationPage = false;
 
   themeInput = model<CustomizationResponse>(
     {
@@ -69,12 +67,16 @@ export class CustomerMenuComponent implements OnInit {
 
   errorMessage: string | null = null;
 
-
-  scrollUpButtonStyle = computed(() => {
+  footerStyle = computed(() => {
     return {
-      'background-color': this.themeInput().mainColor,
-      'border': `1px solid ${this.themeInput().secondaryColor}`
-    }
+      '--bs-border-color': this.themeInput().secondaryColor
+    };
+  })
+
+  tagStyle = computed(() => {
+    return {
+      '--bs-border-color': this.themeInput().secondaryColor,
+    };
   });
 
   searchFormStyle = computed(() => {
@@ -82,7 +84,7 @@ export class CustomerMenuComponent implements OnInit {
       '--bs-focus-ring-color': this.themeInput().secondaryColor,
       'border': `1px solid ${this.themeInput().secondaryColor}`
     };
-  })
+  });
 
   moreInfoAccordionStyle = computed(() => {
     return {
@@ -104,23 +106,12 @@ export class CustomerMenuComponent implements OnInit {
     const urlCustomer = this.urlCustomerInput();
     if (urlCustomer !== null) {
       this.loadMenu(urlCustomer);
-      this.isCustomizationPage = true;
     } else {
       this.activatedRoute.params
         .subscribe(param => {
           const urlCode = param['localName'];
           this.loadMenu(urlCode);
         });
-    }
-  }
-
-  @HostListener('document:scroll', ['$event'])
-  public onScroll(event: any): void {
-    if (this.window.scrollY >=
-      (this.document.documentElement.scrollHeight - this.window.innerHeight - 550)) {
-      this.scrollUpButtonHidden = false;
-    } else {
-      this.scrollUpButtonHidden = true;
     }
   }
 
@@ -177,8 +168,6 @@ export class CustomerMenuComponent implements OnInit {
       this.cleanSearch();
       return;
     }
-
-
     if (this.menu) {
       const newList: MenuCategoryResponse[] = [];
       this.menu.categories.filter(cat => {
@@ -199,10 +188,6 @@ export class CustomerMenuComponent implements OnInit {
     }
   }
 
-  existSchedule(): boolean {
-    return this.menu !== undefined && this.menu.schedules.length > 0;
-  }
-
   public cleanSearch() {
     if (this.menu) {
       this.menuCategories = this.menu.categories;
@@ -210,6 +195,11 @@ export class CustomerMenuComponent implements OnInit {
       this.searchTerm = "";
     }
   }
+
+  existSchedule(): boolean {
+    return this.menu !== undefined && this.menu.schedules.length > 0;
+  }
+
 
   public existAddress(): boolean {
     return this.menu !== undefined &&
@@ -234,8 +224,15 @@ export class CustomerMenuComponent implements OnInit {
     });
   }
 
+  onOpenMoreInfoModal() {
+    const newMenu: MenuResponse = {...this.menu!, customization: this.themeInput()};
+    this.modalService.open({
+      type: MoreInfoMenuModalComponent,
+      data: newMenu
+    });
+  }
 
-  shouldShowAccordionInfo(): boolean {
+  shouldShowMoreInfoButton(): boolean {
     return this.existContacts() || this.existAddress() || this.existSchedule();
   }
 }

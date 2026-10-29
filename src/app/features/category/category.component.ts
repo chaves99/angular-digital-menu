@@ -1,23 +1,22 @@
 import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragHandle,
-  CdkDragPreview,
-  CdkDropList,
-  CdkDropListGroup,
-  moveItemInArray
+    CdkDrag,
+    CdkDragDrop,
+    CdkDragHandle,
+    CdkDragPreview,
+    CdkDropList,
+    CdkDropListGroup,
+    moveItemInArray
 } from '@angular/cdk/drag-drop';
-import { CommonModule, DatePipe, NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from '../../core';
-import { InputModalDialogComponent } from './components/input/input-modal-dialog.component';
 import { CategoryResponse, CategoryService } from './category.service';
+import { InputModalDialogComponent } from './components/input/input-modal-dialog.component';
 
 
 @Component({
   selector: 'app-category',
   imports: [
-    DatePipe,
     CommonModule,
     SpinnerComponent,
     CdkDropList,

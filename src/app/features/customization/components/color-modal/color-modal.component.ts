@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { form, FormField, FormRoot, required } from '@angular/forms/signals';
 import { CustomizationResponse } from '@features/customization/customization.service';
-import { ModalComponent, ModalComponentFunction, ModalDialogService } from 'app/core';
+import { ModalComponent, ModalDialogService } from 'app/core';
 
 @Component({
   selector: 'app-color-modal',
@@ -10,8 +10,6 @@ import { ModalComponent, ModalComponentFunction, ModalDialogService } from 'app/
   providers: [ModalDialogService]
 })
 export class ColorModalComponent extends ModalComponent<CustomizationResponse, Theme> {
-
-  callbackFunc!: ModalComponentFunction<Theme>;
 
   themeModel = signal({
     mainColor: '#ffffff',
@@ -43,21 +41,15 @@ export class ColorModalComponent extends ModalComponent<CustomizationResponse, T
     }
   });
 
-  override init(model: { data?: CustomizationResponse | undefined; callbackFunc: ModalComponentFunction<Theme>; }): void {
-    this.callbackFunc = model.callbackFunc;
-    if (model.data) {
+  override initData(data?: CustomizationResponse): void {
+    if (data) {
       this.themeModel.set({
-        mainColor: model.data.mainColor,
-        secondaryColor: model.data.secondaryColor,
-        mode: model.data.theme
+        mainColor: data.mainColor,
+        secondaryColor: data.secondaryColor,
+        mode: data.theme
       });
     }
   }
-
-  onClose() {
-    this.callbackFunc();
-  }
-
 }
 
 type Theme = { mainColor: string, secondaryColor: string, theme: 'DARK' | 'LIGHT' };
