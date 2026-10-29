@@ -20,13 +20,6 @@ export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInpu
 
   override initData(data?: ItemModalInput): void {
     this.state = data!;
-
-    // if (this.state?.theme.theme === "DARK") {
-    //   this.rederer.setAttribute(this.parentDiv.nativeElement, 'data-bs-theme', 'dark');
-    // } else {
-    //   this.rederer.setAttribute(this.parentDiv.nativeElement, 'data-bs-theme', 'light');
-    // }
-
   }
 }
 

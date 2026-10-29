@@ -43,7 +43,7 @@
           </div>
         }
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer" [ngStyle]="{'--bs-modal-footer-border-color': state.theme.secondaryColor}">
         <button
           [attr.data-bs-theme]="state!.theme.theme === 'DARK' ? 'dark' : 'light'"
           [ngStyle]="{'background-color': state.theme.mainColor, 'border-color': state.theme.secondaryColor}"
