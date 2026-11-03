@@ -135,7 +135,6 @@ export class CustomerMenuComponent implements OnInit {
     this.menuService.get(urlCode)
       .subscribe({
         next: menu => {
-          console.log(menu);
           this.menu.set(menu);
           this.menuCategories = menu.categories;
           this.isLoading = false;
