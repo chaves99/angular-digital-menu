@@ -16,7 +16,7 @@
           }
 
           <div class="container py-3 ">
-            <small class="text-capitalize">{{ state.category.name }}</small>
+            <small class="text-capitalize">{{ state.product.categoryName }}</small>
             <h1 class="display-3 fw-semibold">{{ state.product.name }}</h1>
             @for (tag of state.product.tags; track tag.id) {
               <span style="font-size: 0.88rem;"

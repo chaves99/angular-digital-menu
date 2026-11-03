@@ -1,13 +1,14 @@
-import { CurrencyPipe, NgClass, NgStyle } from '@angular/common';
+import { NgClass, NgStyle } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, DOCUMENT, inject, input, model, OnInit } from '@angular/core';
+import { Component, computed, DOCUMENT, inject, input, linkedSignal, model, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CustomizationResponse } from '@features/customization/customization.service';
 import { getImagesUrl, ModalDialogService, SpinnerComponent, WINDOW } from '../../core';
 import { MenuService } from '../../services';
 import { ERROR_MESSAGES, ErrorDetailResponse, MenuCategoryResponse, MenuPriceResponse, MenuProductResponse, MenuResponse } from '../../services/payload';
-import { CustomerMenuItemModalComponent } from './components/customer-menu-item/customer-menu-item-modal.component';
+import { CustomerMenuItemDetailModalComponent } from './components/customer-menu-item-detail-modal/customer-menu-item-detail-modal.component';
+import { CustomerMenuItem } from './components/customer-menu-item/customer-menu-item';
 import { MoreInfoMenuModalComponent } from './components/more-info-menu-modal/more-info-menu-modal';
 
 @Component({
@@ -15,11 +16,11 @@ import { MoreInfoMenuModalComponent } from './components/more-info-menu-modal/mo
   templateUrl: 'customer-menu.component.html',
   styleUrl: './customer-menu.component.scss',
   imports: [
-    CurrencyPipe,
     NgClass,
     NgStyle,
     FormsModule,
     SpinnerComponent,
+    CustomerMenuItem
   ]
 })
 export class CustomerMenuComponent implements OnInit {
@@ -52,7 +53,15 @@ export class CustomerMenuComponent implements OnInit {
 
   private readonly menuService = inject(MenuService);
 
-  public menu?: MenuResponse;
+  public menu = signal<MenuResponse | null>(null);
+
+  public newProducts = linkedSignal<MenuProductResponse[]>(() => {
+    return this.menu()?.newProducts ?? [];
+  });
+
+  public bestSellingProducts = linkedSignal<MenuProductResponse[]>(() => {
+    return this.menu()?.bestSelling ?? [];
+  });
 
   public menuCategories: MenuCategoryResponse[] = [];
 
@@ -66,6 +75,12 @@ export class CustomerMenuComponent implements OnInit {
   searchTerm?: string;
 
   errorMessage: string | null = null;
+
+  bestSellingStyle = computed(() => {
+    return {
+      '--bs-border-color': this.themeInput().secondaryColor
+    };
+  });
 
   footerStyle = computed(() => {
     return {
@@ -120,7 +135,8 @@ export class CustomerMenuComponent implements OnInit {
     this.menuService.get(urlCode)
       .subscribe({
         next: menu => {
-          this.menu = menu;
+          console.log(menu);
+          this.menu.set(menu);
           this.menuCategories = menu.categories;
           this.isLoading = false;
           if (menu.customization) {
@@ -168,12 +184,14 @@ export class CustomerMenuComponent implements OnInit {
       this.cleanSearch();
       return;
     }
-    if (this.menu) {
+    const menu = this.menu();
+    if (menu) {
       const newList: MenuCategoryResponse[] = [];
-      this.menu.categories.filter(cat => {
+      const term = this.searchTerm!.toLocaleLowerCase();
+
+      menu.categories.filter(cat => {
         const productList: MenuProductResponse[] = [];
         cat.products.filter(prod => {
-          const term = this.searchTerm!.toLocaleLowerCase();
           if (prod.description.toLocaleLowerCase().includes(term)
             || prod.name.toLocaleLowerCase().includes(term)) {
             productList.push(prod);
@@ -183,49 +201,65 @@ export class CustomerMenuComponent implements OnInit {
           newList.push({ ...cat, products: productList })
         }
       });
+
+      const bestSellingFilteredList: MenuProductResponse[] = [];
+      this.bestSellingProducts().forEach(prod => {
+          if (prod.description.toLocaleLowerCase().includes(term)
+            || prod.name.toLocaleLowerCase().includes(term)) {
+            bestSellingFilteredList.push(prod);
+          }
+      });
+
       this.menuCategories = newList;
       this.isSearching = true;
+      this.bestSellingProducts.set(bestSellingFilteredList);
     }
   }
 
   public cleanSearch() {
-    if (this.menu) {
-      this.menuCategories = this.menu.categories;
+    const menu = this.menu();
+    if (menu) {
+      this.menuCategories = menu.categories;
       this.isSearching = false;
       this.searchTerm = "";
+      this.bestSellingProducts.set(menu.bestSelling);
     }
   }
 
   existSchedule(): boolean {
-    return this.menu !== undefined && this.menu.schedules.length > 0;
+    const menu = this.menu();
+    return menu !== null && menu.schedules.length > 0;
   }
 
 
   public existAddress(): boolean {
-    return this.menu !== undefined &&
-      ((this.menu.info.addressCode !== null && this.menu.info.addressCode.length > 0)
-        || (this.menu.info.addressLine !== null && this.menu.info.addressLine.length > 0)
-        || (this.menu.info.city !== null && this.menu.info.city.length > 0));
+    const menu = this.menu();
+    return menu !== null &&
+      ((menu.info.addressCode !== null && menu.info.addressCode.length > 0)
+        || (menu.info.addressLine !== null && menu.info.addressLine.length > 0)
+        || (menu.info.city !== null && menu.info.city.length > 0));
   }
 
   public existContacts(): boolean {
-    return this.menu !== undefined
-      && (this.menu.info.facebook !== null
-        || this.menu.info.instagram !== null
-        || this.menu.info.whatsapp !== null
-        || this.menu.info.website !== null
-        || this.menu.info.phone !== null);
+    const menu = this.menu();
+    return menu !== undefined
+      && menu !== null
+      && (menu.info.facebook !== null
+        || menu.info.instagram !== null
+        || menu.info.whatsapp !== null
+        || menu.info.website !== null
+        || menu.info.phone !== null);
   }
 
-  onOpenItem(product: MenuProductResponse, category: MenuCategoryResponse) {
+  onOpenItem(product: MenuProductResponse) {
     this.modalService.open({
-      type: CustomerMenuItemModalComponent,
-      data: { product: product, category: category, theme: this.themeInput() }
+      type: CustomerMenuItemDetailModalComponent,
+      data: { product: product, theme: this.themeInput() }
     });
   }
 
   onOpenMoreInfoModal() {
-    const newMenu: MenuResponse = {...this.menu!, customization: this.themeInput()};
+    const newMenu: MenuResponse = { ...this.menu()!, customization: this.themeInput() };
     this.modalService.open({
       type: MoreInfoMenuModalComponent,
       data: newMenu

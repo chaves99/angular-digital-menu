@@ -55,8 +55,19 @@
         </thead>
         <tbody>
           @for(product of displayProducts; track product.id) {
-            <tr>
-              <td class="fw-semibold">{{ product.name }}</td>
+            <tr class="position-relative">
+              <td class="fw-semibold">
+                {{ product.name }}
+                @if (product.bestSelling) {
+                  <span class="badge text-bg-secondary">Mais vendido</span>
+                }
+                @if (product.newProduct) {
+                  <span class="badge text-bg-secondary">Produto novo</span>
+                }
+                @if (product.prices.length == 0) {
+                  <span class="badge text-bg-danger">Produto sem preço</span>
+                }
+              </td>
               <td>
                 @if(product.active) {
                   Ativo

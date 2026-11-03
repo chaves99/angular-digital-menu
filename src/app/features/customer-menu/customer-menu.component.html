@@ -1,7 +1,7 @@
 @if (errorMessage === null) {
   @if (isLoading) {
     <app-spinner></app-spinner>
-  } @else if(menu !== undefined){
+  } @else if(menu() !== undefined){
     <div
       [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
       [ngStyle]="{'font-family': themeInput().font}"
@@ -11,18 +11,18 @@
 
         <div class="container overflow-hidden">
           <div class="row gy-3 align-items-center pt-3 justify-content-center text-center">
-            @if(menu.info.image !== null) {
+            @if(menu()!.info.image !== null) {
               <div class="col-md-4">
-                <img [src]="getImageUrlLocal(menu.info.image)" class="img-fluid w-100 rounded-3" alt="..." priority>
+                <img [src]="getImageUrlLocal(menu()!.info.image)" class="img-fluid w-100 rounded-3" alt="..." priority>
               </div>
             }
             <div class="col-md-8 ">
               <h2 class="h2 fw-bold">
-                {{menu.info.establishmentName}}
+                {{menu()!.info.establishmentName}}
               </h2>
-              @if (menu.info.description !== null) {
+              @if (menu()!.info.description !== null) {
                 <p class="text-body-econdary">
-                  {{menu.info.description}}
+                  {{menu()!.info.description}}
                 </p>
               }
             </div>
@@ -46,7 +46,7 @@
         <!-- ################ CATEGORIES ################ -->
         <div style="z-index: 3" [ngStyle]="{'background-color': themeInput().secondaryColor}"
           class="d-flex justify-content-around sticky-top p-3 flex-nowrap overflow-x-scroll shadow">
-          @for(cat of menu.categories; track $index) {
+          @for(cat of menu()!.categories; track $index) {
             <button type="button"
               [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
               [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().mainColor}"
@@ -76,55 +76,66 @@
           <hr />
         </div>
 
+        <!-- ################ NEW PRODUCTS SECTION ################ -->
+        @if (newProducts().length > 0) {
+          <div class="container">
+            <div
+              [style]="bestSellingStyle()"
+              class="position-relative rounded mt-5 pt-3 border border-2 p-1">
+              <!-- <h3 class="fs-6 mt-5 fw-bold text-capitalize">Mais vendidos</h3> -->
+              <span class="position-absolute top-0 fs-5 start-50 translate-middle badge"
+                [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+                [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().secondaryColor}"
+                >
+                Novos Pratos
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              @for(product of newProducts(); track product.id) {
+                  <customer-menu-item
+                    [product]="product"
+                    [themeInput]="themeInput()"
+                    (clickItem)="onOpenItem($event)">
+                  </customer-menu-item>
+              }
+            </div>
+          </div>
+        }
+
+        <!-- ################ BEST SELLING SECTION ################ -->
+        @if (bestSellingProducts().length > 0) {
+          <div class="container">
+            <div
+              [style]="bestSellingStyle()"
+              class="position-relative rounded mt-5 pt-3 border border-2 p-1">
+              <!-- <h3 class="fs-6 mt-5 fw-bold text-capitalize">Mais vendidos</h3> -->
+              <span class="position-absolute top-0 fs-5 start-50 translate-middle badge"
+                [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+                [ngStyle]="{'background-color': themeInput().mainColor, 'border-color': themeInput().secondaryColor}"
+                >
+                Mais Vendidos
+                <span class="visually-hidden">unread messages</span>
+              </span>
+              @for(product of bestSellingProducts(); track product.id) {
+                  <customer-menu-item
+                    [product]="product"
+                    [themeInput]="themeInput()"
+                    (clickItem)="onOpenItem($event)">
+                  </customer-menu-item>
+              }
+            </div>
+          </div>
+        }
+
         <!-- ################ ITEMS SECTION ################ -->
-        <div  data-bs-smooth-scroll="false" class="container mt-3 pb-1">
+        <div data-bs-smooth-scroll="true" class="container mt-3 pb-1">
           @for(cat of menuCategories; track cat.id; let catIndex = $index) {
             <h3 id="{{cat.name}}" class="fs-6 mt-5 fw-bold text-capitalize">{{ cat.name }}</h3>
-            @for(product of cat.products; track product.id; let productIndex = $index) {
-              <a
-                (click)="onOpenItem(product, cat)"
-                class="text-decoration-none text-reset d-flex w-100 p-1 gap-2"
-              >
-                <div class="">
-                  @if(product.image !== null) {
-                    <img [src]="getImageUrlLocal(product.image)" style="height: 95px; width: 95px;" class="rounded-3" alt="..." />
-                  }
-                </div>
-
-                <!-- ################ ITEM INFO SECTION ################ -->
-                <div class="w-100 d-block text-break" style="overflow: hidden;">
-
-                  <!-- ################ ITEM TITLE ################ -->
-                  <h5 class="fs-5" style="overflow: hidden">
-                    {{product.name}}
-                  </h5>
-
-                  <!-- ################ ITEM DESCRIPTION ################ -->
-                  <div
-                    class="w-100"
-                    style="font-size: 15px; overflow: hidden; text-overflow: ellipsis;">
-                    {{product.description}}
-                  </div>
-
-                  <!-- ################ TAGS ################ -->
-                  <div class=" m-auto ">
-                    @for (tag of product.tags; track tag.id) {
-                      <span style="font-size: 0.88rem;"
-                        [ngStyle]="{'--bs-border-color': themeInput().secondaryColor}"
-                        [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
-                        class="badge border border-2 me-1 mb-1">
-                        {{ tag.name }}
-                      </span>
-                    }
-                  </div>
-
-                  <!-- ################ ITEM PRICE ################ -->
-                  <div class="w-100 d-flex z-0 sticky-bottom align-items-end justify-content-end">
-                    {{product.prices[0].value | currency: 'BRL'}}
-                  </div>
-                </div>
-              </a>
-              <hr />
+            @for(product of cat.products; track product.id) {
+              <customer-menu-item
+                [product]="product"
+                [themeInput]="themeInput()"
+                (clickItem)="onOpenItem($event)">
+              </customer-menu-item>
             }
           }
         </div>

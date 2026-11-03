@@ -78,6 +78,8 @@ export interface ProductResponse {
   categoryId: number;
   categoryName: string;
   tags: TagsResponse[];
+  newProduct: boolean;
+  bestSelling: boolean;
 }
 
 export interface PriceResponse {
@@ -94,6 +96,8 @@ export interface CreateProductRequest {
   active: boolean;
   categoryId: number;
   tagsIds: number[];
+  newProduct?: boolean;
+  bestSelling?: boolean;
 }
 
 export interface PricesRequest {

@@ -5,18 +5,18 @@
         <div class="row justify-content-between">
           <!-- ########### PAGE HEADER ########### -->
           @if(productResponse) {
-          <div class="d-block">
-            <div>
-              <h5 class="modal-title">Editar Produto</h5>
-              <p class="text-body-secondary" style="font-size: 14px">
-                Criado em: {{productResponse.createdAt| date: 'd/MM/yy, H:mm'}},
-                <br>
-                atualizado em: {{productResponse.updatedAt | date: 'd/MM/yy, H:mm'}}.
-              </p>
+            <div class="d-block">
+              <div>
+                <h5 class="modal-title">Editar Produto</h5>
+                <p class="text-body-secondary" style="font-size: 14px">
+                  Criado em: {{productResponse.createdAt| date: 'd/MM/yy, H:mm'}},
+                  <br>
+                  atualizado em: {{productResponse.updatedAt | date: 'd/MM/yy, H:mm'}}.
+                </p>
+              </div>
             </div>
-          </div>
           } @else {
-          <h2 class="modal-title">Criar Produto</h2>
+            <h2 class="modal-title">Criar Produto</h2>
           }
         </div>
         <button (click)="onClose()" type="button" class="btn-close" aria-label="Close"></button>
@@ -89,9 +89,21 @@
         </div>
 
         <!-- ACTIVE CHECKBOX -->
-        <div class="mb-3 form-check">
+        <div class="mb-2 form-check">
           <input type="checkbox" class="form-check-input" id="active" formControlName="active" required>
           <label for="active" class="form-label">Active</label>
+        </div>
+
+        <!-- NEW PRODUCT CHECKBOX -->
+        <div class="mb-2 form-check">
+          <input type="checkbox" class="form-check-input" id="newProduct" formControlName="newProduct" required>
+          <label for="newProduct" class="form-label">Produto novo</label>
+        </div>
+
+        <!-- BEST SELLING CHECKBOX -->
+        <div class="mb-3 form-check">
+          <input type="checkbox" class="form-check-input" id="bestSelling" formControlName="bestSelling" required>
+          <label for="bestSelling" class="form-label">Mais vendidos</label>
         </div>
 
         <!-- DESCRIPTION INPUT -->

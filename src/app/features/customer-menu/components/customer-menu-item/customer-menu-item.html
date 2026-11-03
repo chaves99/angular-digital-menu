@@ -1,0 +1,45 @@
+
+<a
+  (click)="onOpenItem()"
+  class="text-decoration-none text-reset d-flex w-100 p-1 gap-2"
+>
+  <div class="">
+    @if(product().image !== null) {
+      <img [src]="getImageUrl(product().image)" style="height: 95px; width: 95px;" class="rounded-3" alt="..." />
+    }
+  </div>
+
+  <!-- ################ ITEM INFO SECTION ################ -->
+  <div class="w-100 d-block text-break" style="overflow: hidden;">
+
+    <!-- ################ ITEM TITLE ################ -->
+    <h5 class="fs-5" style="overflow: hidden">
+      {{product().name}}
+    </h5>
+
+    <!-- ################ ITEM DESCRIPTION ################ -->
+    <div
+      class="w-100"
+      style="font-size: 15px; overflow: hidden; text-overflow: ellipsis;">
+      {{product().description}}
+    </div>
+
+    <!-- ################ TAGS ################ -->
+    <div class=" m-auto ">
+      @for (tag of product().tags; track tag.id) {
+        <span style="font-size: 0.88rem;"
+          [ngStyle]="{'--bs-border-color': themeInput().secondaryColor}"
+          [ngClass]="themeInput().theme === 'DARK' ? 'text-light' : 'text-dark'"
+          class="badge border border-2 me-1 mb-1">
+          {{ tag.name }}
+        </span>
+      }
+    </div>
+
+    <!-- ################ ITEM PRICE ################ -->
+    <div class="w-100 d-flex z-0 sticky-bottom align-items-end justify-content-end">
+      {{product().prices[0].value | currency: 'BRL'}}
+    </div>
+  </div>
+</a>
+<hr />

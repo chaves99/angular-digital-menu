@@ -2,14 +2,14 @@ import { CurrencyPipe, NgClass, NgStyle } from "@angular/common";
 import { Component, ElementRef, inject, Renderer2, ViewChild } from "@angular/core";
 import { CustomizationResponse } from "@features/customization/customization.service";
 import { getImagesUrl, ModalComponent } from "../../../../core";
-import { MenuCategoryResponse, MenuProductResponse } from "../../../../services/payload";
+import { MenuProductResponse } from "../../../../services/payload";
 
 @Component({
-  selector: 'app-customer-menu-details',
-  templateUrl: './customer-menu-item-modal.component.html',
+  selector: 'app-customer-menu-item-detail-modal',
+  templateUrl: './customer-menu-item-detail-modal.component.html',
   imports: [CurrencyPipe, NgStyle, NgClass]
 })
-export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInput, void> {
+export class CustomerMenuItemDetailModalComponent extends ModalComponent<ItemModalInput, void> {
 
   public getImageUrlLocal = getImagesUrl;
 
@@ -25,6 +25,5 @@ export class CustomerMenuItemModalComponent extends ModalComponent<ItemModalInpu
 
 interface ItemModalInput {
   product: MenuProductResponse;
-  category: MenuCategoryResponse;
   theme: CustomizationResponse;
 }

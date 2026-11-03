@@ -50,6 +50,8 @@ export interface ContactResponse {
 export interface MenuResponse {
   info: EstablishmentInfoResponse & ContactResponse;
   schedules: ScheduleResponse[];
+  bestSelling: MenuProductResponse[];
+  newProducts: MenuProductResponse[];
   categories: MenuCategoryResponse[];
   customization: CustomizationResponse;
 }
@@ -65,6 +67,9 @@ export interface MenuProductResponse {
   name: string;
   description: string;
   image: string;
+  newProduct: boolean;
+  bestSelling: boolean;
+  categoryName: string;
   prices: MenuPriceResponse[];
   tags: TagsResponse[];
 }

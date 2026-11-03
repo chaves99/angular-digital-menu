@@ -56,7 +56,9 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
     description: [''],
     prices: this.fb.array([]),
     active: [true],
-    categoryId: [0]
+    categoryId: [0],
+    newProduct: [false],
+    bestSelling: [false],
   });
 
   override initData(data?: ProductResponse): void {
@@ -113,7 +115,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   }
 
   public onSubmit(): void {
-    const { name, description, categoryId, prices } = this.formGroup.value;
+    const { name, description, categoryId, prices, newProduct, bestSelling } = this.formGroup.value;
     const active = this.formGroup.value.active as boolean;
 
     if (name && categoryId && prices) {
@@ -128,7 +130,9 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
         prices: pricesRequest,
         active: active,
         categoryId: categoryId,
-        tagsIds: this.tagsList.filter(t => t.added).map(t => t.id)
+        tagsIds: this.tagsList.filter(t => t.added).map(t => t.id),
+        newProduct: newProduct ?? false,
+        bestSelling: bestSelling ?? false,
       };
 
       this.isSavingLoading = true;
@@ -220,7 +224,9 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       name: product.name,
       description: product.description,
       active: product.active,
-      categoryId: product.categoryId
+      categoryId: product.categoryId,
+      newProduct: product.newProduct,
+      bestSelling: product.bestSelling,
     });
     this.formGroup.controls.prices.patchValue(prices);
   }
