@@ -73,7 +73,7 @@
         </div>
 
         <div  class="container">
-          <hr />
+          <hr [ngStyle]="{'border-color': themeInput().secondaryColor}"/>
         </div>
 
         <!-- ################ NEW PRODUCTS SECTION ################ -->
@@ -153,12 +153,10 @@
         </div>
 
         <!-- ################ FOOTER ################ -->
-        <div [ngStyle]="{'background-color': themeInput().secondaryColor}"
-          class="mt-4 container-fluid pt-5 pb-3 text-center" >
+        <div class="mt-4 container-fluid pt-5 pb-3 text-center" >
           <a href="https://itimenu.app" target="_blank"
             [ngClass]="themeInput().theme === 'DARK' ? 'link-light' : 'link-dark'"
-            [ngStyle]="{'background-color': themeInput().mainColor}"
-            class="btn btn-sm shadow-sm">
+            class="btn btn-sm">
             Powered by: ItiMenu <i class="bi bi-box-arrow-up-right"></i>
           </a>
         </div>

@@ -202,16 +202,26 @@ export class CustomerMenuComponent implements OnInit {
       });
 
       const bestSellingFilteredList: MenuProductResponse[] = [];
-      this.bestSellingProducts().forEach(prod => {
+      menu.bestSelling.forEach(prod => {
           if (prod.description.toLocaleLowerCase().includes(term)
             || prod.name.toLocaleLowerCase().includes(term)) {
             bestSellingFilteredList.push(prod);
           }
       });
 
+      const newProductFilteredList: MenuProductResponse[] = [];
+
+      menu.newProducts.forEach(prod => {
+          if (prod.description.toLocaleLowerCase().includes(term)
+            || prod.name.toLocaleLowerCase().includes(term)) {
+            newProductFilteredList.push(prod);
+          }
+      });
+
       this.menuCategories = newList;
       this.isSearching = true;
       this.bestSellingProducts.set(bestSellingFilteredList);
+      this.newProducts.set(newProductFilteredList);
     }
   }
 
@@ -222,6 +232,7 @@ export class CustomerMenuComponent implements OnInit {
       this.isSearching = false;
       this.searchTerm = "";
       this.bestSellingProducts.set(menu.bestSelling);
+      this.newProducts.set(menu.newProducts);
     }
   }
 

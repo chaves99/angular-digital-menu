@@ -132,34 +132,36 @@
       }
     </table>
   </div>
-  <div class="d-flex py-3 gap-3 justify-content-center">
-    @if (!(page === 0 && this.page === this.getLastPage())) {
-      <div class="btn-group shadow-lg">
-        @if(page !== 0) {
-          <button (click)="firstPage()" class="btn shadow-none btn-primary">
-            <i class="bi bi-chevron-bar-left"></i>
-            Primeira
-          </button>
-          <button (click)="previousPage()" class="btn shadow-none btn-primary">
-            <i class="bi bi-chevron-left"></i>
-            Anterior
-          </button>
-        }
-        @if (this.getLastPage() !== page) {
-          <button (click)="forwardPage()"
-            class="btn shadow-none  btn-primary">
-            Proxima
-            <i class="bi bi-chevron-right"></i>
-          </button>
-          <button (click)="lastPage()"
-            class="btn shadow-none btn-primary">
-            Ultima
-            <i class="bi bi-chevron-bar-right"></i>
-          </button>
-        }
-      </div>
-    }
-  </div>
+  @if (paginationResponse !== null && paginationResponse.totalElements > 0) {
+    <div class="d-flex py-3 gap-3 justify-content-center">
+      @if (!(page === 0 && this.page === this.getLastPage())) {
+        <div class="btn-group shadow-lg">
+          @if(page !== 0) {
+            <button (click)="firstPage()" class="btn shadow-none btn-primary">
+              <i class="bi bi-chevron-bar-left"></i>
+              Primeira
+            </button>
+            <button (click)="previousPage()" class="btn shadow-none btn-primary">
+              <i class="bi bi-chevron-left"></i>
+              Anterior
+            </button>
+          }
+          @if (this.getLastPage() !== page) {
+            <button (click)="forwardPage()"
+              class="btn shadow-none  btn-primary">
+              Proxima
+              <i class="bi bi-chevron-right"></i>
+            </button>
+            <button (click)="lastPage()"
+              class="btn shadow-none btn-primary">
+              Ultima
+              <i class="bi bi-chevron-bar-right"></i>
+            </button>
+          }
+        </div>
+      }
+    </div>
+  }
 </div>
 
 
