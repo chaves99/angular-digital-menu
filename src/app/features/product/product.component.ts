@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CategoryResponse, CategoryService } from '@features/category';
 import { ModalDialogService, SnackBarService, SpinnerComponent } from 'app/core';
 import { StorageService } from 'app/services';
 import { Pagination } from 'app/services/payload';
+import { CategoryResponse, CategoryService, ProductResponse, ProductService } from '.';
+import { ProductCategoryModal } from './components/product-category-modal/product-category-modal';
 import { ProductRegisterModalComponent } from './components/product-register-modal/product-register-modal.component';
 import { ProductTagsModalComponent } from './components/product-tags-modal/product-tags-modal-component';
-import { ProductResponse, ProductService } from './product.service';
 
 @Component({
   selector: 'app-product-list',
@@ -140,6 +140,16 @@ export class ProductComponent implements OnInit {
         const msg = product.active ? "ativar" : "inativar";
         this.snackbarService.openError(`Erro ao ${msg} produto!`);
         this.isActiveButtonLoading = { ...this.isActiveButtonLoading, status: false };
+      }
+    });
+  }
+
+  onOpenCategoryModal() {
+    this.modalService.open({
+      type: ProductCategoryModal,
+      data: this.categories,
+      callback: result => {
+        this.categories = result;
       }
     });
   }

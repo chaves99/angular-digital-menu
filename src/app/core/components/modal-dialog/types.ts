@@ -9,7 +9,8 @@ export abstract class ModalComponent<IN, OUT> {
     this.initData(model.data);
   }
 
-  abstract initData(data?: IN): void;
+  protected initData(data?: IN): void {
+  }
 
   protected onClose(param?: OUT) {
     this.callbackFunc(param);

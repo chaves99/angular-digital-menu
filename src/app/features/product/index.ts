@@ -1,3 +1,4 @@
 export * from './product.component';
-export * from './product.service';
-export * from './tags.service';
+export * from './services/product.service';
+export * from './services/tags.service';
+export * from './services/category.service';

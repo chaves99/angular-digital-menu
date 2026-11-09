@@ -11,6 +11,8 @@ export class ModalDialogService {
   private readonly overlay = inject(Overlay);
   private overlayRef: OverlayRef | null = null;
 
+  private overlayRefs: OverlayRef[] = [];
+
   openDefault(config: {
     message: string,
     subMessage?: string,
@@ -65,20 +67,33 @@ export class ModalDialogService {
     });
   }
 
+  // private openComponent<T>(component: ComponentType<T>): ComponentRef<T> {
+  //   if (this.overlayRef !== null) {
+  //     this.overlayRef.detach();
+  //   }
+  //   this.overlayRef = this.overlay.create();
+  //   return this.overlayRef.attach(new ComponentPortal<T>(component));
+  // }
+
   private openComponent<T>(component: ComponentType<T>): ComponentRef<T> {
-    if (this.overlayRef !== null) {
-      this.overlayRef.detach();
-    }
-    this.overlayRef = this.overlay.create();
-    return this.overlayRef.attach(new ComponentPortal<T>(component));
+    const newOverlay: OverlayRef = this.overlay.create();
+    this.overlayRefs.push(newOverlay);
+    return newOverlay.attach(new ComponentPortal<T>(component));
   }
 
   private closeModal() {
-    if (this.overlayRef !== null) {
-      this.overlayRef.detach();
-      this.overlayRef = null;
+    const lastRef: OverlayRef | undefined = this.overlayRefs.pop();
+    if (lastRef) {
+      lastRef.detach();
     }
   }
+
+  // private closeModal() {
+  //   if (this.overlayRef !== null) {
+  //     this.overlayRef.detach();
+  //     this.overlayRef = null;
+  //   }
+  // }
 
 }
 

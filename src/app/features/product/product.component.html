@@ -7,9 +7,12 @@
     <i class="bi bi-plus-lg"></i>
     Adicionar Produto
   </button>
+  <button type="button" class="btn btn-primary m-2 ms-0" (click)="onOpenCategoryModal()">
+    <i class="bi bi-diagram-3"></i>
+    Categorias
+  </button>
   <button type="button" class="btn btn-primary m-2 ms-0" (click)="onOpenTagModal()">
-    <!-- <i class="bi bi-plus-lg"></i> -->
-      <i class="bi bi-tags"></i>
+    <i class="bi bi-tags"></i>
     Etiquetas Nutricionais
   </button>
   <button type="button ms-3" class="btn btn-primary m-2 ms-0" data-bs-toggle="modal"
@@ -71,13 +74,13 @@
               <td>
                 @if(product.active) {
                   Ativo
-                  <i class="bi bi-check2-all text-success"></i>
+                  <i class="bi bi-check-lg text-success"></i>
                 } @else {
                   Inativo
                   <i class="bi bi-x-lg text-danger"></i>
                 }
               </td>
-              <td>{{ product.categoryName }}</td>
+              <td>{{ categories.find(c => c.id === product.categoryId)!.name }}</td>
               <td>
                 @if(isActiveButtonLoading.status && isActiveButtonLoading.productId === product.id) {
                   <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>

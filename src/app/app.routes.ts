@@ -3,13 +3,13 @@ import { AccountDataComponent } from '@features/account-data/account-data.compon
 import { AdminComponent } from '@features/admin';
 import { CustomizationComponent } from '@features/customization/customization.component';
 import { DashboardComponent } from '@features/dashboard/dashboard.component';
+import { EmailUnsubscribeComponent } from '@features/email-unsubscribe/email-unsubscribe.component';
 import { AddressComponent, BannerComponent, ContactComponent, EstablishmentComponent, NameDescriptionComponent, ScheduleComponent, WifiComponent } from '@features/establishment';
 import { ProductComponent } from '@features/product';
 import { QrcodePageComponent } from '@features/qrcode/qrcode-page.component';
 import { SubscriptionComponent } from '@features/subscription/subscription.component';
 import { UpdatePasswordComponent } from '@features/update-password/update-password.component';
 import { authGuard, loggedUserGuard } from './core';
-import { CategoryComponent } from './features/category/category.component';
 import {
     LandingComponent,
     LoginComponent,
@@ -21,7 +21,6 @@ import {
     SendMessageComponent,
     TermsOfServiceComponent
 } from './pages';
-import { EmailUnsubscribeComponent } from '@features/email-unsubscribe/email-unsubscribe.component';
 
 export const routes: Routes = [
   {
@@ -97,10 +96,6 @@ export const routes: Routes = [
       {
         path: 'update-password',
         component: UpdatePasswordComponent
-      },
-      {
-        path: 'categories',
-        component: CategoryComponent
       },
       {
         path: 'qr-code',

@@ -1,6 +1,6 @@
 
 <div class="modal d-inline-block show" >
-  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-md-down">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">
@@ -12,9 +12,9 @@
         <div class="input-group mb-3">
           <input [(ngModel)]="createInput"
             (keydown.enter)="onCreate()"
-            type="text" class="form-control shadow"
+            type="text focus-ring" class="form-control shadow"
             placeholder="Lactose, Glúten, Crustáceo, Ovo, etc...">
-          <button class="btn btn-primary" type="button"
+          <button [disabled]="!createButtonEnabled()" class="btn btn-primary" type="button"
             (click)="onCreate()">
             Criar
             <i class="bi bi-plus-lg"></i>
@@ -31,10 +31,10 @@
         @if (tagsResource.isLoading()) {
           <app-spinner></app-spinner>
         } @else {
-          <ul class="list-group mb-4">
+          <ul class="list-group mb-4 shadow">
             @for(tag of tagsResource.value(); track $index) {
-              <li class="list-group-item mb-2 border border-1 rounded shadow-sm">
-                <div class="d-flex justify-content-between">
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
                   <span class="fs-5">{{ tag.name }}</span>
                   <button type="button" (click)="onDelete(tag.id)" class="btn btn-sm btn-danger">
                     Excluir

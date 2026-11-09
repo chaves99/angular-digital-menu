@@ -1,0 +1,102 @@
+<div class="modal d-block show">
+  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+    <div class="modal-content shadow-lg">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Categorias</h5>
+        <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
+      </div>
+
+      <div cdkDropListGroup class="modal-body">
+        <div class="input-group mb-3">
+          <input [(ngModel)]="createInput"
+            (keydown.enter)="onCreate()"
+            type="text" class="form-control shadow"
+            placeholder="Bebidas, Sobremesas, Principais...">
+          <button class="btn btn-primary" type="button"
+            [disabled]="!createButtonActive()"
+            (click)="onCreate()">
+            <i class="bi bi-plus-lg"></i>
+            Criar
+          </button>
+        </div>
+
+        @if (isLoading) {
+          <div class="pt-4">
+            <app-spinner></app-spinner>
+          </div>
+        } @else {
+          <ul class="list-group mb-4 shadow" cdkDropList (cdkDropListDropped)="onDrop($event)">
+            @for(cat of displayiedCategories; track $index) {
+              <li [ngClass]="themeService.getTheme() === 'dark' ? 'bg-dark' : 'bg-light-subtle'"
+                class="list-group-item px-1" cdkDrag>
+                <div class="d-flex justify-content-between">
+                  <div cdkDragHandle class="d-flex p-0 align-items-center" style="cursor: move;">
+                    <div>
+                      <button style="cursor: move;" class="btn" >
+                        <i class="bi bi-arrows-move"></i>
+                      </button>
+                    </div>
+                    <div class="borde border-succes">
+                      <span class="fs-6">{{ cat.name }} </span>
+                      @if (cat.enabled) {
+                        <span class="badge text-bg-success">Ativa</span>
+                      } @else {
+                        <span class="badge text-bg-danger">Inativa</span>
+                      }
+                    </div>
+                  </div>
+                  <button class="btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-three-dots-vertical"></i>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li>
+                      <button [ngClass]="shouldUpdateOrder ? 'disabled' : ''"
+                        (click)="onEdit(cat)" class="dropdown-item btn " >
+                        Editar nome
+                        <i class="bi bi-pencil"></i>
+                      </button>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                      <button class="dropdown-item btn " (click)="onDisable(cat)">
+                        @if (cat.enabled) {
+                          Inativar
+                          <i class="bi bi-exclamation-triangle"></i>
+                        } @else {
+                          Ativar
+                          <i class="bi bi-check-lg"></i>
+                        }
+                      </button>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                      <button class="dropdown-item btn" (click)="onDelete(cat)">
+                        Excluir
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            } @empty {
+              <p class="text-center fs-5 mt-4 mb-4">Nenhuma categoria cadastrada!</p>
+            }
+          </ul>
+        }
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" (click)="onClose()" class="btn btn-secondary">
+          fechar
+        </button>
+        @if (shouldUpdateOrder) {
+          <button type="button" (click)="onUpdateOrder()" class="btn btn-primary">
+            <i class="bi bi-floppy"></i>
+            Salvar ordem
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+</div>

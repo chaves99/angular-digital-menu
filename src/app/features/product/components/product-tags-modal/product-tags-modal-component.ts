@@ -1,10 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TagsService } from '@features/product/tags.service';
+import { TagsService } from '@features/product';
 import {
   InfoButtonComponent,
   ModalComponent,
-  ModalComponentFunction,
   ModalDialogService,
   SnackBarService,
   SpinnerComponent
@@ -27,21 +26,26 @@ export class ProductTagsModalComponent extends ModalComponent<any, any> {
 
   tagsResource = this.tagsService.tagsResource();
 
-  createInput = '';
+  createInput = signal<string>('');
+  createButtonEnabled = computed<boolean>(() => {
+    const input = this.createInput();
+    if (input && input.trim().length > 0) {
+      return true;
+    }
+    return false;
+  });
   tagsInfoDescription: string[] = [
     '',
     'As etiquetas nutricionais permitem destacar atributos alimentares específicos — como \"Vegano\", \"Sem glúten\" ou \"Rico em proteínas\" — diretamente no seu cardápio digital.',
     ''
   ];
 
-  override initData(data?: any): void {
-  }
-
   onCreate() {
-    if (this.createInput && this.createInput.length > 0) {
-      this.tagsService.create(this.createInput).subscribe({
+    const input = this.createInput();
+    if (input && input.length > 0) {
+      this.tagsService.create(input).subscribe({
         next: () => {
-          this.createInput = '';
+          this.createInput.set('');
           this.tagsResource.reload();
         },
         error: () => {

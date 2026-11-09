@@ -59,7 +59,7 @@
         <!-- ################ SEARCH ################ -->
         <div class="d-block p-2">
           <div [attr.data-bs-theme]="themeInput().theme === 'DARK' ? 'dark' : 'light'"
-            class="input-group input-group-lg mb-3 mt-2">
+            class="input-group mb-3 mt-2">
             <input (keyup)="onSearch()"
               [(ngModel)]="searchTerm" type="text"
               [ngStyle]="searchFormStyle()"

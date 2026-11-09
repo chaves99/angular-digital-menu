@@ -1,9 +1,7 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { CategoryResponse, CategoryService } from '@features/category';
-import { CreateProductRequest, PricesRequest, ProductResponse, ProductService } from '@features/product/product.service';
-import { TagsService } from '@features/product/tags.service';
+import { CategoryResponse, CategoryService, CreateProductRequest, PricesRequest, ProductResponse, ProductService, TagsService } from '@features/product';
 import { getImagesUrl, ModalComponent, SnackBarService, SpinnerComponent } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
 import { NgxImageCompressService } from 'ngx-image-compress';
