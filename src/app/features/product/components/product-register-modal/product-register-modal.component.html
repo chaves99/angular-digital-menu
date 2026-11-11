@@ -40,11 +40,11 @@
               class="img-thumbnail me-2 mb-2" alt="...">
 
             <button type="button" (click)="onDeleteImage()" class="align-middle btn btn-sm btn-danger">
-              Excluir
+              Excluir imagem
               @if(isDeleteImageLoading) {
-              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+                <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
               } @else {
-              <i class="bi bi-trash"></i>
+                <i class="bi bi-trash"></i>
               }
             </button>
           </div>
