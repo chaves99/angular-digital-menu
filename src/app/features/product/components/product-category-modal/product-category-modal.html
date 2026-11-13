@@ -1,5 +1,5 @@
 <div class="modal d-block show">
-  <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content shadow-lg">
 
       <div class="modal-header">
@@ -7,6 +7,7 @@
         <button type="button" class="btn-close" (click)="onClose()" aria-label="Close"></button>
       </div>
 
+      <!-- NEW CATEGORY INPUT -->
       <div cdkDropListGroup class="modal-body">
         <div class="input-group mb-3">
           <input [(ngModel)]="createInput"
@@ -20,6 +21,10 @@
             Criar
           </button>
         </div>
+
+        @if (shouldUpdateOrder) {
+          <p class="text-danger-emphasis">Ordem das categorias alterada, não se esqueca de salvar.</p>
+        }
 
         @if (isLoading) {
           <div class="pt-4">

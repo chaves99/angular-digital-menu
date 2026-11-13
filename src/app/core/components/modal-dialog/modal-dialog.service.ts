@@ -15,16 +15,11 @@ export class ModalDialogService {
 
   openDefault(config: {
     data: ModalDialogData,
-    afterClose?: (v?: boolean) => void
+    callback?: (v?: boolean) => void
   }) {
-    const component = this.openComponent(ModalDialogComponent).instance;
-    component.data = { ...config.data };
-
-    component.onClose.subscribe((value) => {
-      this.closeModal()
-      if (config.afterClose !== undefined) {
-        config.afterClose(value);
-      }
+    this.open({
+      type: ModalDialogComponent,
+      ...config
     });
   }
 
@@ -32,17 +27,9 @@ export class ModalDialogService {
     data: InputModalData,
     callback: ModalComponentFunction<string | null>
   }): void {
-    const ref = this.openComponent(InputModalDialogComponent);
-    const component = ref.instance;
-
-    component.init({
-      data: params.data,
-      callbackFunc: out => {
-        this.closeModal();
-        if (params.callback) {
-          params.callback(out);
-        }
-      }
+    this.open({
+      type: InputModalDialogComponent,
+      ...params
     });
   }
 
@@ -57,10 +44,10 @@ export class ModalDialogService {
     component.init({
       data: params.data,
       callbackFunc: out => {
-        this.closeModal();
         if (params.callback) {
           params.callback(out);
         }
+        this.closeModal();
       }
     });
   }

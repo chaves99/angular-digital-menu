@@ -112,7 +112,6 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  // public getImageUrlLocal = getImagesUrl;
   onDelete(product: ProductResponse) {
     this.modalService.openDefault(
       {
@@ -121,7 +120,8 @@ export class ProductComponent implements OnInit {
           title: "Confirmar",
           img: product.image ? getImagesUrl(product.image) : null
         },
-        afterClose: confirm => {
+        callback: confirm => {
+          console.log(confirm);
           if (!confirm) return;
           this.productService.delete(product.id).subscribe({
             next: () => this.fetchProductList(),

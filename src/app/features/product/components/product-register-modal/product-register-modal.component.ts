@@ -44,6 +44,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
 
   public selectedImage: File | null = null;
   public selectedImageBlob: Blob | null = null;
+  private wasImageDeleted = false;
 
   categories: CategoryResponse[] = [];
 
@@ -85,6 +86,15 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
       },
       error: () => this.isLoadingTags = false,
     });
+  }
+
+  protected override onClose(param?: boolean | undefined): void {
+    if (param !== undefined) {
+      super.onClose(param);
+    } else {
+      super.onClose(this.wasImageDeleted);
+    }
+
   }
 
   public onImageChange(event: any): void {
@@ -174,6 +184,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
           this.isDeleteImageLoading = false;
           this.setFormValues(prod);
           this.snackBarService.openSuccess("Imagem excluida.");
+          this.wasImageDeleted = true;
         },
         error: () => {
           this.snackBarService.openError("Erro ao excluir imagem!");
@@ -233,4 +244,5 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   public get prices(): FormArray {
     return (this.formGroup.get("prices") as FormArray);
   }
+
 }

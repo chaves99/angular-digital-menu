@@ -111,7 +111,7 @@ export class ProductCategoryModal extends ModalComponent<CategoryResponse[], any
         message: `Deletar categoria "${category.name}"?`,
         subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
       },
-      afterClose: confirm => {
+      callback: confirm => {
         if (confirm) {
           this.isLoading = true;
           this.categoryService.delete(category.id)
@@ -136,7 +136,7 @@ export class ProductCategoryModal extends ModalComponent<CategoryResponse[], any
         title: category.enabled ? "Inativar Categoria" : "Ativar Categoria",
         message: category.enabled ? `Inativar categoria "${category.name}"` : `Ativar categaria: "${category.name}"`,
       },
-      afterClose: confirm => {
+      callback: confirm => {
         if (confirm) {
           this.isLoading = true;
           this.categoryService.disable(category.id)

@@ -1,12 +1,12 @@
 
 @if(data !== null) {
   <div class="modal d-inline-block show">
-    <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content shadow-lg">
         @if(data.title !== null) {
           <div class="modal-header">
             <h5 class="modal-title">{{data.title}}</h5>
-            <button type="button" class="btn-close" (click)="onCloseAction()" aria-label="Close"></button>
+            <button type="button" class="btn-close" (click)="onClose(false)" aria-label="Close"></button>
           </div>
         }
         <div class="modal-body">
@@ -31,10 +31,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button (click)="onCloseAction()" class="btn btn-secondary">
+          <button (click)="onClose(false)" class="btn btn-secondary">
             Cancelar
           </button>
-          <button (click)="onConfirmAction()" class="btn btn-primary">
+          <button (click)="onClose(true)" class="btn btn-primary">
             Confirmar
           </button>
         </div>

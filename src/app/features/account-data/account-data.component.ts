@@ -69,7 +69,7 @@ export class AccountDataComponent implements OnInit {
                 data: {
                   message: "Conta excluida com sucesso!",
                 },
-                afterClose: () => {
+                callback: () => {
                   this.storageService.cleanUser();
                   this.router.navigateByUrl('/');
                 },
