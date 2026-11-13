@@ -68,8 +68,10 @@ export class ProductTagsModalComponent extends ModalComponent<any, any> {
 
   onQuestionButtonClick() {
     this.modalService.openDefault({
-      message: 'test',
-      title: 'Title'
+      data: {
+        message: 'test',
+        title: 'Title'
+      }
     });
   }
 

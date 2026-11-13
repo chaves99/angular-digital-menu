@@ -1,6 +1,6 @@
 import { DatePipe, NgClass } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryResponse, CategoryService, CreateProductRequest, PricesRequest, ProductResponse, ProductService, TagsService } from '@features/product';
 import { getImagesUrl, ModalComponent, SnackBarService, SpinnerComponent } from 'app/core';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -50,11 +50,11 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   private readonly fb = new FormBuilder();
 
   formGroup = this.fb.group({
-    name: [''],
+    name: ['', Validators.required],
     description: [''],
     prices: this.fb.array([]),
     active: [true],
-    categoryId: [0],
+    categoryId: [0, Validators.min(1)],
     newProduct: [false],
     bestSelling: [false],
   });
@@ -113,6 +113,7 @@ export class ProductRegisterModalComponent extends ModalComponent<ProductRespons
   }
 
   public onSubmit(): void {
+    this.formGroup.markAllAsDirty();
     const { name, description, categoryId, prices, newProduct, bestSelling } = this.formGroup.value;
     const active = this.formGroup.value.active as boolean;
 

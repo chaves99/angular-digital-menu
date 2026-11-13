@@ -1,6 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ModalDialogService, SnackBarService, SpinnerComponent } from 'app/core';
+import { getImagesUrl, ModalDialogService, SnackBarService, SpinnerComponent } from 'app/core';
 import { StorageService } from 'app/services';
 import { Pagination } from 'app/services/payload';
 import { CategoryResponse, CategoryService, ProductResponse, ProductService } from '.';
@@ -112,11 +112,15 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  // public getImageUrlLocal = getImagesUrl;
   onDelete(product: ProductResponse) {
     this.modalService.openDefault(
       {
-        message: "Deseja deleta o produto: " + product.name + "?",
-        title: "Confirmar",
+        data: {
+          message: "Deseja deleta o produto: " + product.name + "?",
+          title: "Confirmar",
+          img: product.image ? getImagesUrl(product.image) : null
+        },
         afterClose: confirm => {
           if (!confirm) return;
           this.productService.delete(product.id).subscribe({

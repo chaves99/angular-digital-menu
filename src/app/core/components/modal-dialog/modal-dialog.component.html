@@ -1,6 +1,6 @@
 
 @if(data !== null) {
-  <div class="modal d-inline-block show" >
+  <div class="modal d-inline-block show">
     <div class="modal-dialog modal-dialog-centered modal-fullscreen-md-down">
       <div class="modal-content shadow-lg">
         @if(data.title !== null) {
@@ -18,6 +18,15 @@
               <p class="fw-light" >
                 {{ data.subMessage }}
               </p>
+            }
+
+            @if (data.img && data.img.trim().length > 0) {
+              <div class="container p-5">
+                @if(isImageLoading) {
+                  <app-spinner></app-spinner>
+                }
+                <img [src]="data.img" [hidden]="isImageLoading" class="img-thumbnail" (load)="onImageLoadFinish()"/>
+              </div>
             }
           </div>
         </div>

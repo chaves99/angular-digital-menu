@@ -106,9 +106,11 @@ export class ProductCategoryModal extends ModalComponent<CategoryResponse[], any
 
   public onDelete(category: CategoryResponse): void {
     this.modalDialogService.openDefault({
-      title: "Excluir Categoria",
-      message: `Deletar categoria "${category.name}"?`,
-      subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
+      data: {
+        title: "Excluir Categoria",
+        message: `Deletar categoria "${category.name}"?`,
+        subMessage: "Isso irá deletar todos os produtos vinculados a esta categoria.",
+      },
       afterClose: confirm => {
         if (confirm) {
           this.isLoading = true;
@@ -130,8 +132,10 @@ export class ProductCategoryModal extends ModalComponent<CategoryResponse[], any
 
   public onDisable(category: CategoryResponse): void {
     this.modalDialogService.openDefault({
-      title: category.enabled ? "Inativar Categoria" : "Ativar Categoria",
-      message: category.enabled ? `Inativar categoria "${category.name}"` : `Ativar categaria: "${category.name}"`,
+      data: {
+        title: category.enabled ? "Inativar Categoria" : "Ativar Categoria",
+        message: category.enabled ? `Inativar categoria "${category.name}"` : `Ativar categaria: "${category.name}"`,
+      },
       afterClose: confirm => {
         if (confirm) {
           this.isLoading = true;

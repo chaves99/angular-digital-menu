@@ -1,26 +1,24 @@
 import { ComponentType, Overlay, OverlayRef } from "@angular/cdk/overlay";
 import { ComponentPortal } from "@angular/cdk/portal";
 import { ComponentRef, inject, Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import { InputModalData, InputModalDialogComponent } from "./modal-dialog-input.component";
 import { ModalDialogComponent } from "./modal-dialog.component";
-import { ModalComponent, ModalComponentFunction } from "./types";
+import { ModalComponent, ModalComponentFunction, ModalDialogData } from "./types";
 
 @Injectable({ providedIn: 'root' })
 export class ModalDialogService {
 
   private readonly overlay = inject(Overlay);
-  private overlayRef: OverlayRef | null = null;
 
-  private overlayRefs: OverlayRef[] = [];
+  overlayRefs = new BehaviorSubject<OverlayRef[]>([]);
 
   openDefault(config: {
-    message: string,
-    subMessage?: string,
-    title?: string,
+    data: ModalDialogData,
     afterClose?: (v?: boolean) => void
   }) {
     const component = this.openComponent(ModalDialogComponent).instance;
-    component.data = { ...config };
+    component.data = { ...config.data };
 
     component.onClose.subscribe((value) => {
       this.closeModal()
@@ -67,34 +65,22 @@ export class ModalDialogService {
     });
   }
 
-  // private openComponent<T>(component: ComponentType<T>): ComponentRef<T> {
-  //   if (this.overlayRef !== null) {
-  //     this.overlayRef.detach();
-  //   }
-  //   this.overlayRef = this.overlay.create();
-  //   return this.overlayRef.attach(new ComponentPortal<T>(component));
-  // }
-
   private openComponent<T>(component: ComponentType<T>): ComponentRef<T> {
     const newOverlay: OverlayRef = this.overlay.create();
-    this.overlayRefs.push(newOverlay);
+    const value = this.overlayRefs.getValue();
+    value.push(newOverlay);
+    this.overlayRefs.next(value);
     return newOverlay.attach(new ComponentPortal<T>(component));
   }
 
   private closeModal() {
-    const lastRef: OverlayRef | undefined = this.overlayRefs.pop();
+    const refList = this.overlayRefs.getValue();
+    const lastRef: OverlayRef | undefined = refList.pop();
     if (lastRef) {
       lastRef.detach();
     }
+    this.overlayRefs.next(refList);
   }
 
-  // private closeModal() {
-  //   if (this.overlayRef !== null) {
-  //     this.overlayRef.detach();
-  //     this.overlayRef = null;
-  //   }
-  // }
-
 }
-
 

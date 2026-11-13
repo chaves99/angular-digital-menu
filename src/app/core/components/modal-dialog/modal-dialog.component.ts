@@ -1,19 +1,21 @@
 import { Component, OnInit, output } from '@angular/core';
+import { SpinnerComponent } from '../spinner/spinner.component';
 import { ModalDialogData } from './types';
 
 @Component({
   selector: 'app-modal-dialog',
   imports: [
+    SpinnerComponent
   ],
   templateUrl: './modal-dialog.component.html',
-  styles: `
-  `
 })
 export class ModalDialogComponent implements OnInit {
 
   onClose = output<boolean>();
 
   data: ModalDialogData | null = null;
+
+  isImageLoading = true;
 
   ngOnInit(): void {
   }
@@ -24,6 +26,10 @@ export class ModalDialogComponent implements OnInit {
 
   onConfirmAction(): void {
     this.onClose.emit(true);
+  }
+
+  onImageLoadFinish() {
+    this.isImageLoading = false;
   }
 }
 

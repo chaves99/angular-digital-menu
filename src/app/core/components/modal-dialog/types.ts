@@ -23,4 +23,5 @@ export interface ModalDialogData {
   message: string;
   subMessage?: string;
   title?: string;
+  img?: string | null;
 }

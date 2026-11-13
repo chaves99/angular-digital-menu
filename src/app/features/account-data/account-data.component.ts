@@ -66,7 +66,9 @@ export class AccountDataComponent implements OnInit {
           this.userService.deleteAccount(out).subscribe({
             next: () => {
               this.modalService.openDefault({
-                message: "Conta excluida com sucesso!",
+                data: {
+                  message: "Conta excluida com sucesso!",
+                },
                 afterClose: () => {
                   this.storageService.cleanUser();
                   this.router.navigateByUrl('/');

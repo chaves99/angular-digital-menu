@@ -152,28 +152,30 @@ export class PasswordRecoveryComponent implements OnInit {
 
     const attemptData = this.getAttempt();
     if (attemptData === null || attemptData.token === null) {
-        this.snackbarService.openError("Erro ao resetar senha, por favor tente mais tarde.")
-        return;
+      this.snackbarService.openError("Erro ao resetar senha, por favor tente mais tarde.")
+      return;
     }
 
     this.isLoading = true;
     this.userService.resetPassword(this.passwordForm.value.password!, attemptData.token, attemptData.email)
-        .subscribe({
-          next: () => {
-            this.isLoading = false;
-            this.modalDialogService.openDefault({
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.modalDialogService.openDefault({
+            data: {
               message: "Senha atualizada com sucesso!",
-              afterClose: () => {
-                this.router.navigateByUrl("/login");
-                this.phase = 'EMAIL';
-              }
-            })
-          },
-          error: () => {
-            this.isLoading = false;
-            this.snackbarService.openError("Erro ao resetar senha, por favor tente mais tarde.")
-          }
-        })
+            },
+            afterClose: () => {
+              this.router.navigateByUrl("/login");
+              this.phase = 'EMAIL';
+            }
+          })
+        },
+        error: () => {
+          this.isLoading = false;
+          this.snackbarService.openError("Erro ao resetar senha, por favor tente mais tarde.")
+        }
+      })
   }
 
   isPasswordConfirmValid() {

@@ -1,6 +1,7 @@
 import { Component, DOCUMENT, inject, OnInit, Renderer2 } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
+import { ModalDialogService } from './core';
 
 @Component({
   selector: 'app-root',
@@ -14,8 +15,22 @@ export class AppComponent implements OnInit {
   private readonly renderer = inject(Renderer2);
   private readonly titleService = inject(Title);
   private readonly document = inject(DOCUMENT);
+  private readonly modalService = inject(ModalDialogService);
 
   title = 'ItiMenu - Menu Digital com QR Code';
+
+  constructor() {
+    this.modalService.overlayRefs.subscribe(value => {
+      if (value.length > 0) {
+        this.renderer.addClass(this.document.body, 'modal-open');
+        this.document.body.style.overflow = "hidden";
+      } else {
+        this.renderer.removeClass(this.document.body, 'modal-open');
+        this.document.body.style.overflow = "";
+      }
+      this.document.body.style.cursor = "";
+    });
+  }
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);

@@ -72,7 +72,9 @@ export class AdminComponent implements OnInit {
     }
     if (res instanceof HttpErrorResponse && (res.status == 500 || res.status === 0)) {
       this.dialogService.openDefault({
-        message: "Houve um problema ao conectar com o servidor!",
+        data: {
+          message: "Houve um problema ao conectar com o servidor!",
+        }
       });
       this.router.navigate(["/"]);
     }
